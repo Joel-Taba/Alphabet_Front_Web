@@ -1,0 +1,278 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/* Local font packages (@fontsource) — resolved from node_modules, no network */
+@import "@fontsource/baloo-2/latin-400.css";
+@import "@fontsource/baloo-2/latin-600.css";
+@import "@fontsource/baloo-2/latin-700.css";
+
+/* Polices liées au format d'écriture (Profil > Réglages > "Format d'écriture") */
+@import "@fontsource/comic-neue/latin-300.css";
+@import "@fontsource/dancing-script/latin-700.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* === Amani design tokens === */
+  --color-primary-dark: var(--primary-dark);
+  --color-secondary-dark: var(--secondary-dark);
+  --color-background-alt: var(--background-alt);
+  --color-surface: var(--surface);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-success: var(--success);
+  --color-error: var(--error);
+  --color-neutral-warning: var(--neutral-warning);
+  --color-disabled: var(--disabled);
+  --color-overlay: var(--overlay);
+  --color-sign-trait: var(--sign-trait);
+  --color-sign-courbe: var(--sign-courbe);
+  --color-sign-point: var(--sign-point);
+  --color-sign-crochet: var(--sign-crochet);
+  --color-sign-virgule: var(--sign-virgule);
+
+  --font-sans: "Baloo 2", ui-rounded, system-ui, sans-serif;
+  --font-script: "Comic Neue", "Baloo 2", ui-rounded, system-ui, sans-serif;
+  --font-cursive: "Dancing Script", "Comic Neue", cursive, "Baloo 2", system-ui, sans-serif;
+
+  --shadow-card: 0 2px 6px rgba(74, 59, 42, 0.12);
+  --shadow-modal: 0 8px 24px rgba(74, 59, 42, 0.25);
+}
+
+:root {
+  --radius: 1rem; /* 16px base = radius.md */
+
+  /* Amani palette — values from the design brief, converted to oklch */
+  --background: oklch(0.945 0.024 78);       /* #F5EDE0 */
+  --background-alt: oklch(0.918 0.030 78);   /* #EFE3CE */
+  --surface: oklch(0.965 0.020 82);          /* #FBF6EC */
+  --foreground: oklch(0.365 0.038 62);       /* #4A3B2A */
+  --text-primary: oklch(0.365 0.038 62);
+  --text-secondary: oklch(0.545 0.038 68);   /* #7A6A55 */
+
+  --primary: oklch(0.605 0.084 55);          /* #A9784F */
+  --primary-dark: oklch(0.505 0.078 55);     /* #8B5E3C */
+  --primary-foreground: oklch(0.965 0.020 82);
+
+  --secondary: oklch(0.755 0.100 132);       /* #8FBF6F */
+  --secondary-dark: oklch(0.665 0.100 132);  /* #6FA050 */
+  --secondary-foreground: oklch(0.365 0.038 62);
+
+  --success: oklch(0.720 0.085 138);         /* #7CB37A */
+  --error: oklch(0.700 0.100 40);            /* #D98C6B */
+  --neutral-warning: oklch(0.795 0.100 75);  /* #E3B873 */
+  --disabled: oklch(0.842 0.018 78);         /* #D8CFC0 */
+  --overlay: rgba(74, 59, 42, 0.55);
+
+  --sign-trait: oklch(0.605 0.084 55);
+  --sign-courbe: oklch(0.755 0.100 132);
+  --sign-point: oklch(0.775 0.098 82);       /* #D9B26B */
+  --sign-crochet: oklch(0.590 0.075 148);    /* #5E9464 */
+  --sign-virgule: oklch(0.760 0.075 45);     /* #E0A98C */
+
+  /* Shadcn mapping — keep in shape but tinted to the palette */
+  --card: var(--surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface);
+  --popover-foreground: var(--text-primary);
+  --muted: var(--background-alt);
+  --muted-foreground: var(--text-secondary);
+  --accent: var(--background-alt);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--error);
+  --destructive-foreground: var(--surface);
+  --border: var(--disabled);
+  --input: var(--disabled);
+  --ring: var(--primary);
+  --chart-1: var(--primary);
+  --chart-2: var(--secondary);
+  --chart-3: var(--sign-point);
+  --chart-4: var(--sign-crochet);
+  --chart-5: var(--sign-virgule);
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--text-primary);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--background-alt);
+  --sidebar-accent-foreground: var(--text-primary);
+  --sidebar-border: var(--disabled);
+  --sidebar-ring: var(--primary);
+}
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --card: oklch(0.208 0.042 265.755);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --popover: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.929 0.013 255.508);
+  --primary-foreground: oklch(0.208 0.042 265.755);
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.551 0.027 264.364);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.551 0.027 264.364);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 18px;
+    line-height: 26px;
+  }
+}
+
+/* === Writing Format Customizations ===
+ * La police de toute l'appli suit le format d'écriture choisi en Réglages,
+ * pour une cohérence visuelle avec la manière dont les lettres sont tracées.
+ */
+@layer base {
+  body.format-script {
+    font-family: var(--font-script);
+    font-weight: 300;
+  }
+  body.format-cursive {
+    font-family: var(--font-cursive);
+    font-weight: 700;
+  }
+  body.format-digitale {
+    /* Inchangé pour l'instant : --font-base n'était jamais défini, donc ce
+       mode retombait déjà silencieusement sur la police par défaut. */
+    font-family: var(--font-sans);
+    letter-spacing: -0.02em;
+  }
+}
+
+
+/* === Utility: Amani "pressable" 3D button === */
+@utility btn-pressable {
+  position: relative;
+  transform: translateY(0);
+  box-shadow: 0 4px 0 0 var(--color-primary-dark);
+  transition:
+    transform 100ms ease-out,
+    box-shadow 100ms ease-out;
+  &:active:not(:disabled) {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 0 var(--color-primary-dark);
+  }
+  &:disabled {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 1;
+  }
+}
+
+@utility btn-pressable-secondary {
+  box-shadow: 0 4px 0 0 var(--color-secondary-dark);
+  &:active:not(:disabled) {
+    box-shadow: 0 0 0 0 var(--color-secondary-dark);
+  }
+}
+
+/* Gentle shake for incorrect feedback */
+@keyframes amani-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+@utility animate-shake {
+  animation: amani-shake 300ms ease-in-out;
+}
+
+@keyframes amani-bloom {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@utility animate-bloom {
+  animation: amani-bloom 600ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-shake,
+  .animate-bloom {
+    animation: none !important;
+  }
+}
