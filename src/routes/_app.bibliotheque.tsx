@@ -9,7 +9,7 @@ import {
   type SignFamily,
 } from "@/components/amani";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { VOWELS, CONSONANTS, DIGITS, type LetterFormation } from "@/data/letter-formation-catalog";
+import { VOWELS, CONSONANTS, UPPERCASE, DIGITS, type LetterFormation } from "@/data/letter-formation-catalog";
 import { getLetterFormation } from "@/data/letter-style-resolver";
 import { useWritingStyle } from "@/hooks/useWritingStyle";
 import { FULL_WORD_BANK } from "@/data/word-bank-full";
@@ -33,8 +33,11 @@ export const Route = createFileRoute("/_app/bibliotheque")({
 type Tab = "scribble" | "sign" | "letter" | "digit" | "crossword";
 
 const SIGN_FAMILIES: SignFamily[] = ["trait", "courbe", "point", "crochet"];
-/** Liste des caractères a→z (le style script sert uniquement à énumérer les 26 lettres). */
-const LETTER_CHARS: string[] = [...VOWELS, ...CONSONANTS].map((l) => l.char).sort((a, b) => a.localeCompare(b));
+/** Liste des caractères a→z puis A→Z (le style script sert uniquement à énumérer les lettres). */
+const LETTER_CHARS: string[] = [
+  ...[...VOWELS, ...CONSONANTS].map((l) => l.char).sort((a, b) => a.localeCompare(b)),
+  ...UPPERCASE.map((l) => l.char).sort((a, b) => a.localeCompare(b)),
+];
 
 const PEN_COLORS = ["#4A3B2A", "#A9784F", "#8FBF6F", "#4A90E2", "#E05252"];
 

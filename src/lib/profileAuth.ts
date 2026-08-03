@@ -8,6 +8,7 @@
 
 export const PROFILE_NAME_KEY = "amani_profile_name";
 export const PROFILE_PASSWORD_KEY = "amani_profile_password";
+export const PROFILE_PHOTO_KEY = "amani_profile_photo";
 const UNLOCK_SESSION_KEY = "amani_profile_unlocked";
 
 export function getStoredName(): string {
@@ -17,6 +18,20 @@ export function getStoredName(): string {
 
 export function setStoredName(name: string) {
   if (typeof localStorage !== "undefined") localStorage.setItem(PROFILE_NAME_KEY, name);
+}
+
+/** Photo de profil choisie sur l'appareil, stockée en data URL (déjà redimensionnée/compressée). */
+export function getStoredPhoto(): string | null {
+  if (typeof localStorage === "undefined") return null;
+  return localStorage.getItem(PROFILE_PHOTO_KEY);
+}
+
+export function setStoredPhoto(dataUrl: string) {
+  if (typeof localStorage !== "undefined") localStorage.setItem(PROFILE_PHOTO_KEY, dataUrl);
+}
+
+export function removeStoredPhoto() {
+  if (typeof localStorage !== "undefined") localStorage.removeItem(PROFILE_PHOTO_KEY);
 }
 
 export function getStoredPassword(): string | null {

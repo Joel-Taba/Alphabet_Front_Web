@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AmaniMascot } from "@/components/amani";
 import profilImg from "@/assets/amani-profil.png";
-import { Sprout, Trees, Sparkles, BookOpen, Calendar, Award, Settings as SettingsIcon, Volume2, VolumeX, Type, Globe, Play, PenLine, Lock, LockKeyholeOpen, Eye, EyeOff, ShieldCheck } from "lucide-react";
+import { Sprout, Trees, Sparkles, BookOpen, Calendar, Award, Settings as SettingsIcon, Volume2, VolumeX, Type, Globe, Play, PenLine, Lock, LockKeyholeOpen, Eye, EyeOff, ShieldCheck, Camera, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage, format, type Lang } from "@/i18n/LanguageContext";
 import {
@@ -23,7 +23,11 @@ import {
   lockProfile,
   getStoredPassword,
   setStoredPassword,
+  getStoredPhoto,
+  setStoredPhoto,
+  removeStoredPhoto,
 } from "@/lib/profileAuth";
+import { resizeImageToDataUrl } from "@/lib/resizeImageToDataUrl";
 
 const MIN_PASSWORD_LENGTH = 4;
 
@@ -166,6 +170,29 @@ function MyProfileContent({ onLock }: { onLock: () => void }) {
     typeof localStorage !== "undefined" ? getStoredVoiceGender() : "femme"
   );
 
+  const [photo, setPhoto] = useState<string | null>(() =>
+    typeof localStorage !== "undefined" ? getStoredPhoto() : null
+  );
+  const photoInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    try {
+      const dataUrl = await resizeImageToDataUrl(file);
+      setStoredPhoto(dataUrl);
+      setPhoto(dataUrl);
+    } catch {
+      // La photo est un plus, pas un blocage : on ignore silencieusement un fichier invalide.
+    }
+  };
+
+  const handleRemovePhoto = () => {
+    removeStoredPhoto();
+    setPhoto(null);
+  };
+
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -228,6 +255,47 @@ function MyProfileContent({ onLock }: { onLock: () => void }) {
             className="absolute top-3 right-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-white/70 text-[#7A6A55] shadow-sm active:scale-95 transition-transform"
           >
             <LockKeyholeOpen className="w-4 h-4" strokeWidth={2.2} />
+          </button>
+        )}
+      </div>
+
+      {/* Photo de profil — utilisée dans le classement de la Clairière */}
+      <div className="flex items-center gap-4 rounded-3xl bg-[#FBF6EC] p-4 border border-[#4A3B2A]/10 shadow-sm">
+        <div className="relative shrink-0">
+          <div className="h-16 w-16 rounded-full overflow-hidden bg-[#EAE2D2] grid place-items-center border-2 border-white shadow-sm">
+            {photo ? (
+              <img src={photo} alt="" className="w-full h-full object-cover" draggable={false} />
+            ) : (
+              <UserRound className="w-7 h-7 text-[#A9784F]" strokeWidth={2} />
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={() => photoInputRef.current?.click()}
+            aria-label={t.profileHub.photoChangeAria}
+            className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full bg-[#A9784F] text-white border-2 border-white shadow-sm active:scale-95 transition-transform"
+          >
+            <Camera className="w-3 h-3" strokeWidth={2.4} />
+          </button>
+          <input
+            ref={photoInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handlePhotoChange}
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[14px] font-bold text-[#4A3B2A]">{t.profileHub.photoTitle}</p>
+          <p className="text-[12px] text-[#7A6A55] mt-0.5">{t.profileHub.photoHint}</p>
+        </div>
+        {photo && (
+          <button
+            type="button"
+            onClick={handleRemovePhoto}
+            className="shrink-0 text-[12px] font-semibold text-[#E05252]"
+          >
+            {t.profileHub.photoRemove}
           </button>
         )}
       </div>

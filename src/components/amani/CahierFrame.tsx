@@ -17,11 +17,9 @@ const RULED_LINES = [
   { pct: 97, baseline: false },   // bas de la zone jambe basse
 ];
 
-const GRID_LINE_COLOR = "#C5D8F0";
-const GRID_BG_COLOR = "#F8FBFF";
-const RULED_LINE_COLOR = "#A0C0E040";
-const RULED_DASH_COLOR = "#4A90E250";
-const BASELINE_COLOR = "#4A90E2";
+const PAPER_BG_COLOR = "#FFFFFF";
+const RULED_LINE_COLOR = "#4A90E2";
+const BASELINE_COLOR = "#E05252";
 
 export function CahierFrame({
   children,
@@ -39,12 +37,7 @@ export function CahierFrame({
       className={cn("relative overflow-hidden", className)}
       style={{
         borderRadius: rounded,
-        backgroundImage: [
-          `linear-gradient(to right, ${GRID_LINE_COLOR} 1px, transparent 1px)`,
-          `linear-gradient(to bottom, ${GRID_LINE_COLOR} 1px, transparent 1px)`,
-        ].join(","),
-        backgroundSize: "8px 8px",
-        backgroundColor: GRID_BG_COLOR,
+        backgroundColor: PAPER_BG_COLOR,
         ...style,
       }}
     >
@@ -56,7 +49,7 @@ export function CahierFrame({
             top: `${line.pct}%`,
             height: line.baseline ? 1.5 : 1,
             backgroundColor: line.baseline ? BASELINE_COLOR : RULED_LINE_COLOR,
-            borderTop: line.baseline ? undefined : `1px dashed ${RULED_DASH_COLOR}`,
+            opacity: 0.8,
           }}
         />
       ))}

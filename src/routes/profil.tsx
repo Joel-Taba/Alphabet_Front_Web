@@ -1,10 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { ChevronDown, Globe, Lock, Eye, EyeOff } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown, Globe, Lock, Eye, EyeOff, Camera } from "lucide-react";
 import { MobileShell } from "@/components/amani";
 import amaniInscription from "@/assets/amani-inscription.jpeg";
 import { useLanguage, type Lang } from "@/i18n/LanguageContext";
-import { setStoredName, setStoredPassword } from "@/lib/profileAuth";
+import { setStoredName, setStoredPassword, getStoredPhoto, setStoredPhoto } from "@/lib/profileAuth";
+import { resizeImageToDataUrl } from "@/lib/resizeImageToDataUrl";
 
 const MIN_PASSWORD_LENGTH = 4;
 
@@ -72,6 +73,16 @@ function ProfileCreate() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  // Initialisé à null (identique au rendu serveur) puis rempli après le montage
+  // client : cette page est rendue côté serveur, où localStorage n'existe pas —
+  // lire la photo dans l'initialiseur de useState créerait un mismatch d'hydratation
+  // qui ferait perdre la valeur au premier rendu client.
+  const [photo, setPhoto] = useState<string | null>(null);
+  const photoInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setPhoto(getStoredPhoto());
+  }, []);
 
   const selectedLang = LANGUAGES.find((l) => l.code === lang)!;
   const canContinue = name.trim().length >= 2 && password.length >= MIN_PASSWORD_LENGTH;
@@ -81,6 +92,19 @@ function ProfileCreate() {
     setStoredName(name.trim());
     setStoredPassword(password);
     navigate({ to: "/accueil" });
+  };
+
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    try {
+      const dataUrl = await resizeImageToDataUrl(file);
+      setStoredPhoto(dataUrl);
+      setPhoto(dataUrl);
+    } catch {
+      // La photo est un plus, pas un blocage : on ignore silencieusement un fichier invalide.
+    }
   };
 
   return (
@@ -118,22 +142,41 @@ function ProfileCreate() {
           </p>
         </div>
 
-        {/* ── Mascotte penchée par-dessus la carte ── */}
+        {/* ── Mascotte (ou photo choisie) penchée par-dessus la carte ── */}
         <div className="relative z-10 flex justify-center" style={{ marginBottom: "-56px", marginTop: "16px" }}>
-          <img
-            src={amaniInscription}
-            alt="Amani se penche avec curiosité"
-            className="select-none"
-            draggable={false}
-            style={{
-              width: 140,
-              height: 140,
-              objectFit: "cover",
-              objectPosition: "top center",
-              borderRadius: "50%",
-              filter: "drop-shadow(0 4px 12px rgba(74,59,42,0.18))",
-            }}
-          />
+          <div className="relative" style={{ width: 140, height: 140 }}>
+            <img
+              src={photo ?? amaniInscription}
+              alt={photo ? "" : "Amani se penche avec curiosité"}
+              aria-hidden={photo ? true : undefined}
+              className="select-none"
+              draggable={false}
+              style={{
+                width: 140,
+                height: 140,
+                objectFit: "cover",
+                objectPosition: photo ? "center" : "top center",
+                borderRadius: "50%",
+                filter: "drop-shadow(0 4px 12px rgba(74,59,42,0.18))",
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => photoInputRef.current?.click()}
+              aria-label={t.profileHub.photoChangeAria}
+              className="absolute bottom-1 right-1 grid h-9 w-9 place-items-center rounded-full text-white border-2 border-white shadow-sm active:scale-95 transition-transform"
+              style={{ background: "#A9784F" }}
+            >
+              <Camera className="w-4.5 h-4.5" strokeWidth={2.2} />
+            </button>
+            <input
+              ref={photoInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handlePhotoChange}
+            />
+          </div>
         </div>
 
         {/* ── Carte principale ── */}
@@ -283,17 +326,6 @@ function ProfileCreate() {
                 ))}
               </ul>
             )}
-          </div>
-
-          {/* ── Lien "Je suis un adulte" ── */}
-          <div className="flex justify-end">
-            <button
-              type="button"
-              className="text-[14px] font-semibold underline-offset-2 hover:underline"
-              style={{ color: "#8FBF6F" }}
-            >
-              {t.onboarding.imAnAdult}
-            </button>
           </div>
 
           {/* ── Bouton principal CTA ── */}

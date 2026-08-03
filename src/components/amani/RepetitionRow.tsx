@@ -334,16 +334,11 @@ export function RepetitionRow({
         </button>
       </div>
 
-      {/* Zone du cahier avec fond quadrillé */}
+      {/* Zone du cahier, lignes réglées façon Seyès */}
       <div
         className="relative overflow-x-auto"
         style={{
-          backgroundImage: [
-            "linear-gradient(to right, #C5D8F0 1px, transparent 1px)",
-            "linear-gradient(to bottom, #C5D8F0 1px, transparent 1px)",
-          ].join(","),
-          backgroundSize: "8px 8px",
-          backgroundColor: "#F8FBFF",
+          backgroundColor: "#FFFFFF",
           minHeight: OCC_H + 24,
         }}
       >
@@ -355,8 +350,8 @@ export function RepetitionRow({
             style={{
               top: y + 12,
               height: i === 3 ? 1.5 : 1,
-              backgroundColor: i === 3 ? "#4A90E2" : "#A0C0E040",
-              borderTop: i === 3 ? undefined : "1px dashed #4A90E250",
+              backgroundColor: i === 3 ? "#E05252" : "#4A90E2",
+              opacity: 0.8,
             }}
           />
         ))}

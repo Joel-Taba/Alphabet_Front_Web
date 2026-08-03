@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AmaniMascot } from "@/components/amani";
 import { cn } from "@/lib/utils";
 import { useLanguage, format } from "@/i18n/LanguageContext";
+import { getStoredName, getStoredPhoto } from "@/lib/profileAuth";
 
 export const Route = createFileRoute("/_app/communaute")({
   head: () => ({
@@ -25,6 +26,8 @@ type Profil = {
   animal: Animal;
   score: number;
   moi?: boolean;
+  /** Photo chargée depuis l'appareil (remplace l'emoji animal) — uniquement pour "moi". */
+  photo?: string | null;
 };
 
 // Profils locaux de la tablette (jamais en ligne)
@@ -54,11 +57,13 @@ const rankRing: Record<1 | 2 | 3, string> = {
 
 function Avatar({
   animal,
+  photoUrl,
   size = 56,
   highlight,
   rank,
 }: {
   animal: Animal;
+  photoUrl?: string | null;
   size?: number;
   highlight?: boolean;
   rank?: 1 | 2 | 3;
@@ -68,11 +73,15 @@ function Avatar({
 
   return (
     <div
-      className="grid place-items-center rounded-full border-4 border-primary-dark bg-surface"
+      className="grid place-items-center overflow-hidden rounded-full border-4 border-primary-dark bg-surface"
       style={{ width: size, height: size, boxShadow }}
       aria-hidden
     >
-      <span style={{ fontSize: size * 0.55, lineHeight: 1 }}>{animalEmoji[animal]}</span>
+      {photoUrl ? (
+        <img src={photoUrl} alt="" className="h-full w-full object-cover" draggable={false} />
+      ) : (
+        <span style={{ fontSize: size * 0.55, lineHeight: 1 }}>{animalEmoji[animal]}</span>
+      )}
     </div>
   );
 }
@@ -159,7 +168,7 @@ function PodiumSpot({
   const avatarSize = rank === 1 ? 76 : 60;
   return (
     <div className="flex flex-col items-center gap-2">
-      <Avatar animal={profil.animal} size={avatarSize} highlight={profil.moi} rank={rank} />
+      <Avatar animal={profil.animal} photoUrl={profil.photo} size={avatarSize} highlight={profil.moi} rank={rank} />
       <div className="flex flex-col items-center">
         <span
           className={cn(
@@ -180,7 +189,11 @@ function PodiumSpot({
 
 function Communaute() {
   const { t } = useLanguage();
-  const classement = [...profilsBruts].sort((a, b) => b.score - a.score);
+  const myName = typeof localStorage !== "undefined" ? getStoredName().trim() : "";
+  const myPhoto = typeof localStorage !== "undefined" ? getStoredPhoto() : null;
+  const classement = profilsBruts
+    .map((p) => (p.moi ? { ...p, prenom: myName || p.prenom, photo: myPhoto } : p))
+    .sort((a, b) => b.score - a.score);
   const top3 = classement.slice(0, 3);
   const reste = classement.slice(3);
 
@@ -258,7 +271,7 @@ function Communaute() {
                   <span className="grid h-9 w-9 place-items-center rounded-full bg-background-alt text-[14px] font-bold text-text-secondary">
                     {rang}
                   </span>
-                  <Avatar animal={p.animal} size={44} highlight={p.moi} />
+                  <Avatar animal={p.animal} photoUrl={p.photo} size={44} highlight={p.moi} />
                   <span
                     className={cn(
                       "truncate text-[16px] font-semibold text-text-primary",
