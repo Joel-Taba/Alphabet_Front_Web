@@ -1,8 +1,12 @@
+import { useEffect } from "react";
 import { Timer, PartyPopper } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatCountdown } from "@/hooks/useCountdown";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { AmaniMascot } from "@/components/amani";
+
+/** Délai avant le retour automatique au parcours — assez long pour lire le message, assez court pour ne pas faire attendre. */
+const AUTO_BACK_DELAY_MS = 3500;
 
 /** Bandeau sticky affiché en haut d'un écran d'exercice en mode "évaluation",
  * montrant le temps restant. Vire au rouge dans les 30 dernières secondes. */
@@ -27,9 +31,19 @@ export function EvaluationTimerBadge({ remaining }: { remaining: number }) {
   );
 }
 
-/** Écran de fin d'évaluation (temps écoulé), bloquant, avec retour au parcours. */
+/**
+ * Écran de fin d'évaluation (temps écoulé), bloquant. Reconduit
+ * automatiquement vers l'accueil après un court délai — l'enfant n'a rien à
+ * faire pour enchaîner sur le palier suivant — mais le bouton reste
+ * disponible pour ne pas forcer l'attente.
+ */
 export function EvaluationCompleteOverlay({ onBack }: { onBack: () => void }) {
   const { t } = useLanguage();
+
+  useEffect(() => {
+    const timer = setTimeout(onBack, AUTO_BACK_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [onBack]);
 
   return (
     <div

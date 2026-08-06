@@ -7,6 +7,7 @@ export { AmaniMascot, type AmaniPose, type AmaniSize } from "./AmaniMascot";
 export { HelpBubble } from "./HelpBubble";
 export { BottomNav } from "./BottomNav";
 export { MobileShell } from "./MobileShell";
+export { PointsToastHost } from "./PointsToastHost";
 export { GrandArbre } from "./GrandArbre";
 export { CahierFrame } from "./CahierFrame";
 export {
@@ -19,3 +20,4 @@ export {
 export { LetterTraceCell } from "./LetterTraceCell";
 export { CrosswordPlay } from "./CrosswordPlay";
 export { EvaluationTimerBadge, EvaluationCompleteOverlay } from "./EvaluationTimer";
+export { ExerciseCompletePopup } from "./ExerciseCompletePopup";

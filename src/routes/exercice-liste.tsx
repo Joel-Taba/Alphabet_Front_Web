@@ -1,14 +1,15 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { ArrowLeft, Volume2, ChevronRight } from "lucide-react";
-import { MobileShell, AmaniMascot, RepetitionRow, EvaluationTimerBadge, EvaluationCompleteOverlay } from "@/components/amani";
+import { MobileShell, AmaniMascot, RepetitionRow, EvaluationTimerBadge, EvaluationCompleteOverlay, ExerciseCompletePopup } from "@/components/amani";
 import { useSignSpeech } from "@/hooks/useSignSpeech";
 import { useExerciseSettings, readEvaluationDurationMinutes } from "@/hooks/useExerciseSettings";
 import { useCountdown } from "@/hooks/useCountdown";
-import { EXERCISE_CATALOG, type SignExercise } from "@/data/sign-exercise-catalog";
+import { EXERCISE_CATALOG, FAMILY_ORDER, type SignExercise, type SignFamily } from "@/data/sign-exercise-catalog";
 import { getPalier2GroupMap, lettersForGroup } from "@/data/palier2-groups";
 import { useLanguage, format } from "@/i18n/LanguageContext";
 import { useWritingStyle } from "@/hooks/useWritingStyle";
+import { awardCompletion } from "@/lib/progress";
 
 export const Route = createFileRoute("/exercice-liste")({
   validateSearch: (search: Record<string, unknown>): { family?: string; group?: string; amaniEval?: string } => ({
@@ -33,9 +34,10 @@ interface SignExerciseRowProps {
   repetitions: number;
   tolerance: number;
   hideFamilyBadge?: boolean;
+  onEntryDone?: (id: string) => void;
 }
 
-function SignExerciseRow({ entry, repetitions, tolerance, hideFamilyBadge }: SignExerciseRowProps) {
+function SignExerciseRow({ entry, repetitions, tolerance, hideFamilyBadge, onEntryDone }: SignExerciseRowProps) {
   const { speak } = useSignSpeech();
   const { t, lang } = useLanguage();
 
@@ -60,7 +62,11 @@ function SignExerciseRow({ entry, repetitions, tolerance, hideFamilyBadge }: Sig
       tolerance={tolerance}
       doneLabel={t.exerciceListe.done}
       onSpeak={() => speak(entry.consigne[lang])}
-      onAllDone={() => speak(t.exerciceListe.rowComplete)}
+      onAllDone={() => {
+        speak(t.exerciceListe.rowComplete);
+        awardCompletion({ typeEtape: "SIGNE", modalite: "EXERCICE", etapeCode: entry.id, palier: 1 });
+        onEntryDone?.(entry.id);
+      }}
     />
   );
 }
@@ -78,6 +84,8 @@ function ExerciceListeScreen() {
   const evaluationSeconds = useMemo(() => readEvaluationDurationMinutes() * 60, []);
   const [evaluationExpired, setEvaluationExpired] = useState(false);
   const remaining = useCountdown(isEvaluation ? evaluationSeconds : 0, () => setEvaluationExpired(true));
+
+  const [doneSigns, setDoneSigns] = useState<Set<string>>(new Set());
 
   const progressionGroup = group ? getPalier2GroupMap(lang).get(group) : undefined;
 
@@ -183,11 +191,25 @@ function ExerciceListeScreen() {
     ? format(t.exerciceListe.titleFamily, { titre: grouped[0].titre })
     : t.exerciceListe.title;
 
+  // Popup de fin d'exercice : uniquement pour une famille précise (une vraie
+  // étape du parcours), pas pour la vue "toutes familles" qui n'a pas de fin
+  // unique — et jamais en évaluation, qui a son propre écran de fin.
+  const familyEntries = family ? grouped[0]?.entries ?? [] : [];
+  const allFamilyDone = !!family && familyEntries.length > 0 && doneSigns.size >= familyEntries.length;
+  const familyIdx = family ? FAMILY_ORDER.indexOf(family as SignFamily) : -1;
+  const nextFamily = familyIdx >= 0 && familyIdx < FAMILY_ORDER.length - 1 ? FAMILY_ORDER[familyIdx + 1] : null;
+
   return (
     <MobileShell>
       {isEvaluation && !evaluationExpired && <EvaluationTimerBadge remaining={remaining} />}
       {isEvaluation && evaluationExpired && (
         <EvaluationCompleteOverlay onBack={() => navigate({ to: "/accueil" })} />
+      )}
+      {allFamilyDone && !isEvaluation && (
+        <ExerciseCompletePopup
+          onBackHome={() => navigate({ to: "/accueil" })}
+          onNext={nextFamily ? () => navigate({ to: "/cours/$family", params: { family: nextFamily } }) : undefined}
+        />
       )}
 
       {/* ── En-tête ── */}
@@ -244,6 +266,7 @@ function ExerciceListeScreen() {
                 repetitions={repetitions}
                 tolerance={tolerance}
                 hideFamilyBadge={!!family}
+                onEntryDone={(id) => setDoneSigns((prev) => new Set(prev).add(id))}
               />
             ))}
           </div>

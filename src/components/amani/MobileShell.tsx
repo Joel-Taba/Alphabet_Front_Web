@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { PointsToastHost } from "./PointsToastHost";
 
 /**
  * Centers app content in a phone-sized column on wider screens,
@@ -21,6 +22,7 @@ export function MobileShell({
           className,
         )}
       >
+        <PointsToastHost />
         {children}
       </div>
     </div>

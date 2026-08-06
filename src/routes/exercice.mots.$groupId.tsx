@@ -7,6 +7,7 @@ import {
   LetterTraceCell,
   EvaluationTimerBadge,
   EvaluationCompleteOverlay,
+  ExerciseCompletePopup,
 } from "@/components/amani";
 import { useSignSpeech } from "@/hooks/useSignSpeech";
 import {
@@ -22,6 +23,7 @@ import { useWritingStyle } from "@/hooks/useWritingStyle";
 import type { WritingStyle } from "@/data/letter-style-resolver";
 import { readEvaluationDurationMinutes } from "@/hooks/useExerciseSettings";
 import { useCountdown } from "@/hooks/useCountdown";
+import { awardCompletion } from "@/lib/progress";
 
 export const Route = createFileRoute("/exercice/mots/$groupId")({
   validateSearch: (search: Record<string, unknown>): { amaniEval?: string } => ({
@@ -84,6 +86,12 @@ function WordExerciseScreen() {
       {isEvaluation && evaluationExpired && (
         <EvaluationCompleteOverlay onBack={() => navigate({ to: "/accueil" })} />
       )}
+      {allDone && !isEvaluation && (
+        <ExerciseCompletePopup
+          onBackHome={() => navigate({ to: "/accueil" })}
+          onNext={nextGroup ? () => navigate({ to: "/cours/mots/$groupId", params: { groupId: nextGroup.id } }) : undefined}
+        />
+      )}
 
       <header className="flex items-center justify-between px-6 pt-6 pb-4 bg-[#F5EDE0] shrink-0 border-b border-[#4A3B2A]/10">
         <div className="flex items-center gap-3">
@@ -127,23 +135,15 @@ function WordExerciseScreen() {
               lang={lang}
               speak={speak}
               done={doneWords.has(word.id)}
-              onDone={() => setDoneWords((prev) => new Set(prev).add(word.id))}
+              onDone={() => {
+                setDoneWords((prev) => new Set(prev).add(word.id));
+                awardCompletion({ typeEtape: "MOT", modalite: "EXERCICE", etapeCode: word.id, palier: lang === "fr" ? 4 : 3 });
+              }}
               doneLabel={t.exerciceListe.done}
               style={writingStyle}
             />
           ))}
         </div>
-
-        {allDone && !isEvaluation && nextGroup && (
-          <button
-            type="button"
-            onClick={() => navigate({ to: "/cours/mots/$groupId", params: { groupId: nextGroup.id } })}
-            className="w-full py-4 rounded-2xl bg-[#4A90E2] hover:bg-[#3A7BC8] text-white font-extrabold text-lg shadow-lg flex items-center justify-center gap-3 transition-all active:scale-[0.99]"
-          >
-            <span>{format(t.exerciceMots.nextGroup, { titre: nextGroup.title[lang] })}</span>
-            <ChevronRight className="h-5 w-5" />
-          </button>
-        )}
 
         {allDone && isEvaluation && evaluationNextGroup && (
           <button

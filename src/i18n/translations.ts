@@ -17,6 +17,9 @@ export const fr = {
     instruction: "Consigne",
     settings: "Paramètres",
     tryAgain: "Essayer à nouveau",
+    pointsEarnedAria: "points gagnés",
+    next: "Suivant",
+    backToHome: "Retour à l'accueil",
   },
   evaluation: {
     badge: "Évaluation",
@@ -127,6 +130,8 @@ export const fr = {
   profileHub: {
     title: "Mon carnet d'explorateur",
     subtitle: "Continue sur ta lancée, tu apprends magnifiquement bien !",
+    totalPointsLabel: "Mes points",
+    totalPointsHint: "Gagnés en terminant tes cours et tes exercices",
     statsSignes: "Signes maîtrisés",
     statsExercices: "Exercices réussis",
     statsDays: "Jours d'aventure",
@@ -156,7 +161,6 @@ export const fr = {
     formatOptions: [
       { label: "Script", desc: "Imprimé" },
       { label: "Cursive", desc: "Attaché" },
-      { label: "Digitale", desc: "Tablette" },
     ],
     exercisesCardTitle: "Exercices d'écriture",
     evaluationDurationLabel: "Durée de l'évaluation",
@@ -181,6 +185,14 @@ export const fr = {
     passwordTooShort: "Le mot de passe doit contenir au moins {count} caractères.",
     passwordSaved: "Mot de passe mis à jour !",
     savePassword: "Enregistrer le mot de passe",
+  },
+  plusScreen: {
+    title: "Plus d'options",
+    subtitle: "D'autres réglages pratiques, à portée de main.",
+  },
+  exerciceComplete: {
+    title: "Exercice terminé !",
+    body: "Bravo, tu as terminé cet exercice. Que veux-tu faire maintenant ?",
   },
   coursScreen: {
     title: "Mes Cours",
@@ -414,6 +426,7 @@ export const fr = {
     featuredBody: "Tu as écrit et prononcé tous les mots ! Voici le mot vedette à l'honneur :",
     continueLabel: "Continuer",
     generationFailed: "Impossible de créer cette grille, réessaie.",
+    wordsFoundLabel: "{solved} sur {total} mots trouvés",
   },
   modeLibreCroises: {
     title: "Mots croisés",
@@ -453,6 +466,9 @@ export const en: Dictionary = {
     instruction: "Instructions",
     settings: "Settings",
     tryAgain: "Try again",
+    pointsEarnedAria: "points earned",
+    next: "Next",
+    backToHome: "Back to home",
   },
   evaluation: {
     badge: "Evaluation",
@@ -563,6 +579,8 @@ export const en: Dictionary = {
   profileHub: {
     title: "My explorer notebook",
     subtitle: "Keep it up, you're learning wonderfully well!",
+    totalPointsLabel: "My points",
+    totalPointsHint: "Earned by finishing your lessons and exercises",
     statsSignes: "Signs mastered",
     statsExercices: "Exercises passed",
     statsDays: "Days of adventure",
@@ -592,7 +610,6 @@ export const en: Dictionary = {
     formatOptions: [
       { label: "Print", desc: "Printed" },
       { label: "Cursive", desc: "Joined" },
-      { label: "Digital", desc: "Tablet" },
     ],
     exercisesCardTitle: "Writing exercises",
     evaluationDurationLabel: "Evaluation duration",
@@ -617,6 +634,14 @@ export const en: Dictionary = {
     passwordTooShort: "The password must be at least {count} characters long.",
     passwordSaved: "Password updated!",
     savePassword: "Save password",
+  },
+  plusScreen: {
+    title: "More options",
+    subtitle: "A few more handy settings, within reach.",
+  },
+  exerciceComplete: {
+    title: "Exercise complete!",
+    body: "Well done, you finished this exercise. What would you like to do next?",
   },
   coursScreen: {
     title: "My Lessons",
@@ -850,6 +875,7 @@ export const en: Dictionary = {
     featuredBody: "You wrote and said every word! Here's the featured word:",
     continueLabel: "Continue",
     generationFailed: "Couldn't build this grid, try again.",
+    wordsFoundLabel: "{solved} of {total} words found",
   },
   modeLibreCroises: {
     title: "Crossword",
@@ -879,6 +905,9 @@ export const es: Dictionary = {
     instruction: "Instrucción",
     settings: "Ajustes",
     tryAgain: "Intentar de nuevo",
+    pointsEarnedAria: "puntos ganados",
+    next: "Siguiente",
+    backToHome: "Volver al inicio",
   },
   evaluation: {
     badge: "Evaluación",
@@ -989,6 +1018,8 @@ export const es: Dictionary = {
   profileHub: {
     title: "Mi cuaderno de explorador",
     subtitle: "¡Sigue así, estás aprendiendo maravillosamente bien!",
+    totalPointsLabel: "Mis puntos",
+    totalPointsHint: "Ganados al terminar tus lecciones y ejercicios",
     statsSignes: "Signos dominados",
     statsExercices: "Ejercicios superados",
     statsDays: "Días de aventura",
@@ -1018,7 +1049,6 @@ export const es: Dictionary = {
     formatOptions: [
       { label: "Script", desc: "Imprenta" },
       { label: "Cursiva", desc: "Ligada" },
-      { label: "Digital", desc: "Tableta" },
     ],
     exercisesCardTitle: "Ejercicios de escritura",
     evaluationDurationLabel: "Duración de la evaluación",
@@ -1043,6 +1073,14 @@ export const es: Dictionary = {
     passwordTooShort: "La contraseña debe tener al menos {count} caracteres.",
     passwordSaved: "¡Contraseña actualizada!",
     savePassword: "Guardar contraseña",
+  },
+  plusScreen: {
+    title: "Más opciones",
+    subtitle: "Otros ajustes prácticos, a mano.",
+  },
+  exerciceComplete: {
+    title: "¡Ejercicio terminado!",
+    body: "Muy bien, has terminado este ejercicio. ¿Qué quieres hacer ahora?",
   },
   coursScreen: {
     title: "Mis Lecciones",
@@ -1276,6 +1314,7 @@ export const es: Dictionary = {
     featuredBody: "¡Has escrito y pronunciado todas las palabras! Aquí está la palabra destacada:",
     continueLabel: "Continuar",
     generationFailed: "No se pudo crear esta cuadrícula, inténtalo de nuevo.",
+    wordsFoundLabel: "{solved} de {total} palabras encontradas",
   },
   modeLibreCroises: {
     title: "Crucigrama",

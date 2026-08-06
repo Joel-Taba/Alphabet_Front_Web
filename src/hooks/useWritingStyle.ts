@@ -13,7 +13,7 @@ const CHANGE_EVENT = "amani:writing-style-changed";
 function readStyle(): WritingStyle {
   if (typeof localStorage === "undefined") return "script";
   const raw = localStorage.getItem(WRITING_STYLE_STORAGE_KEY);
-  return raw === "cursive" || raw === "digitale" ? raw : "script";
+  return raw === "cursive" ? raw : "script";
 }
 
 export function setWritingStyle(style: WritingStyle) {

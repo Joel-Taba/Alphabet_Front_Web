@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CoursLettresRouteImport } from './routes/cours.lettres'
 import { Route as CoursFamilyRouteImport } from './routes/cours.$family'
 import { Route as AppReglagesRouteImport } from './routes/_app.reglages'
+import { Route as AppPlusRouteImport } from './routes/_app.plus'
 import { Route as AppMonProfilRouteImport } from './routes/_app.mon-profil'
 import { Route as AppCommunauteRouteImport } from './routes/_app.communaute'
 import { Route as AppBibliothequeRouteImport } from './routes/_app.bibliotheque'
@@ -73,6 +74,11 @@ const CoursFamilyRoute = CoursFamilyRouteImport.update({
 const AppReglagesRoute = AppReglagesRouteImport.update({
   id: '/reglages',
   path: '/reglages',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPlusRoute = AppPlusRouteImport.update({
+  id: '/plus',
+  path: '/plus',
   getParentRoute: () => AppRoute,
 } as any)
 const AppMonProfilRoute = AppMonProfilRouteImport.update({
@@ -149,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/bibliotheque': typeof AppBibliothequeRoute
   '/communaute': typeof AppCommunauteRoute
   '/mon-profil': typeof AppMonProfilRoute
+  '/plus': typeof AppPlusRoute
   '/reglages': typeof AppReglagesRoute
   '/cours/$family': typeof CoursFamilyRoute
   '/cours/lettres': typeof CoursLettresRouteWithChildren
@@ -171,6 +178,7 @@ export interface FileRoutesByTo {
   '/bibliotheque': typeof AppBibliothequeRoute
   '/communaute': typeof AppCommunauteRoute
   '/mon-profil': typeof AppMonProfilRoute
+  '/plus': typeof AppPlusRoute
   '/reglages': typeof AppReglagesRoute
   '/cours/$family': typeof CoursFamilyRoute
   '/cours/lettres': typeof CoursLettresRouteWithChildren
@@ -195,6 +203,7 @@ export interface FileRoutesById {
   '/_app/bibliotheque': typeof AppBibliothequeRoute
   '/_app/communaute': typeof AppCommunauteRoute
   '/_app/mon-profil': typeof AppMonProfilRoute
+  '/_app/plus': typeof AppPlusRoute
   '/_app/reglages': typeof AppReglagesRoute
   '/cours/$family': typeof CoursFamilyRoute
   '/cours/lettres': typeof CoursLettresRouteWithChildren
@@ -219,6 +228,7 @@ export interface FileRouteTypes {
     | '/bibliotheque'
     | '/communaute'
     | '/mon-profil'
+    | '/plus'
     | '/reglages'
     | '/cours/$family'
     | '/cours/lettres'
@@ -241,6 +251,7 @@ export interface FileRouteTypes {
     | '/bibliotheque'
     | '/communaute'
     | '/mon-profil'
+    | '/plus'
     | '/reglages'
     | '/cours/$family'
     | '/cours/lettres'
@@ -264,6 +275,7 @@ export interface FileRouteTypes {
     | '/_app/bibliotheque'
     | '/_app/communaute'
     | '/_app/mon-profil'
+    | '/_app/plus'
     | '/_app/reglages'
     | '/cours/$family'
     | '/cours/lettres'
@@ -353,6 +365,13 @@ declare module '@tanstack/react-router' {
       path: '/reglages'
       fullPath: '/reglages'
       preLoaderRoute: typeof AppReglagesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/plus': {
+      id: '/_app/plus'
+      path: '/plus'
+      fullPath: '/plus'
+      preLoaderRoute: typeof AppPlusRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/mon-profil': {
@@ -447,6 +466,7 @@ interface AppRouteChildren {
   AppBibliothequeRoute: typeof AppBibliothequeRoute
   AppCommunauteRoute: typeof AppCommunauteRoute
   AppMonProfilRoute: typeof AppMonProfilRoute
+  AppPlusRoute: typeof AppPlusRoute
   AppReglagesRoute: typeof AppReglagesRoute
 }
 
@@ -455,6 +475,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppBibliothequeRoute: AppBibliothequeRoute,
   AppCommunauteRoute: AppCommunauteRoute,
   AppMonProfilRoute: AppMonProfilRoute,
+  AppPlusRoute: AppPlusRoute,
   AppReglagesRoute: AppReglagesRoute,
 }
 

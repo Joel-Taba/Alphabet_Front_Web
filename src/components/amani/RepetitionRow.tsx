@@ -12,7 +12,11 @@ export interface TraceableEntry {
   id: string;
   pathD: string;
   startXY: [number, number];
+  /** Où le tracé s'arrête. Optionnel : sans elle, seule la pastille de départ est affichée (comportement historique). */
+  endXY?: [number, number];
   strokeColor: string;
+  /** Le point se remplit (disque) plutôt que de rester un simple contour. */
+  family?: string;
 }
 
 export type OccurrenceStatus = "idle" | "drawing" | "success" | "retry";
@@ -76,6 +80,11 @@ export function OccurrenceCanvas({
     ctx.moveTo(refPts[0].x * sc + ox, refPts[0].y * sc + oy);
     for (let i = 1; i < refPts.length; i++) {
       ctx.lineTo(refPts[i].x * sc + ox, refPts[i].y * sc + oy);
+    }
+    if (entry.family === "point") {
+      ctx.closePath();
+      ctx.fillStyle = entry.strokeColor;
+      ctx.fill();
     }
     ctx.strokeStyle = entry.strokeColor;
     ctx.lineWidth = 4.5;
@@ -164,8 +173,11 @@ export function OccurrenceCanvas({
     setLocalStatus("idle");
   };
 
-  // Pastille de départ (dans l'espace CSS px)
+  // Pastilles départ/arrivée (dans l'espace CSS px)
   const startPx = svgToCanvas({ x: entry.startXY[0], y: entry.startXY[1] });
+  const endPx = entry.endXY ? svgToCanvas({ x: entry.endXY[0], y: entry.endXY[1] }) : null;
+  const startEndMerged =
+    !!entry.endXY && entry.startXY[0] === entry.endXY[0] && entry.startXY[1] === entry.endXY[1];
 
   return (
     <div
@@ -189,19 +201,36 @@ export function OccurrenceCanvas({
             strokeWidth={3.5}
             strokeDasharray="7 5"
             strokeLinecap="round"
-            fill="none"
+            fill={entry.family === "point" ? (localStatus === "retry" ? "#D9A84A" : "#9BB5CC") : "none"}
             opacity={localStatus === "retry" ? 0.9 : 0.75}
           />
         </svg>
       )}
 
-      {/* ── Pastille verte de départ ── */}
+      {/* ── Pastille(s) départ/arrivée ── */}
       {(localStatus === "idle" || localStatus === "retry") && isActive && (
-        <div
-          className="absolute w-2.5 h-2.5 rounded-full bg-[#5BAA6A] border border-white shadow pointer-events-none z-10 animate-pulse"
-          style={{ left: startPx.x - 5, top: startPx.y - 5 }}
-          aria-label="Point de départ"
-        />
+        startEndMerged ? (
+          <div
+            className="absolute w-2.5 h-2.5 rounded-full border border-white shadow pointer-events-none z-10 animate-start-end-alternate"
+            style={{ left: startPx.x - 5, top: startPx.y - 5 }}
+            aria-label="Point de départ et d'arrivée"
+          />
+        ) : (
+          <>
+            <div
+              className="absolute w-2.5 h-2.5 rounded-full bg-[#5BAA6A] border border-white shadow pointer-events-none z-10 animate-pulse"
+              style={{ left: startPx.x - 5, top: startPx.y - 5 }}
+              aria-label="Point de départ"
+            />
+            {endPx && (
+              <div
+                className="absolute w-2.5 h-2.5 rounded-full bg-[#E05252] border border-white shadow pointer-events-none z-10 animate-pulse"
+                style={{ left: endPx.x - 5, top: endPx.y - 5 }}
+                aria-label="Point d'arrivée"
+              />
+            )}
+          </>
+        )
       )}
 
       {/* ── Canvas interactif ── */}

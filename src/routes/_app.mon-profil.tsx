@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { AmaniMascot } from "@/components/amani";
 import profilImg from "@/assets/amani-profil.png";
-import { Sprout, Trees, Sparkles, BookOpen, Calendar, Award, Settings as SettingsIcon, Volume2, VolumeX, Type, Globe, Play, PenLine, Lock, LockKeyholeOpen, Eye, EyeOff, ShieldCheck, Camera, UserRound } from "lucide-react";
+import { Sprout, Trees, Sparkles, BookOpen, Calendar, Award, Trophy, Settings as SettingsIcon, Volume2, VolumeX, Type, Globe, Play, PenLine, Lock, LockKeyholeOpen, Eye, EyeOff, ShieldCheck, Camera, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage, format, type Lang } from "@/i18n/LanguageContext";
 import {
@@ -28,6 +28,7 @@ import {
   removeStoredPhoto,
 } from "@/lib/profileAuth";
 import { resizeImageToDataUrl } from "@/lib/resizeImageToDataUrl";
+import { useProgressStats } from "@/lib/progress";
 
 const MIN_PASSWORD_LENGTH = 4;
 
@@ -145,6 +146,7 @@ function MyProfileContent({ onLock }: { onLock: () => void }) {
   const { speak } = useSignSpeech();
   const { repetitions, setRepetitions, tolerance, setTolerance, evaluationDuration, setEvaluationDuration } =
     useExerciseSettings();
+  const progressStats = useProgressStats();
 
   const [format_, setFormat] = useWritingStyleState();
   const [speed, setSpeed] = useAnimationSpeedState();
@@ -300,11 +302,26 @@ function MyProfileContent({ onLock }: { onLock: () => void }) {
         )}
       </div>
 
+      {/* Points totaux — la mise en avant du système de notation */}
+      <div
+        className="flex items-center gap-4 rounded-3xl p-5 text-white shadow-[0_6px_18px_rgba(217,168,74,0.35)]"
+        style={{ background: "linear-gradient(135deg, #F6C453 0%, #D9A84A 100%)" }}
+      >
+        <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-white/25">
+          <Trophy className="h-7 w-7" strokeWidth={2.5} />
+        </div>
+        <div className="min-w-0">
+          <p className="text-[28px] leading-none font-extrabold">{progressStats.totalPoints}</p>
+          <p className="text-[14px] font-bold mt-1.5">{t.profileHub.totalPointsLabel}</p>
+          <p className="text-[12px] opacity-90 mt-0.5">{t.profileHub.totalPointsHint}</p>
+        </div>
+      </div>
+
       {/* Statistiques encourageantes */}
       <div className="grid grid-cols-3 gap-3">
-        <Stat label={t.profileHub.statsSignes} value="7" icon={BookOpen} color="#8FBF6F" />
-        <Stat label={t.profileHub.statsExercices} value="15" icon={Award} color="#A9784F" />
-        <Stat label={t.profileHub.statsDays} value="4" icon={Calendar} color="#4A90E2" />
+        <Stat label={t.profileHub.statsSignes} value={String(progressStats.signesMaitrises)} icon={BookOpen} color="#8FBF6F" />
+        <Stat label={t.profileHub.statsExercices} value={String(progressStats.exercicesReussis)} icon={Award} color="#A9784F" />
+        <Stat label={t.profileHub.statsDays} value={String(progressStats.joursAventure)} icon={Calendar} color="#4A90E2" />
       </div>
 
       {/* Progression par branches/paliers */}
@@ -388,8 +405,8 @@ function MyProfileContent({ onLock }: { onLock: () => void }) {
 
         {/* Format d'écriture */}
         <SettingsCard title={t.profileHub.formatCardTitle} icon={Type} color="#8FBF6F">
-          <div className="grid grid-cols-3 gap-2.5">
-            {(["script", "cursive", "digitale"] as const).map((id, i) => {
+          <div className="grid grid-cols-2 gap-2.5">
+            {(["script", "cursive"] as const).map((id, i) => {
               const opt = t.profileHub.formatOptions[i];
               return (
                 <button

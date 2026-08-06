@@ -5,10 +5,7 @@ import { AmaniMascot } from "@/components/amani";
 import victoirePalierImg from "@/assets/amani-victoire-palier-badge.png";
 import { getPalier2Groups } from "@/data/palier2-groups";
 import { SYLLABLE_GROUPS } from "@/data/syllable-catalog";
-import { PALIER3_GROUPS } from "@/data/word-catalog";
-
-/** Difficulté progressive des mots croisés du Palier 3 : de 2 à 10 mots par grille. */
-const PALIER3_CROSSWORD_LEVELS = [2, 3, 4, 5, 6, 7, 8, 9, 10];
+import { PALIER3_GROUPS, PALIER3_CROSSWORD_LEVELS } from "@/data/word-catalog";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
 

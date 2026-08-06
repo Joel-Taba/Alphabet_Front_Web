@@ -1,12 +1,13 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Volume2, Play, CheckCircle2, ChevronRight, RotateCcw } from "lucide-react";
+import { ArrowLeft, Volume2, Play, CheckCircle2, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { MobileShell, SignGlyph, CahierFrame, AmaniMascot } from "@/components/amani";
+import { MobileShell, SignGlyph, CahierFrame } from "@/components/amani";
 import { useSignSpeech } from "@/hooks/useSignSpeech";
-import { EXERCISE_CATALOG, type SignExercise, type SignFamily } from "@/data/sign-exercise-catalog";
+import { EXERCISE_CATALOG, FAMILY_ORDER, type SignExercise, type SignFamily } from "@/data/sign-exercise-catalog";
 import { useLanguage, format } from "@/i18n/LanguageContext";
 import { cn } from "@/lib/utils";
 import { useAnimationSpeed, scaleDuration } from "@/hooks/useAnimationSpeed";
+import { markCoursItemViewed } from "@/lib/progress";
 
 export const Route = createFileRoute("/cours/$family")({
   head: () => ({
@@ -37,10 +38,22 @@ function CoursFamilyScreen() {
   const title = t.coursFamily.titles[family as keyof typeof t.coursFamily.titles] || family;
   const familyInfo = { title, ...colors };
 
+  const familyIdx = FAMILY_ORDER.indexOf(family as SignFamily);
+  const prevFamily = familyIdx > 0 ? FAMILY_ORDER[familyIdx - 1] : null;
+  const nextFamily = familyIdx >= 0 && familyIdx < FAMILY_ORDER.length - 1 ? FAMILY_ORDER[familyIdx + 1] : null;
+
   // Signe sélectionné pour l'animation interactive
   const [selectedSign, setSelectedSign] = useState<SignExercise | null>(
     entries.length > 0 ? entries[0] : null
   );
+
+  // Un signe qui se referme sur lui-même (point, courbe fermée) a un même
+  // point de départ et d'arrivée : une seule pastille, qui alterne entre les
+  // deux couleurs plutôt que d'en afficher deux superposées.
+  const startEndMerged =
+    !!selectedSign &&
+    selectedSign.startXY[0] === selectedSign.endXY[0] &&
+    selectedSign.startXY[1] === selectedSign.endXY[1];
 
   const [animProgress, setAnimProgress] = useState(0); // 0 à 1
   const [isPlaying, setIsPlaying] = useState(true);
@@ -63,6 +76,7 @@ function CoursFamilyScreen() {
   useEffect(() => {
     if (!selectedSign) return;
     speak(selectedSign.consigne[lang]);
+    markCoursItemViewed({ typeEtape: "SIGNE", groupCode: family, itemCode: selectedSign.id, totalItems: entries.length, palier: 1 });
     setIsPlaying(true);
     setAnimProgress(0);
 
@@ -106,7 +120,7 @@ function CoursFamilyScreen() {
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
-  }, [selectedSign, speak, replayKey, animSpeed]);
+  }, [selectedSign, speak, replayKey, animSpeed, family, entries.length]);
 
   return (
     <MobileShell>
@@ -152,19 +166,50 @@ function CoursFamilyScreen() {
 
             {/* Canvas de tracé animé */}
             <CahierFrame className="relative w-[240px] h-[240px] flex items-center justify-center my-2" rounded={16}>
-              {/* Point de départ lumineux (Départ vert), disparaît complètement en fin de tracé */}
-              {isPlaying && animProgress <= 0.90 && (
-                <div
-                  className="absolute z-20 w-3 h-3 rounded-full bg-[#8FBF6F] border border-white shadow grid place-items-center animate-pulse pointer-events-none"
-                  style={{
-                    left: `${(selectedSign.startXY[0] / 200) * 100}%`,
-                    top: `${(selectedSign.startXY[1] / 200) * 100}%`,
-                    transform: "translate(-50%, -50%)",
-                  }}
-                  title="Point de départ du tracé"
-                >
-                  <div className="w-1 h-1 rounded-full bg-white" />
-                </div>
+              {/* Pastilles départ/arrivée, disparaissent complètement en fin de tracé */}
+              {startEndMerged ? (
+                isPlaying && animProgress <= 0.98 && (
+                  <div
+                    className="absolute z-20 w-3 h-3 rounded-full border border-white shadow grid place-items-center animate-start-end-alternate pointer-events-none"
+                    style={{
+                      left: `${(selectedSign.startXY[0] / 200) * 100}%`,
+                      top: `${(selectedSign.startXY[1] / 200) * 100}%`,
+                      transform: "translate(-50%, -50%)",
+                    }}
+                    title="Point de départ et d'arrivée du tracé"
+                  >
+                    <div className="w-1 h-1 rounded-full bg-white" />
+                  </div>
+                )
+              ) : (
+                <>
+                  {isPlaying && animProgress <= 0.90 && (
+                    <div
+                      className="absolute z-20 w-3 h-3 rounded-full bg-[#8FBF6F] border border-white shadow grid place-items-center animate-pulse pointer-events-none"
+                      style={{
+                        left: `${(selectedSign.startXY[0] / 200) * 100}%`,
+                        top: `${(selectedSign.startXY[1] / 200) * 100}%`,
+                        transform: "translate(-50%, -50%)",
+                      }}
+                      title="Point de départ du tracé"
+                    >
+                      <div className="w-1 h-1 rounded-full bg-white" />
+                    </div>
+                  )}
+                  {isPlaying && animProgress <= 0.98 && (
+                    <div
+                      className="absolute z-20 w-3 h-3 rounded-full bg-[#E05252] border border-white shadow grid place-items-center animate-pulse pointer-events-none"
+                      style={{
+                        left: `${(selectedSign.endXY[0] / 200) * 100}%`,
+                        top: `${(selectedSign.endXY[1] / 200) * 100}%`,
+                        transform: "translate(-50%, -50%)",
+                      }}
+                      title="Point d'arrivée du tracé"
+                    >
+                      <div className="w-1 h-1 rounded-full bg-white" />
+                    </div>
+                  )}
+                </>
               )}
 
               {/* SVG de tracé : guide en pointillés + trait animé qui se dessine + stylet */}
@@ -177,7 +222,7 @@ function CoursFamilyScreen() {
                   strokeWidth={14}
                   strokeLinecap="round"
                   strokeDasharray="6 8"
-                  fill="none"
+                  fill={selectedSign.family === "point" ? "#9BB5CC" : "none"}
                 />
 
                 {/* Trait coloré animé : rigoureusement au rythme du stylet */}
@@ -186,7 +231,7 @@ function CoursFamilyScreen() {
                   stroke={selectedSign.strokeColor}
                   strokeWidth={12}
                   strokeLinecap="round"
-                  fill="none"
+                  fill={selectedSign.family === "point" ? selectedSign.strokeColor : "none"}
                   style={{
                     strokeDasharray: pathLength,
                     strokeDashoffset: pathLength * (1 - animProgress),
@@ -299,22 +344,33 @@ function CoursFamilyScreen() {
           </div>
         </section>
 
-        {/* Bouton global de passage à l'exercice */}
-        <div className="pt-4 pb-8 flex items-end gap-2">
-          <AmaniMascot pose="invitation" size="small" />
-          <button
-            type="button"
-            onClick={() =>
-              navigate({
-                to: "/exercice-liste",
-                search: { family: family as SignFamily },
-              })
-            }
-            className="flex-1 py-4 rounded-2xl bg-[#8FBF6F] hover:bg-[#7AAE5A] text-white font-extrabold text-lg shadow-lg flex items-center justify-center gap-3 transition-all active:scale-[0.99]"
-          >
-            <span>Passer aux Exercices ({familyInfo.title})</span>
-            <ChevronRight className="h-6 w-6 stroke-[3]" />
-          </button>
+        {/* Navigation Retour / Suivant entre les cours du Palier 1 */}
+        <div className="flex items-center justify-between gap-3 pt-2 pb-8">
+          {prevFamily ? (
+            <button
+              type="button"
+              onClick={() => navigate({ to: "/cours/$family", params: { family: prevFamily } })}
+              className="flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-[#4A3B2A]/15 text-[#4A3B2A] font-bold text-[14px] shadow-sm active:scale-95 transition-transform"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              {t.common.back}
+            </button>
+          ) : (
+            <div />
+          )}
+          {nextFamily ? (
+            <button
+              type="button"
+              onClick={() => navigate({ to: "/cours/$family", params: { family: nextFamily } })}
+              className="flex items-center gap-2 px-5 py-3 rounded-full text-white font-bold text-[14px] shadow-md active:scale-95 transition-transform"
+              style={{ backgroundColor: familyInfo.color }}
+            >
+              {t.common.next}
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          ) : (
+            <div />
+          )}
         </div>
       </div>
     </MobileShell>

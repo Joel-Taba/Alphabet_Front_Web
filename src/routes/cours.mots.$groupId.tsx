@@ -12,6 +12,7 @@ import {
 import { useLanguage, format } from "@/i18n/LanguageContext";
 import { useWritingStyle } from "@/hooks/useWritingStyle";
 import type { WritingStyle } from "@/data/letter-style-resolver";
+import { markCoursItemViewed } from "@/lib/progress";
 
 export const Route = createFileRoute("/cours/mots/$groupId")({
   head: ({ params }) => ({
@@ -103,7 +104,16 @@ function WordCourseScreen() {
         {/* Cartes de mots */}
         <div className="flex flex-col gap-3.5">
           {group.words.map((word) => (
-            <WordCard key={word.id} word={word} lang={lang} speak={speak} style={writingStyle} />
+            <WordCard
+              key={word.id}
+              word={word}
+              lang={lang}
+              speak={speak}
+              style={writingStyle}
+              groupId={group.id}
+              totalWords={group.words.length}
+              palier={lang === "fr" ? 4 : 3}
+            />
           ))}
         </div>
 
@@ -153,14 +163,28 @@ function WordCard({
   lang,
   speak,
   style,
+  groupId,
+  totalWords,
+  palier,
 }: {
   word: WordEntry;
   lang: ReturnType<typeof useLanguage>["lang"];
   speak: (text: string) => void;
   style: WritingStyle;
+  groupId: string;
+  totalWords: number;
+  palier: number;
 }) {
   const letters = lettersForWord(word, lang, style);
   const text = wordText(word, lang);
+
+  // Le mot n'est considéré "consulté" que lorsque l'enfant en écoute la
+  // prononciation — pas dès l'affichage de la carte, qui se produit pour
+  // tous les mots dès l'ouverture de la page (voir markCoursItemViewed).
+  const handleSpeak = () => {
+    speak(text);
+    markCoursItemViewed({ typeEtape: "MOT", groupCode: groupId, itemCode: word.id, totalItems: totalWords, palier });
+  };
 
   return (
     <div className="bg-white rounded-[20px] p-4 border border-[#4A3B2A]/10 shadow-[0_2px_8px_rgba(74,59,42,0.08)] flex items-center gap-3">
@@ -174,7 +198,7 @@ function WordCard({
       </div>
       <button
         type="button"
-        onClick={() => speak(text)}
+        onClick={handleSpeak}
         aria-label={text}
         className="w-10 h-10 shrink-0 grid place-items-center rounded-full bg-[#4A90E2]/15 text-[#2D6BBF] hover:bg-[#4A90E2] hover:text-white transition-colors"
       >

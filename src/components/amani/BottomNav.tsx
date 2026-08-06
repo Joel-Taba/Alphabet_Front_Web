@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Palette, User, Users, Leaf } from "lucide-react";
+import { Palette, User, Users, Leaf, MoreVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
 
@@ -8,27 +8,27 @@ const allItems = [
   { to: "/bibliotheque", key: "bibliotheque", icon: Palette },
   { to: "/communaute", key: "communaute", icon: Users },
   { to: "/mon-profil", key: "profil", icon: User },
+  { to: "/plus", key: "reglages", icon: MoreVertical },
 ] as const;
 
 export function BottomNav() {
   const { t } = useLanguage();
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
-  
-  // Déterminer l'index de l'onglet actif (0-3)
+
+  // Déterminer l'index de l'onglet actif (0 à allItems.length - 1)
   const activeIndex = allItems.findIndex(item => currentPath === item.to);
-  
-  // Calculer la position du bouton flottant (pourcentage et pixels pour SVG)
+
+  // Calculer la position du bouton flottant (pourcentage et pixels pour SVG) :
+  // les onglets sont répartis à intervalles réguliers, chaque centre au milieu
+  // de sa tranche — généralisé pour ne pas dépendre d'un nombre d'onglets fixe.
   const getButtonPosition = () => {
-    switch(activeIndex) {
-      case 0: return { percent: "12.5%", svgX: 43.75 };  // Accueil (1/8)
-      case 1: return { percent: "37.5%", svgX: 131.25 }; // Bibliothèque/Signes (3/8)
-      case 2: return { percent: "62.5%", svgX: 218.75 }; // Communauté/Clairière (5/8)
-      case 3: return { percent: "87.5%", svgX: 306.25 }; // Profil (7/8)
-      default: return { percent: "12.5%", svgX: 43.75 };
-    }
+    const n = allItems.length;
+    const index = activeIndex >= 0 ? activeIndex : 0;
+    const percentValue = ((2 * index + 1) / (2 * n)) * 100;
+    return { percent: `${percentValue}%`, svgX: (percentValue / 100) * 350 };
   };
-  
+
   const buttonPos = getButtonPosition();
   
   return (

@@ -3,6 +3,7 @@ import { AmaniMascot } from "@/components/amani";
 import { cn } from "@/lib/utils";
 import { useLanguage, format } from "@/i18n/LanguageContext";
 import { getStoredName, getStoredPhoto } from "@/lib/profileAuth";
+import { useProgressStats } from "@/lib/progress";
 
 export const Route = createFileRoute("/_app/communaute")({
   head: () => ({
@@ -191,8 +192,13 @@ function Communaute() {
   const { t } = useLanguage();
   const myName = typeof localStorage !== "undefined" ? getStoredName().trim() : "";
   const myPhoto = typeof localStorage !== "undefined" ? getStoredPhoto() : null;
+  // "moi" est le seul score réel : les autres explorateurs restent des profils
+  // fictifs de démonstration tant qu'il n'y a pas de classement partagé (voir
+  // lib/progress.ts — ce total est celui qui alimentera le vrai classement
+  // une fois le back-end relié).
+  const { totalPoints } = useProgressStats();
   const classement = profilsBruts
-    .map((p) => (p.moi ? { ...p, prenom: myName || p.prenom, photo: myPhoto } : p))
+    .map((p) => (p.moi ? { ...p, prenom: myName || p.prenom, photo: myPhoto, score: totalPoints } : p))
     .sort((a, b) => b.score - a.score);
   const top3 = classement.slice(0, 3);
   const reste = classement.slice(3);

@@ -14,6 +14,7 @@ import { useLanguage, format } from "@/i18n/LanguageContext";
 import { cn } from "@/lib/utils";
 import { useWritingStyle } from "@/hooks/useWritingStyle";
 import { getLetterFormation } from "@/data/letter-style-resolver";
+import { markCoursItemViewed } from "@/lib/progress";
 
 export const Route = createFileRoute("/cours/syllabes/$consonant")({
   head: ({ params }) => ({
@@ -104,6 +105,7 @@ function SyllableLessonScreen() {
           consonantLetter={consonantLetter}
           vowelLetter={vowelLetter}
           entry={current}
+          totalSyllables={group.syllables.length}
           speak={speak}
           t={t}
           lang={lang}
@@ -183,6 +185,7 @@ function SyllableCard({
   consonantLetter,
   vowelLetter,
   entry,
+  totalSyllables,
   speak,
   t,
   lang,
@@ -192,6 +195,7 @@ function SyllableCard({
   consonantLetter: LetterFormation | undefined;
   vowelLetter: LetterFormation | undefined;
   entry: SyllableEntry;
+  totalSyllables: number;
   speak: (text: string) => void;
   t: ReturnType<typeof useLanguage>["t"];
   lang: ReturnType<typeof useLanguage>["lang"];
@@ -203,6 +207,13 @@ function SyllableCard({
 
   useEffect(() => {
     speak(format(t.coursSyllabes.speakFormation, { consonant: consonantChar, vowel: entry.vowel, syllable: entry.syllable }));
+    markCoursItemViewed({
+      typeEtape: "SYLLABE",
+      groupCode: consonantChar,
+      itemCode: entry.syllable,
+      totalItems: totalSyllables,
+      palier: 3,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entry.syllable, lang]);
 

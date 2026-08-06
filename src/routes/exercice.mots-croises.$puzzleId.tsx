@@ -73,7 +73,7 @@ function CrosswordScreen() {
       </header>
 
       <div className="flex-1 overflow-y-auto px-4 py-5 bg-[#F5EDE0] pb-10 flex flex-col items-center">
-        <CrosswordPlay crossword={crossword} />
+        <CrosswordPlay crossword={crossword} puzzleId={puzzleId} level={level} />
       </div>
     </MobileShell>
   );

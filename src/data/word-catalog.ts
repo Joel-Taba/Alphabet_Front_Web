@@ -211,3 +211,24 @@ export function findWordGroupForWord(wordId: string): WordGroup | undefined {
   return PALIER3_GROUPS.find((g) => g.words.some((w) => w.id === wordId));
 }
 
+/**
+ * Difficulté progressive des mots croisés du Palier 3 : de 2 à 10 mots par
+ * grille. Une grille est insérée dans le parcours (voir _app.accueil.tsx)
+ * après chaque groupe de mots à index impair.
+ */
+export const PALIER3_CROSSWORD_LEVELS = [2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
+
+/**
+ * Groupe de mots qui suit une grille de mots croisés donnée dans le
+ * parcours — sert de cible au bouton "Suivant" une fois la grille résolue
+ * (voir CrosswordPlay). Reflète exactement la logique d'insertion de
+ * _app.accueil.tsx : la grille de niveau N est insérée après le groupe
+ * d'index (2 * indexDuNiveau + 1), donc le groupe suivant est à l'index
+ * (2 * indexDuNiveau + 2).
+ */
+export function nextWordGroupAfterCrossword(level: number): WordGroup | undefined {
+  const levelIdx = PALIER3_CROSSWORD_LEVELS.indexOf(level as (typeof PALIER3_CROSSWORD_LEVELS)[number]);
+  if (levelIdx < 0) return undefined;
+  return PALIER3_GROUPS[2 * levelIdx + 2];
+}
+

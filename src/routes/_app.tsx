@@ -14,7 +14,7 @@ function AppLayout() {
   const writingStyle = useWritingStyle();
 
   useEffect(() => {
-    document.body.classList.remove("format-script", "format-cursive", "format-digitale");
+    document.body.classList.remove("format-script", "format-cursive");
     document.body.classList.add(`format-${writingStyle}`);
   }, [writingStyle]);
 

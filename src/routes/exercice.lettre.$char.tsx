@@ -15,6 +15,7 @@ import {
   RepetitionRow,
   EvaluationTimerBadge,
   EvaluationCompleteOverlay,
+  ExerciseCompletePopup,
 } from "@/components/amani";
 import { useSignSpeech } from "@/hooks/useSignSpeech";
 import { useExerciseSettings, readEvaluationDurationMinutes } from "@/hooks/useExerciseSettings";
@@ -26,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { sampleSVGPath, validateTrace, type Point } from "@/lib/traceValidation";
 import { useWritingStyle } from "@/hooks/useWritingStyle";
 import { getLetterFormation } from "@/data/letter-style-resolver";
+import { awardCompletion } from "@/lib/progress";
 
 export const Route = createFileRoute("/exercice/lettre/$char")({
   validateSearch: (search: Record<string, unknown>): { pg?: string; amaniEval?: string } => ({
@@ -92,6 +94,14 @@ function LetterExerciseScreen() {
   const nextGroup = groupIdx >= 0 ? palier2Groups[(groupIdx + 1) % palier2Groups.length] : undefined;
   const evaluationNextLetter =
     isEvaluation && !nextLetter && nextGroup ? lettersForGroup(nextGroup, writingStyle)[0] : undefined;
+
+  // Cible du bouton "Suivant" du pop-up de fin d'exercice (hors évaluation) :
+  // la lettre suivante du même groupe, sinon la première lettre du groupe
+  // suivant — sans boucler à la fin du dernier groupe, contrairement au
+  // comportement de l'évaluation ci-dessus.
+  const nextGroupForCours = groupIdx >= 0 && groupIdx < palier2Groups.length - 1 ? palier2Groups[groupIdx + 1] : undefined;
+  const nextCoursChar = nextLetter?.char ?? (nextGroupForCours ? lettersForGroup(nextGroupForCours, writingStyle)[0]?.char : undefined);
+  const nextCoursPg = nextLetter ? groupId : nextGroupForCours?.id;
 
   // ── Réglages partagés (configurés dans Profil > Réglages) ──
   const { repetitions, tolerance } = useExerciseSettings();
@@ -161,6 +171,7 @@ function LetterExerciseScreen() {
       } else {
         speak(format(t.exerciceLettre.speakLetterDone, { name: letter.name[lang] }));
         setLetterSuccess(true);
+        awardCompletion({ typeEtape: "LETTRE", modalite: "EXERCICE", etapeCode: letter.char, palier: 2 });
       }
     },
     [activeStep, completedSteps, currentStepIdx, letter, speak, t, lang]
@@ -176,6 +187,21 @@ function LetterExerciseScreen() {
       {isEvaluation && !evaluationExpired && <EvaluationTimerBadge remaining={remaining} />}
       {isEvaluation && evaluationExpired && (
         <EvaluationCompleteOverlay onBack={() => navigate({ to: "/accueil" })} />
+      )}
+      {letterSuccess && !isEvaluation && (
+        <ExerciseCompletePopup
+          onBackHome={() => navigate({ to: "/accueil" })}
+          onNext={
+            nextCoursChar
+              ? () =>
+                  navigate({
+                    to: "/cours/lettres/formation/$char",
+                    params: { char: nextCoursChar },
+                    search: nextCoursPg ? { pg: nextCoursPg } : undefined,
+                  })
+              : undefined
+          }
+        />
       )}
 
       {/* En-tête / AppBar */}

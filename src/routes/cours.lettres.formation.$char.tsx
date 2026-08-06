@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { useWritingStyle } from "@/hooks/useWritingStyle";
 import { getLetterFormation } from "@/data/letter-style-resolver";
 import { useAnimationSpeed, scaleDuration } from "@/hooks/useAnimationSpeed";
+import { markCoursItemViewed } from "@/lib/progress";
 
 export const Route = createFileRoute("/cours/lettres/formation/$char")({
   validateSearch: (search: Record<string, unknown>): { pg?: string } => ({
@@ -47,6 +48,10 @@ function LetterFormationScreen() {
   const allLetters: readonly LetterFormation[] = progressionGroup
     ? lettersForGroup(progressionGroup)
     : ownGroup?.letters ?? [];
+  // Identifiant du "cours" dans son ensemble (voir markCoursItemViewed) : le
+  // groupe de progression prime, sinon on retombe sur la première lettre du
+  // groupe de référence pour rester stable d'une lettre à l'autre du même groupe.
+  const groupCode = progressionGroup?.id ?? `own-${ownGroup?.letters[0]?.char ?? char}`;
   const groupTitle = progressionGroup?.title[lang] ?? ownGroup?.title[lang] ?? t.coursFormationChar.vowelsTitle;
   const currentIdx = allLetters.findIndex((l) => l.char === char);
   const prevLetter = currentIdx > 0 ? allLetters[currentIdx - 1] : null;
@@ -104,7 +109,16 @@ function LetterFormationScreen() {
 
       <div className="flex-1 overflow-y-auto px-4 py-5 space-y-6 bg-[#F5EDE0] pb-10">
         {/* Zone d'animation */}
-        <LetterAnimationCanvas letter={letter} speak={speak} navigate={navigate} t={t} lang={lang} pg={pg} />
+        <LetterAnimationCanvas
+          letter={letter}
+          speak={speak}
+          navigate={navigate}
+          t={t}
+          lang={lang}
+          pg={pg}
+          groupCode={groupCode}
+          totalItems={allLetters.length}
+        />
 
         {/* Navigation entre les lettres du groupe */}
         <section>
@@ -191,6 +205,8 @@ function LetterAnimationCanvas({
   t,
   lang,
   pg,
+  groupCode,
+  totalItems,
 }: {
   letter: LetterFormation;
   speak: (text: string) => void;
@@ -198,6 +214,8 @@ function LetterAnimationCanvas({
   t: Dictionary;
   lang: Lang;
   pg?: string;
+  groupCode: string;
+  totalItems: number;
 }) {
   const [replayKey, setReplayKey] = useState(0);
   const animSpeed = useAnimationSpeed();
@@ -262,6 +280,7 @@ function LetterAnimationCanvas({
             setStepProgress(1);
             setIsPlaying(false);
             setIsFinished(true);
+            markCoursItemViewed({ typeEtape: "LETTRE", groupCode, itemCode: letter.char, totalItems, palier: 2 });
             return;
           }
           setCurrentStepIdx(activeStep);
@@ -299,6 +318,7 @@ function LetterAnimationCanvas({
           // Last step done
           setIsPlaying(false);
           setIsFinished(true);
+          markCoursItemViewed({ typeEtape: "LETTRE", groupCode, itemCode: letter.char, totalItems, palier: 2 });
           return;
         }
       }
@@ -317,7 +337,7 @@ function LetterAnimationCanvas({
     return () => {
       if (animRef.current) cancelAnimationFrame(animRef.current);
     };
-  }, [letter, speak, replayKey, lang, animSpeed]);
+  }, [letter, speak, replayKey, lang, animSpeed, groupCode, totalItems]);
 
   const handleReplay = useCallback(() => {
     setReplayKey((k) => k + 1);

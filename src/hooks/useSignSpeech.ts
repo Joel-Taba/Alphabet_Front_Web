@@ -45,7 +45,7 @@ function nameHasAny(name: string, hints: string[]): boolean {
 }
 
 /** Cherche la meilleure voix disponible pour une locale et un genre donnés (ex: "fr-FR", "homme") */
-function pickVoice(locale: string, gender: VoiceGender): SpeechSynthesisVoice | null {
+function pickVoice(locale: string, gender: VoiceGender, volume: number): SpeechSynthesisVoice | null {
   const voices = window.speechSynthesis.getVoices();
   const base = locale.split("-")[0];
   // On regroupe toutes les variantes régionales de la langue (ex: en-US + en-GB) :
@@ -67,7 +67,14 @@ function pickVoice(locale: string, gender: VoiceGender): SpeechSynthesisVoice | 
     else if (nameHasAny(name, oppositeHints)) score -= 3;
     if (nameHasAny(name, QUALITY_NAME_HINTS)) score += 3;
     if (nameHasAny(name, LOW_QUALITY_NAME_HINTS)) score -= 2;
-    if (v.localService === false) score += 1;
+    // Les voix "réseau" (localService: false) sonnent souvent mieux, mais de
+    // nombreux moteurs — Chrome en tête — ignorent purement et simplement
+    // `utterance.volume` avec elles (bug documenté de longue date sur les
+    // moteurs Blink/Gecko). Sous le volume maximum, on privilégie donc les
+    // voix locales, qui respectent quasiment toujours ce réglage : mieux
+    // vaut une voix un peu moins naturelle mais dont le volume répond
+    // vraiment au réglage choisi.
+    if (v.localService === false) score += volume >= 0.95 ? 1 : -2;
     if (v.lang === locale) score += 1;
     if (score > bestScore) {
       bestScore = score;
@@ -133,6 +140,13 @@ export function useSignSpeech() {
 
       if (!isSoundEnabled()) return;
 
+      const volume = getStoredVolume();
+      // Seul point du curseur qu'on peut garantir à coup sûr sur toutes les
+      // plateformes : le silence total. `utterance.volume` lui-même n'est
+      // pas fiable (voir pickVoice ci-dessus), donc on ne compte pas sur lui
+      // pour un volume proche de zéro.
+      if (volume <= 0.02) return;
+
       const gender = getStoredVoiceGender();
       // Débit un peu plus lent et tonalité proche du naturel : les écarts de
       // pitch trop marqués sont ce qui fait sonner une voix "robotisée".
@@ -140,9 +154,9 @@ export function useSignSpeech() {
       utter.lang = locale;
       utter.rate = rate ?? 0.9;
       utter.pitch = pitch ?? (gender === "femme" ? 1.03 : 0.96);
-      utter.volume = getStoredVolume();
+      utter.volume = volume;
 
-      const voice = pickVoice(locale, gender);
+      const voice = pickVoice(locale, gender, volume);
       if (voice) utter.voice = voice;
 
       utter.onstart = () => setIsSpeaking(true);

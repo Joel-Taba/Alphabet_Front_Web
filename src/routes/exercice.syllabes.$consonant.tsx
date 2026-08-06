@@ -7,6 +7,7 @@ import {
   LetterTraceCell,
   EvaluationTimerBadge,
   EvaluationCompleteOverlay,
+  ExerciseCompletePopup,
 } from "@/components/amani";
 import { useSignSpeech } from "@/hooks/useSignSpeech";
 import {
@@ -21,6 +22,7 @@ import { useWritingStyle } from "@/hooks/useWritingStyle";
 import type { WritingStyle } from "@/data/letter-style-resolver";
 import { readEvaluationDurationMinutes } from "@/hooks/useExerciseSettings";
 import { useCountdown } from "@/hooks/useCountdown";
+import { awardCompletion } from "@/lib/progress";
 
 export const Route = createFileRoute("/exercice/syllabes/$consonant")({
   validateSearch: (search: Record<string, unknown>): { amaniEval?: string } => ({
@@ -82,6 +84,16 @@ function SyllableExerciseScreen() {
       {isEvaluation && evaluationExpired && (
         <EvaluationCompleteOverlay onBack={() => navigate({ to: "/accueil" })} />
       )}
+      {allDone && !isEvaluation && (
+        <ExerciseCompletePopup
+          onBackHome={() => navigate({ to: "/accueil" })}
+          onNext={
+            nextGroup
+              ? () => navigate({ to: "/cours/syllabes/$consonant", params: { consonant: nextGroup.consonant } })
+              : undefined
+          }
+        />
+      )}
 
       <header className="flex items-center justify-between px-6 pt-6 pb-4 bg-[#F5EDE0] shrink-0 border-b border-[#4A3B2A]/10">
         <div className="flex items-center gap-3">
@@ -124,24 +136,16 @@ function SyllableExerciseScreen() {
               entry={entry}
               speak={speak}
               done={doneSyllables.has(entry.syllable)}
-              onDone={() => setDoneSyllables((prev) => new Set(prev).add(entry.syllable))}
+              onDone={() => {
+                setDoneSyllables((prev) => new Set(prev).add(entry.syllable));
+                awardCompletion({ typeEtape: "SYLLABE", modalite: "EXERCICE", etapeCode: entry.syllable, palier: 3 });
+              }}
               doneLabel={t.exerciceListe.done}
               exampleWordPrefix={t.exerciceSyllabes.exampleWordPrefix}
               style={writingStyle}
             />
           ))}
         </div>
-
-        {allDone && !isEvaluation && nextGroup && (
-          <button
-            type="button"
-            onClick={() => navigate({ to: "/cours/syllabes/$consonant", params: { consonant: nextGroup.consonant } })}
-            className="w-full py-4 rounded-2xl bg-[#4A90E2] hover:bg-[#3A7BC8] text-white font-extrabold text-lg shadow-lg flex items-center justify-center gap-3 transition-all active:scale-[0.99]"
-          >
-            <span>{format(t.exerciceSyllabes.nextGroup, { consonant: nextGroup.consonant })}</span>
-            <ChevronRight className="h-5 w-5" />
-          </button>
-        )}
 
         {allDone && isEvaluation && evaluationNextGroup && (
           <button
