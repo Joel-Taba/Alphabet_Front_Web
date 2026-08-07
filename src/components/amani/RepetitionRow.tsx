@@ -2,7 +2,7 @@ import {
   useRef, useState, useEffect, useCallback, type ReactNode,
   type PointerEvent as ReactPointerEvent,
 } from "react";
-import { Volume2, RotateCcw } from "lucide-react";
+import { Volume2, RotateCcw, Lock } from "lucide-react";
 import { AmaniMascot } from "./AmaniMascot";
 import { cn } from "@/lib/utils";
 import { sampleSVGPath, validateTrace, type Point } from "@/lib/traceValidation";
@@ -295,10 +295,12 @@ interface RepetitionRowProps {
   /** Texte affiché une fois toutes les occurrences réussies. */
   doneLabel: string;
   onAllDone?: () => void;
+  /** Étape verrouillée tant que la précédente n'est pas réussie (reproduction dans l'ordre). */
+  locked?: boolean;
 }
 
 export function RepetitionRow({
-  entry, label, onSpeak, badge, repetitions, tolerance, doneLabel, onAllDone,
+  entry, label, onSpeak, badge, repetitions, tolerance, doneLabel, onAllDone, locked = false,
 }: RepetitionRowProps) {
   const [occurrences, setOccurrences] = useState<OccurrenceState[]>(
     () => Array.from({ length: repetitions }, () => ({ status: "idle" as OccurrenceStatus, attempts: 0 }))
@@ -341,9 +343,11 @@ export function RepetitionRow({
     <div
       className={cn(
         "flex flex-col rounded-[20px] overflow-hidden border transition-all",
-        allDone
-          ? "border-[#8FBF6F]/60 shadow-[0_4px_16px_rgba(143,191,111,0.18)]"
-          : "border-[#4A3B2A]/10 shadow-[0_2px_8px_rgba(74,59,42,0.08)]"
+        locked
+          ? "border-[#4A3B2A]/10 opacity-50"
+          : allDone
+            ? "border-[#8FBF6F]/60 shadow-[0_4px_16px_rgba(143,191,111,0.18)]"
+            : "border-[#4A3B2A]/10 shadow-[0_2px_8px_rgba(74,59,42,0.08)]"
       )}
     >
       {/* En-tête de la ligne */}
@@ -353,14 +357,23 @@ export function RepetitionRow({
           <span className="text-[14px] font-bold text-[#4A3B2A]">{label}</span>
           {allDone && <span className="text-[13px] text-[#8FBF6F] font-bold">✓ {doneLabel}</span>}
         </div>
-        <button
-          type="button"
-          onClick={onSpeak}
-          aria-label={label}
-          className="w-8 h-8 grid place-items-center rounded-full bg-[#A9784F]/15 text-[#4A3B2A] hover:bg-[#A9784F] hover:text-white transition-colors"
-        >
-          <Volume2 className="w-4 h-4" />
-        </button>
+        {locked ? (
+          <div
+            className="w-8 h-8 grid place-items-center rounded-full bg-[#4A3B2A]/10 text-[#7A6A55]"
+            aria-label="Étape verrouillée"
+          >
+            <Lock className="w-4 h-4" />
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={onSpeak}
+            aria-label={label}
+            className="w-8 h-8 grid place-items-center rounded-full bg-[#A9784F]/15 text-[#4A3B2A] hover:bg-[#A9784F] hover:text-white transition-colors"
+          >
+            <Volume2 className="w-4 h-4" />
+          </button>
+        )}
       </div>
 
       {/* Zone du cahier, lignes réglées façon Seyès */}
@@ -392,7 +405,7 @@ export function RepetitionRow({
               key={`${entry.id}-occ-${idx}`}
               entry={entry}
               state={occ}
-              isActive={idx === activeIndex && !allDone}
+              isActive={idx === activeIndex && !allDone && !locked}
               onSuccess={() => handleSuccess(idx)}
               onRetry={() => handleRetry(idx)}
               w={OCC_W}

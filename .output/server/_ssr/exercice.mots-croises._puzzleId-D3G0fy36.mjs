@@ -1,0 +1,12 @@
+import { h as createFileRoute, m as lazyRouteComponent } from "../_libs/@tanstack/react-router+[...].mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/exercice.mots-croises._puzzleId-D3G0fy36.js
+var $$splitComponentImporter = () => import("./exercice.mots-croises._puzzleId-fVDbEwDg.mjs");
+var Route = createFileRoute("/exercice/mots-croises/$puzzleId")({
+	head: ({ params }) => ({ meta: [{ title: `Mots croisés — Amani` }, {
+		name: "description",
+		content: `Complète la grille de mots croisés ${params.puzzleId}.`
+	}] }),
+	component: lazyRouteComponent($$splitComponentImporter, "component")
+});
+//#endregion
+export { Route as t };

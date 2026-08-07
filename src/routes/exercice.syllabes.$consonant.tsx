@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { ArrowLeft, Volume2, ChevronRight } from "lucide-react";
 import {
   MobileShell,
@@ -22,7 +22,7 @@ import { useWritingStyle } from "@/hooks/useWritingStyle";
 import type { WritingStyle } from "@/data/letter-style-resolver";
 import { readEvaluationDurationMinutes } from "@/hooks/useExerciseSettings";
 import { useCountdown } from "@/hooks/useCountdown";
-import { awardCompletion } from "@/lib/progress";
+import { awardCompletion, awardRestartBonus } from "@/lib/progress";
 
 export const Route = createFileRoute("/exercice/syllabes/$consonant")({
   validateSearch: (search: Record<string, unknown>): { amaniEval?: string } => ({
@@ -60,6 +60,21 @@ function SyllableExerciseScreen() {
   const remaining = useCountdown(isEvaluation ? evaluationSeconds : 0, () => setEvaluationExpired(true));
 
   const [doneSyllables, setDoneSyllables] = useState<Set<string>>(new Set());
+  // Incrémenté à chaque "Recommencer" pour forcer le remontage des
+  // SyllableTraceRow (elles gèrent leur propre état interne).
+  const [restartKey, setRestartKey] = useState(0);
+  // Vrai entre le clic sur "Recommencer" et la prochaine réussite complète :
+  // le bonus n'est attribué qu'à ce moment-là (voir l'effet plus bas), jamais
+  // au clic lui-même.
+  const [awaitingRepeatCompletion, setAwaitingRepeatCompletion] = useState(false);
+  const allDone = !!group && doneSyllables.size === group.syllables.length;
+
+  useEffect(() => {
+    if (allDone && awaitingRepeatCompletion) {
+      awardRestartBonus();
+      setAwaitingRepeatCompletion(false);
+    }
+  }, [allDone, awaitingRepeatCompletion]);
 
   if (!group) {
     return (
@@ -76,8 +91,6 @@ function SyllableExerciseScreen() {
     );
   }
 
-  const allDone = doneSyllables.size === group.syllables.length;
-
   return (
     <MobileShell>
       {isEvaluation && !evaluationExpired && <EvaluationTimerBadge remaining={remaining} />}
@@ -92,6 +105,11 @@ function SyllableExerciseScreen() {
               ? () => navigate({ to: "/cours/syllabes/$consonant", params: { consonant: nextGroup.consonant } })
               : undefined
           }
+          onRestart={() => {
+            setDoneSyllables(new Set());
+            setRestartKey((k) => k + 1);
+            setAwaitingRepeatCompletion(true);
+          }}
         />
       )}
 
@@ -132,7 +150,7 @@ function SyllableExerciseScreen() {
         <div className="flex flex-col gap-3.5">
           {group.syllables.map((entry) => (
             <SyllableTraceRow
-              key={entry.syllable}
+              key={`${entry.syllable}-r${restartKey}`}
               entry={entry}
               speak={speak}
               done={doneSyllables.has(entry.syllable)}

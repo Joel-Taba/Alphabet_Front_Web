@@ -19,7 +19,9 @@ export const fr = {
     tryAgain: "Essayer à nouveau",
     pointsEarnedAria: "points gagnés",
     next: "Suivant",
+    previous: "Précédent",
     backToHome: "Retour à l'accueil",
+    restart: "Recommencer",
   },
   evaluation: {
     badge: "Évaluation",
@@ -97,6 +99,12 @@ export const fr = {
       point: "Le Point",
       crochet: "Le Crochet",
     },
+  },
+  resumeSession: {
+    title: "On continue l'aventure ?",
+    body: "Tu n'avais pas terminé ce que tu avais commencé. Veux-tu reprendre exactement là où tu t'étais arrêté ?",
+    resume: "Oui, je continue",
+    restart: "Non, je repars de l'accueil",
   },
   parcours: {
     title: "Prêt à commencer ?",
@@ -468,7 +476,9 @@ export const en: Dictionary = {
     tryAgain: "Try again",
     pointsEarnedAria: "points earned",
     next: "Next",
+    previous: "Previous",
     backToHome: "Back to home",
+    restart: "Start over",
   },
   evaluation: {
     badge: "Evaluation",
@@ -546,6 +556,12 @@ export const en: Dictionary = {
       point: "The Dot",
       crochet: "The Hook",
     },
+  },
+  resumeSession: {
+    title: "Continue the adventure?",
+    body: "You hadn't finished what you started. Do you want to pick up exactly where you left off?",
+    resume: "Yes, let's continue",
+    restart: "No, back to home",
   },
   parcours: {
     title: "The Branch Path",
@@ -907,7 +923,9 @@ export const es: Dictionary = {
     tryAgain: "Intentar de nuevo",
     pointsEarnedAria: "puntos ganados",
     next: "Siguiente",
+    previous: "Anterior",
     backToHome: "Volver al inicio",
+    restart: "Empezar de nuevo",
   },
   evaluation: {
     badge: "Evaluación",
@@ -985,6 +1003,12 @@ export const es: Dictionary = {
       point: "El Punto",
       crochet: "El Gancho",
     },
+  },
+  resumeSession: {
+    title: "¿Continuamos la aventura?",
+    body: "No habías terminado lo que empezaste. ¿Quieres continuar exactamente donde lo dejaste?",
+    resume: "Sí, continuar",
+    restart: "No, volver al inicio",
   },
   parcours: {
     title: "Recorrido de la rama",

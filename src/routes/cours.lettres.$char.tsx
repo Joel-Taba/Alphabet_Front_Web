@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Volume2, BookOpen } from "lucide-react";
+import { ArrowLeft, BookOpen } from "lucide-react";
 import { MobileShell, SignGlyph, CahierFrame } from "@/components/amani";
-import { useSignSpeech } from "@/hooks/useSignSpeech";
 import {
   FORMULES_PAR_CARACTERE,
   COULEUR_FAMILLE,
@@ -10,7 +9,7 @@ import {
   familleDominante,
   type FormuleLettre,
 } from "@/data/flores-gong-nota";
-import { useLanguage, format, type Lang } from "@/i18n/LanguageContext";
+import { useLanguage, type Lang } from "@/i18n/LanguageContext";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/cours/lettres/$char")({
@@ -92,7 +91,6 @@ function AffichageLettreSeyès({
 
 function DecompositionScreen() {
   const { char } = Route.useParams();
-  const { speak } = useSignSpeech();
   const { t, lang } = useLanguage();
 
   const formule = FORMULES_PAR_CARACTERE.get(char);
@@ -119,10 +117,6 @@ function DecompositionScreen() {
   const couleur = COULEUR_FAMILLE[famille] ?? COULEUR_FAMILLE.trait;
   const nom = formule.nom[lang];
 
-  const speechText = formule.validee
-    ? `${nom}. ${format(t.coursLettresChar.signeCount, { count: formule.signes.length })}: ${formule.signes.map((s) => `${t.coursLettresChar.families[s.famille]} ${t.coursLettresChar.variants[s.variante as keyof typeof t.coursLettresChar.variants] ?? s.variante}`).join(", ")}.`
-    : `${nom}. ${t.coursLettresChar.pendingWarning}`;
-
   return (
     <MobileShell>
       {/* En-tête */}
@@ -142,15 +136,6 @@ function DecompositionScreen() {
             <p className="text-[13px] text-[#7A6A55] font-normal">{nom}</p>
           </div>
         </div>
-
-        <button
-          type="button"
-          onClick={() => speak(speechText)}
-          aria-label={t.common.instruction}
-          className="grid h-10 w-10 place-items-center rounded-full bg-[#A9784F] text-white shadow-[0_2px_6px_rgba(74,59,42,0.18)] active:scale-95 transition-transform"
-        >
-          <Volume2 className="h-4 w-4" />
-        </button>
       </header>
 
       {/* Contenu */}

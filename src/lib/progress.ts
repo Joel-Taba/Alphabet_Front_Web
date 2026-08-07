@@ -106,6 +106,41 @@ export function onPointsAwarded(callback: (points: number) => void): () => void 
   return () => window.removeEventListener(POINTS_AWARDED_EVENT, handler);
 }
 
+const BONUS_STORAGE_KEY = "amani_progress_bonus_points";
+const RESTART_BONUS_MIN = 1;
+const RESTART_BONUS_MAX = 2;
+
+function readBonusTotal(): number {
+  if (typeof localStorage === "undefined") return 0;
+  const raw = localStorage.getItem(BONUS_STORAGE_KEY);
+  const n = raw != null ? Number(raw) : 0;
+  return Number.isFinite(n) ? n : 0;
+}
+
+function writeBonusTotal(total: number) {
+  if (typeof localStorage === "undefined") return;
+  localStorage.setItem(BONUS_STORAGE_KEY, String(total));
+  window.dispatchEvent(new CustomEvent(CHANGE_EVENT));
+}
+
+/**
+ * Petit bonus (1 ou 2 points, au hasard) attribué à chaque reprise volontaire
+ * d'un exercice déjà terminé — pour encourager à répéter, sans limite de
+ * nombre de fois. Contrairement à `awardCompletion`, jamais dédupliqué : ce
+ * n'est pas une nouvelle "étape réussie" (ça ne change ni coursTermines ni
+ * exercicesReussis), seulement un bonus qui vient s'ajouter au score.
+ */
+export function awardRestartBonus(): number {
+  const points = Math.random() < 0.5 ? RESTART_BONUS_MIN : RESTART_BONUS_MAX;
+  writeBonusTotal(readBonusTotal() + points);
+
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent(POINTS_AWARDED_EVENT, { detail: { points } }));
+  }
+
+  return points;
+}
+
 const VIEWED_STORAGE_PREFIX = "amani_cours_viewed_";
 
 function viewedKey(typeEtape: TypeEtape, groupCode: string): string {
@@ -186,7 +221,7 @@ export function getProgressStats(): ProgressStats {
   const joursAventure = new Set(log.map((e) => e.dateReussite.slice(0, 10))).size;
 
   return {
-    totalPoints: totalPointsOf(log),
+    totalPoints: totalPointsOf(log) + readBonusTotal(),
     signesMaitrises,
     coursTermines,
     exercicesReussis,

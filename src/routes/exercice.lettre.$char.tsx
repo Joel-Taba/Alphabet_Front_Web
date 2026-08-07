@@ -7,7 +7,7 @@ import {
   useCallback,
   type PointerEvent as ReactPointerEvent,
 } from "react";
-import { ArrowLeft, Volume2, RotateCcw, ChevronRight, Lock } from "lucide-react";
+import { ArrowLeft, ChevronRight, Lock } from "lucide-react";
 import {
   MobileShell,
   AmaniMascot,
@@ -27,7 +27,7 @@ import { cn } from "@/lib/utils";
 import { sampleSVGPath, validateTrace, type Point } from "@/lib/traceValidation";
 import { useWritingStyle } from "@/hooks/useWritingStyle";
 import { getLetterFormation } from "@/data/letter-style-resolver";
-import { awardCompletion } from "@/lib/progress";
+import { awardCompletion, awardRestartBonus } from "@/lib/progress";
 
 export const Route = createFileRoute("/exercice/lettre/$char")({
   validateSearch: (search: Record<string, unknown>): { pg?: string; amaniEval?: string } => ({
@@ -114,6 +114,14 @@ function LetterExerciseScreen() {
   const [completedSteps, setCompletedSteps] = useState<CompletedStep[]>([]);
   const [stepStatus, setStepStatus] = useState<StepStatus>("idle");
   const [letterSuccess, setLetterSuccess] = useState(false);
+  // Incrémenté à chaque "Recommencer" pour forcer le remontage des
+  // RepetitionRow de la Phase A (elles gèrent leur propre état interne).
+  const [restartKey, setRestartKey] = useState(0);
+  // Vrai entre le clic sur "Recommencer" et la prochaine réussite complète :
+  // le bonus n'est attribué qu'à ce moment-là (voir l'effet plus bas), jamais
+  // au clic lui-même — sinon rien n'empêche de cliquer puis de sortir sans
+  // rien refaire.
+  const [awaitingRepeatCompletion, setAwaitingRepeatCompletion] = useState(false);
 
   const resetAll = useCallback(() => {
     setDoneSteps(new Set());
@@ -122,6 +130,13 @@ function LetterExerciseScreen() {
     setStepStatus("idle");
     setLetterSuccess(false);
   }, []);
+
+  useEffect(() => {
+    if (letterSuccess && awaitingRepeatCompletion) {
+      awardRestartBonus();
+      setAwaitingRepeatCompletion(false);
+    }
+  }, [letterSuccess, awaitingRepeatCompletion]);
 
   // Réinitialiser en changeant de lettre ou de réglage de répétitions
   useEffect(() => {
@@ -201,6 +216,11 @@ function LetterExerciseScreen() {
                   })
               : undefined
           }
+          onRestart={() => {
+            resetAll();
+            setRestartKey((k) => k + 1);
+            setAwaitingRepeatCompletion(true);
+          }}
         />
       )}
 
@@ -224,15 +244,6 @@ function LetterExerciseScreen() {
             </p>
           </div>
         </div>
-
-        <button
-          type="button"
-          onClick={() => speak(letter.consigne[lang])}
-          aria-label={t.common.instruction}
-          className="grid h-10 w-10 place-items-center rounded-full bg-[#A9784F] text-white shadow-[0_2px_6px_rgba(74,59,42,0.18)] active:scale-95 transition-transform"
-        >
-          <Volume2 className="h-4 w-4" />
-        </button>
       </header>
 
       <div className="flex-1 overflow-y-auto px-4 py-5 space-y-5 bg-[#F5EDE0] pb-10 flex flex-col items-center">
@@ -255,30 +266,34 @@ function LetterExerciseScreen() {
           </div>
         </div>
 
-        {/* ── Phase A : chaque signe de la lettre, exercé séparément ── */}
+        {/* ── Phase A : chaque signe de la lettre, exercé séparément et dans l'ordre ── */}
         <div className="w-full max-w-sm flex flex-col gap-3.5">
-          {letter.steps.map((step, i) => (
-            <RepetitionRow
-              key={`${letter.char}-step-${i}`}
-              entry={{
-                id: `${letter.char}-step-${i}`,
-                pathD: step.pathD,
-                startXY: step.startXY,
-                strokeColor: step.strokeColor,
-              }}
-              label={step.description[lang]}
-              badge={
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wide bg-[#A9784F]/15 text-[#A9784F]">
-                  {t.exerciceLettre.stepPrefix} {i + 1}
-                </span>
-              }
-              repetitions={repetitions}
-              tolerance={tolerance}
-              doneLabel={t.exerciceListe.done}
-              onSpeak={() => speak(step.description[lang])}
-              onAllDone={() => setDoneSteps((prev) => new Set(prev).add(i))}
-            />
-          ))}
+          {letter.steps.map((step, i) => {
+            const locked = i > 0 && !doneSteps.has(i - 1);
+            return (
+              <RepetitionRow
+                key={`${letter.char}-step-${i}-r${restartKey}`}
+                entry={{
+                  id: `${letter.char}-step-${i}`,
+                  pathD: step.pathD,
+                  startXY: step.startXY,
+                  strokeColor: step.strokeColor,
+                }}
+                label={step.description[lang]}
+                badge={
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#A9784F] text-white text-[16px] font-extrabold leading-none">
+                    {i + 1}
+                  </span>
+                }
+                repetitions={repetitions}
+                tolerance={tolerance}
+                doneLabel={t.exerciceListe.done}
+                locked={locked}
+                onSpeak={() => speak(step.description[lang])}
+                onAllDone={() => setDoneSteps((prev) => new Set(prev).add(i))}
+              />
+            );
+          })}
         </div>
 
         {/* ── Phase B : la lettre complète, écrite d'un seul geste continu ── */}
@@ -305,23 +320,12 @@ function LetterExerciseScreen() {
 
           </>
         )}
-
-        {/* Boutons d'interaction */}
-        <div className="flex flex-col gap-3 w-full max-w-sm mt-2">
-          <div className="flex items-center gap-2.5 w-full">
-            <button
-              type="button"
-              onClick={resetAll}
-              className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm bg-secondary/15 hover:bg-secondary/25 text-secondary transition-colors active:scale-95 border border-secondary/20 shadow-xs"
-            >
-              <RotateCcw className="h-4 w-4" /> {t.exerciceLettre.resetAll}
-            </button>
-          </div>
-        </div>
       </div>
 
-      {/* Overlay de Célébration Finale quand toute la lettre est réussie */}
-      {letterSuccess && (
+      {/* Overlay de Célébration Finale — uniquement en évaluation, qui enchaîne
+          les lettres en continu ; hors évaluation, c'est ExerciseCompletePopup
+          (Suivant / Recommencer / Retour à l'accueil) qui gère la fin. */}
+      {letterSuccess && isEvaluation && (
         <LetterSuccessOverlay
           letter={letter}
           nextLetter={nextLetter}

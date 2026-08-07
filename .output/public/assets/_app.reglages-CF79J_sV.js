@@ -1,1 +1,0 @@
-import{r as e,t}from"./react-C1VktWof.js";import{y as n}from"./index-Cg2U7vPv.js";var r=e(t());function i(){let e=n();return(0,r.useEffect)(()=>{e({to:`/mon-profil`,replace:!0})},[e]),null}export{i as component};

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { MobileShell, SignGlyph, CahierFrame } from "@/components/amani";
 import { useSignSpeech } from "@/hooks/useSignSpeech";
 import { EXERCISE_CATALOG, FAMILY_ORDER, type SignExercise, type SignFamily } from "@/data/sign-exercise-catalog";
-import { useLanguage, format } from "@/i18n/LanguageContext";
+import { useLanguage } from "@/i18n/LanguageContext";
 import { cn } from "@/lib/utils";
 import { useAnimationSpeed, scaleDuration } from "@/hooks/useAnimationSpeed";
 import { markCoursItemViewed } from "@/lib/progress";
@@ -146,14 +146,6 @@ function CoursFamilyScreen() {
             </h1>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={() => speak(format(t.coursFamily.intro, { title: familyInfo.title }))}
-          aria-label={t.common.instruction}
-          className="grid h-10 w-10 place-items-center rounded-full bg-white text-gray-700 shadow-md active:scale-95 transition-transform hover:bg-gray-100"
-        >
-          <Volume2 className="h-5 w-5" />
-        </button>
       </header>
 
       <div className="flex-1 overflow-y-auto px-4 py-5 space-y-6 bg-background">

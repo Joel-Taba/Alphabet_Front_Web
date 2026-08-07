@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { ArrowLeft, Volume2, ChevronRight } from "lucide-react";
 import {
   MobileShell,
@@ -23,7 +23,7 @@ import { useWritingStyle } from "@/hooks/useWritingStyle";
 import type { WritingStyle } from "@/data/letter-style-resolver";
 import { readEvaluationDurationMinutes } from "@/hooks/useExerciseSettings";
 import { useCountdown } from "@/hooks/useCountdown";
-import { awardCompletion } from "@/lib/progress";
+import { awardCompletion, awardRestartBonus } from "@/lib/progress";
 
 export const Route = createFileRoute("/exercice/mots/$groupId")({
   validateSearch: (search: Record<string, unknown>): { amaniEval?: string } => ({
@@ -61,6 +61,21 @@ function WordExerciseScreen() {
   const remaining = useCountdown(isEvaluation ? evaluationSeconds : 0, () => setEvaluationExpired(true));
 
   const [doneWords, setDoneWords] = useState<Set<string>>(new Set());
+  // Incrémenté à chaque "Recommencer" pour forcer le remontage des
+  // WordTraceRow (elles gèrent leur propre état interne, comme leurs LetterTraceCell).
+  const [restartKey, setRestartKey] = useState(0);
+  // Vrai entre le clic sur "Recommencer" et la prochaine réussite complète :
+  // le bonus n'est attribué qu'à ce moment-là (voir l'effet plus bas), jamais
+  // au clic lui-même.
+  const [awaitingRepeatCompletion, setAwaitingRepeatCompletion] = useState(false);
+  const allDone = !!group && doneWords.size === group.words.length;
+
+  useEffect(() => {
+    if (allDone && awaitingRepeatCompletion) {
+      awardRestartBonus();
+      setAwaitingRepeatCompletion(false);
+    }
+  }, [allDone, awaitingRepeatCompletion]);
 
   if (!group) {
     return (
@@ -78,7 +93,6 @@ function WordExerciseScreen() {
   }
 
   const groupTitle = group.title[lang];
-  const allDone = doneWords.size === group.words.length;
 
   return (
     <MobileShell>
@@ -90,6 +104,11 @@ function WordExerciseScreen() {
         <ExerciseCompletePopup
           onBackHome={() => navigate({ to: "/accueil" })}
           onNext={nextGroup ? () => navigate({ to: "/cours/mots/$groupId", params: { groupId: nextGroup.id } }) : undefined}
+          onRestart={() => {
+            setDoneWords(new Set());
+            setRestartKey((k) => k + 1);
+            setAwaitingRepeatCompletion(true);
+          }}
         />
       )}
 
@@ -130,7 +149,7 @@ function WordExerciseScreen() {
         <div className="flex flex-col gap-3.5">
           {group.words.map((word) => (
             <WordTraceRow
-              key={word.id}
+              key={`${word.id}-r${restartKey}`}
               word={word}
               lang={lang}
               speak={speak}

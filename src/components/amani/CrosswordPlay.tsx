@@ -9,7 +9,7 @@ import type { GeneratedCrossword, PlacedWord } from "@/lib/crosswordGenerator";
 import { useSignSpeech } from "@/hooks/useSignSpeech";
 import { useLanguage, format } from "@/i18n/LanguageContext";
 import { useWritingStyle } from "@/hooks/useWritingStyle";
-import { awardCompletion } from "@/lib/progress";
+import { awardCompletion, awardRestartBonus } from "@/lib/progress";
 import { nextWordGroupAfterCrossword } from "@/data/word-catalog";
 
 interface GridCell {
@@ -59,6 +59,13 @@ export function CrosswordPlay({
   const [solved, setSolved] = useState<Set<string>>(new Set());
   const [justFinished, setJustFinished] = useState(false);
   const [showCompletePopup, setShowCompletePopup] = useState(false);
+  // Incrémenté à chaque "Recommencer" pour forcer le remontage des
+  // LetterTraceCell de la grille (elles gèrent leur propre état interne).
+  const [restartKey, setRestartKey] = useState(0);
+  // Vrai entre le clic sur "Recommencer" et la prochaine grille résolue en
+  // entier : le bonus n'est attribué qu'à ce moment-là (voir l'effet plus
+  // bas), jamais au clic lui-même.
+  const [awaitingRepeatCompletion, setAwaitingRepeatCompletion] = useState(false);
 
   const { cells, sequence, clues, mysteryWord } = useMemo(() => {
     const byKey = new Map<string, GridCell>();
@@ -95,6 +102,13 @@ export function CrosswordPlay({
     if (!allSolved || !puzzleId) return;
     awardCompletion({ typeEtape: "MOTS_CROISES", modalite: "EXERCICE", etapeCode: puzzleId, palier: lang === "fr" ? 4 : 3 });
   }, [allSolved, puzzleId, lang]);
+
+  useEffect(() => {
+    if (allSolved && awaitingRepeatCompletion) {
+      awardRestartBonus();
+      setAwaitingRepeatCompletion(false);
+    }
+  }, [allSolved, awaitingRepeatCompletion]);
 
   // Pop-up "Suivant / Retour à l'accueil" — seulement pour une grille du
   // parcours (level fourni). Si un mot mystère doit être révélé, on attend
@@ -208,6 +222,7 @@ export function CrosswordPlay({
                     </span>
                   )}
                   <LetterTraceCell
+                    key={`${key}-r${restartKey}`}
                     letter={letter}
                     size={cellSize}
                     isActive={activeCell?.row === row && activeCell?.col === col}
@@ -302,6 +317,13 @@ export function CrosswordPlay({
               ? () => navigate({ to: "/cours/mots/$groupId", params: { groupId: nextWordGroup.id } })
               : undefined
           }
+          onRestart={() => {
+            setSolved(new Set());
+            setJustFinished(false);
+            setShowCompletePopup(false);
+            setRestartKey((k) => k + 1);
+            setAwaitingRepeatCompletion(true);
+          }}
         />
       )}
     </div>

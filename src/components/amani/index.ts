@@ -21,3 +21,4 @@ export { LetterTraceCell } from "./LetterTraceCell";
 export { CrosswordPlay } from "./CrosswordPlay";
 export { EvaluationTimerBadge, EvaluationCompleteOverlay } from "./EvaluationTimer";
 export { ExerciseCompletePopup } from "./ExerciseCompletePopup";
+export { ResumeSessionDialog } from "./ResumeSessionDialog";

@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
-import { ArrowLeft, Volume2, ChevronRight } from "lucide-react";
+import { useState, useMemo, useEffect } from "react";
+import { ArrowLeft, ChevronRight } from "lucide-react";
 import { MobileShell, AmaniMascot, RepetitionRow, EvaluationTimerBadge, EvaluationCompleteOverlay, ExerciseCompletePopup } from "@/components/amani";
 import { useSignSpeech } from "@/hooks/useSignSpeech";
 import { useExerciseSettings, readEvaluationDurationMinutes } from "@/hooks/useExerciseSettings";
@@ -9,7 +9,7 @@ import { EXERCISE_CATALOG, FAMILY_ORDER, type SignExercise, type SignFamily } fr
 import { getPalier2GroupMap, lettersForGroup } from "@/data/palier2-groups";
 import { useLanguage, format } from "@/i18n/LanguageContext";
 import { useWritingStyle } from "@/hooks/useWritingStyle";
-import { awardCompletion } from "@/lib/progress";
+import { awardCompletion, awardRestartBonus } from "@/lib/progress";
 
 export const Route = createFileRoute("/exercice-liste")({
   validateSearch: (search: Record<string, unknown>): { family?: string; group?: string; amaniEval?: string } => ({
@@ -86,6 +86,34 @@ function ExerciceListeScreen() {
   const remaining = useCountdown(isEvaluation ? evaluationSeconds : 0, () => setEvaluationExpired(true));
 
   const [doneSigns, setDoneSigns] = useState<Set<string>>(new Set());
+  // Incrémenté à chaque "Recommencer" pour forcer le remontage des
+  // RepetitionRow (elles gèrent leur propre état interne, voir RepetitionRow.tsx).
+  const [restartKey, setRestartKey] = useState(0);
+  // Vrai entre le clic sur "Recommencer" et la prochaine réussite complète de
+  // la famille : le bonus n'est attribué qu'à ce moment-là (voir l'effet plus
+  // bas), jamais au clic lui-même.
+  const [awaitingRepeatCompletion, setAwaitingRepeatCompletion] = useState(false);
+
+  // Calculé ici (avant le "return" anticipé ci-dessous) car utilisé par un
+  // effet — les hooks ne peuvent pas être appelés après un retour conditionnel.
+  const allGrouped = [
+    { titre: t.exerciceListe.familyNames.point, familyKey: "point", entries: EXERCISE_CATALOG.filter((e) => e.family === "point") },
+    { titre: t.exerciceListe.familyNames.courbe, familyKey: "courbe", entries: EXERCISE_CATALOG.filter((e) => e.family === "courbe") },
+    { titre: t.exerciceListe.familyNames.crochet, familyKey: "crochet", entries: EXERCISE_CATALOG.filter((e) => e.family === "crochet") },
+    { titre: t.exerciceListe.familyNames.trait, familyKey: "trait", entries: EXERCISE_CATALOG.filter((e) => e.family === "trait") },
+  ];
+  const grouped = family ? allGrouped.filter((g) => g.familyKey === family) : allGrouped;
+  const familyEntries = family ? grouped[0]?.entries ?? [] : [];
+  const allFamilyDone = !!family && familyEntries.length > 0 && doneSigns.size >= familyEntries.length;
+  const familyIdx = family ? FAMILY_ORDER.indexOf(family as SignFamily) : -1;
+  const nextFamily = familyIdx >= 0 && familyIdx < FAMILY_ORDER.length - 1 ? FAMILY_ORDER[familyIdx + 1] : null;
+
+  useEffect(() => {
+    if (allFamilyDone && awaitingRepeatCompletion) {
+      awardRestartBonus();
+      setAwaitingRepeatCompletion(false);
+    }
+  }, [allFamilyDone, awaitingRepeatCompletion]);
 
   const progressionGroup = group ? getPalier2GroupMap(lang).get(group) : undefined;
 
@@ -114,15 +142,6 @@ function ExerciceListeScreen() {
               </p>
             </div>
           </div>
-
-          <button
-            type="button"
-            onClick={() => speak(format(t.exerciceListe.introGroup, { titre: progressionGroup.title[lang] }))}
-            aria-label={t.common.instruction}
-            className="grid h-9 w-9 place-items-center rounded-full bg-[#A9784F] text-white shadow active:scale-95 transition-transform"
-          >
-            <Volume2 className="h-4 w-4" />
-          </button>
         </header>
 
         <div className="px-5 py-3.5 bg-[#EAF1FB]/80 border-b border-[#4A90E2]/20 flex items-center gap-3 shrink-0">
@@ -175,29 +194,9 @@ function ExerciceListeScreen() {
     );
   }
 
-  // Grouper par famille pour affichage
-  const allGrouped = [
-    { titre: t.exerciceListe.familyNames.point, familyKey: "point", entries: EXERCISE_CATALOG.filter((e) => e.family === "point") },
-    { titre: t.exerciceListe.familyNames.courbe, familyKey: "courbe", entries: EXERCISE_CATALOG.filter((e) => e.family === "courbe") },
-    { titre: t.exerciceListe.familyNames.crochet, familyKey: "crochet", entries: EXERCISE_CATALOG.filter((e) => e.family === "crochet") },
-    { titre: t.exerciceListe.familyNames.trait, familyKey: "trait", entries: EXERCISE_CATALOG.filter((e) => e.family === "trait") },
-  ];
-
-  const grouped = family
-    ? allGrouped.filter((g) => g.familyKey === family)
-    : allGrouped;
-
   const activeHeaderTitle = family && grouped[0]
     ? format(t.exerciceListe.titleFamily, { titre: grouped[0].titre })
     : t.exerciceListe.title;
-
-  // Popup de fin d'exercice : uniquement pour une famille précise (une vraie
-  // étape du parcours), pas pour la vue "toutes familles" qui n'a pas de fin
-  // unique — et jamais en évaluation, qui a son propre écran de fin.
-  const familyEntries = family ? grouped[0]?.entries ?? [] : [];
-  const allFamilyDone = !!family && familyEntries.length > 0 && doneSigns.size >= familyEntries.length;
-  const familyIdx = family ? FAMILY_ORDER.indexOf(family as SignFamily) : -1;
-  const nextFamily = familyIdx >= 0 && familyIdx < FAMILY_ORDER.length - 1 ? FAMILY_ORDER[familyIdx + 1] : null;
 
   return (
     <MobileShell>
@@ -209,6 +208,11 @@ function ExerciceListeScreen() {
         <ExerciseCompletePopup
           onBackHome={() => navigate({ to: "/accueil" })}
           onNext={nextFamily ? () => navigate({ to: "/cours/$family", params: { family: nextFamily } }) : undefined}
+          onRestart={() => {
+            setDoneSigns(new Set());
+            setRestartKey((k) => k + 1);
+            setAwaitingRepeatCompletion(true);
+          }}
         />
       )}
 
@@ -231,15 +235,6 @@ function ExerciceListeScreen() {
             </p>
           </div>
         </div>
-
-        <button
-          type="button"
-          onClick={() => speak(t.exerciceListe.introGeneral)}
-          aria-label={t.common.instruction}
-          className="grid h-9 w-9 place-items-center rounded-full bg-[#A9784F] text-white shadow active:scale-95 transition-transform"
-        >
-          <Volume2 className="h-4 w-4" />
-        </button>
       </header>
 
       {/* ── Instruction ── */}
@@ -261,7 +256,7 @@ function ExerciceListeScreen() {
             )}
             {entries.map((entry) => (
               <SignExerciseRow
-                key={entry.id}
+                key={`${entry.id}-r${restartKey}`}
                 entry={entry}
                 repetitions={repetitions}
                 tolerance={tolerance}

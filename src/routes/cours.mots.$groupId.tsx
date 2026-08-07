@@ -76,15 +76,6 @@ function WordCourseScreen() {
             </p>
           </div>
         </div>
-
-        <button
-          type="button"
-          onClick={() => speak(format(t.coursMots.introSpeak, { titre: groupTitle }))}
-          aria-label={t.common.instruction}
-          className="grid h-10 w-10 place-items-center rounded-full bg-[#4A90E2] text-white shadow-[0_2px_6px_rgba(74,59,42,0.18)] active:scale-95 transition-transform"
-        >
-          <Volume2 className="h-4 w-4" />
-        </button>
       </header>
 
       <div className="flex-1 overflow-y-auto px-4 py-5 space-y-4 bg-[#F5EDE0] pb-10">
