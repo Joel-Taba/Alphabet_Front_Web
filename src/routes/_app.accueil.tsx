@@ -1,18 +1,13 @@
 import React from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Lock, Leaf, Sprout, PenTool, BookOpen, Blocks, Grid3x3, Sparkle } from "lucide-react";
-import { AmaniMascot, ResumeSessionDialog } from "@/components/amani";
+import { AmaniMascot } from "@/components/amani";
 import victoirePalierImg from "@/assets/amani-victoire-palier-badge.png";
 import { getPalier2Groups } from "@/data/palier2-groups";
 import { SYLLABLE_GROUPS } from "@/data/syllable-catalog";
 import { PALIER3_GROUPS, PALIER3_CROSSWORD_LEVELS } from "@/data/word-catalog";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
-import {
-  getPendingResumeRoute,
-  markResumeBootCheckDone,
-  clearResumeCheckpoint,
-} from "@/lib/resumeCheckpoint";
 
 export const Route = createFileRoute("/_app/accueil")({
   head: () => ({
@@ -299,35 +294,11 @@ function ParcoursBranche() {
     }
   }, []);
 
-  // Propose de reprendre une session (cours/exercice/évaluation) laissée
-  // inachevée si l'app a été fermée avant qu'elle soit terminée — voir
-  // lib/resumeCheckpoint.ts. Ne s'exécute qu'une fois par lancement de l'app.
-  const navigate = useNavigate();
-  const [resumeRoute, setResumeRoute] = React.useState<string | null>(null);
-  React.useEffect(() => {
-    const route = getPendingResumeRoute();
-    markResumeBootCheckDone();
-    if (route) setResumeRoute(route);
-  }, []);
-
   return (
     <div
       className="relative flex min-h-full flex-col overflow-x-hidden"
       style={{ background: "linear-gradient(180deg, #F5EDE0 0%, #EFE3CE 100%)" }}
     >
-      {resumeRoute && (
-        <ResumeSessionDialog
-          onResume={() => {
-            const route = resumeRoute;
-            setResumeRoute(null);
-            navigate({ href: route });
-          }}
-          onDecline={() => {
-            clearResumeCheckpoint();
-            setResumeRoute(null);
-          }}
-        />
-      )}
       {/* En-tête de page */}
       <header className="relative z-10 flex items-start justify-between gap-2 px-6 pt-6 pb-3">
         <div className="min-w-0">

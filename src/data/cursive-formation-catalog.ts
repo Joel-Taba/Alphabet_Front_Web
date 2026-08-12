@@ -16,7 +16,6 @@
 
 import type { LetterFormation, LetterSignStep } from "@/data/letter-formation-catalog";
 import type { SignFamily } from "@/data/sign-exercise-catalog";
-import { reverse } from "dns/promises";
 
 // ─── Format d'entrée (tel que fourni) ─────────────────────────────────────────
 
@@ -45,6 +44,10 @@ interface CursiveStepInput {
   /** Inverse le sens de tracé de ce signe (part de l'extrémité, termine à
    * l'origine) sans changer sa forme ni sa position. */
   reverse?: boolean;
+  /** Ordre de superposition explicite (plus grand = dessiné au-dessus) —
+   * voir `LetterSignStep.zIndex`. Absent : priorité par défaut de la
+   * famille (courbe < crochet < trait < point). N'affecte pas `order`. */
+  zIndex?: number;
 }
 
 interface CursiveLetterInput {
@@ -330,6 +333,7 @@ function buildLetter(input: CursiveLetterInput): LetterFormation {
       pathD,
       startXY: [Number(startX.toFixed(2)), Number(startY.toFixed(2))],
       strokeColor: OUTPUT_COLOR[step.family],
+      zIndex: step.zIndex,
       description: {
         fr: `Trace le ${FAMILY_LABEL[step.family].fr} n°${step.order}`,
         en: `Trace the ${FAMILY_LABEL[step.family].en} #${step.order}`,
@@ -365,6 +369,15 @@ function buildLetter(input: CursiveLetterInput): LetterFormation {
 interface CursiveLiteralStepInput {
   family: CursiveFamily;
   pathD: string;
+  /** Surcharge optionnelle de la couleur (sinon couleur de la famille). */
+  strokeColor?: string;
+  /** Variante explicite (ex. "hd-bg" pour un double-crochet) ; sinon un
+   * identifiant générique `cursive-<famille>` est utilisé. */
+  variant?: string;
+  /** Ordre de superposition explicite (plus grand = dessiné au-dessus) —
+   * voir `LetterSignStep.zIndex`. Absent : priorité par défaut de la
+   * famille (courbe < crochet < trait < point). */
+  zIndex?: number;
 }
 
 interface CursiveLiteralLetterInput {
@@ -384,10 +397,11 @@ function buildLiteralLetter(input: CursiveLiteralLetterInput): LetterFormation {
     const order = i + 1;
     return {
       family: outputFamily(step.family),
-      variant: `cursive-${step.family}`,
+      variant: step.variant ?? `cursive-${step.family}`,
       pathD: step.pathD,
       startXY: parseStartXY(step.pathD),
-      strokeColor: OUTPUT_COLOR[step.family],
+      strokeColor: step.strokeColor ?? OUTPUT_COLOR[step.family],
+      zIndex: step.zIndex,
       description: {
         fr: `Trace le ${FAMILY_LABEL[step.family].fr} n°${order}`,
         en: `Trace the ${FAMILY_LABEL[step.family].en} #${order}`,
@@ -418,13 +432,29 @@ function buildLiteralLetter(input: CursiveLiteralLetterInput): LetterFormation {
 
 const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
   {
+    char: "a",
+    zone: "corps",
+    steps: [
+      { family: "trait", pathD: "M 50 150 L 65 130" },
+      {
+        family: "courbe",
+        pathD:
+          "M 125 90.4 C 118.2 81.9 107.9 77 97 77 C 77.1 77 61 93.1 61 113 C 61 132.9 77.1 149 97 149 C 107.9 149 118.2 144.1 125 135.6",
+      },
+      {
+        family: "crochet",
+        pathD: "M 125 80 L 125 140 C 126 146 129 148 133 148 C 137 148 140 144 140 144",
+      },
+    ],
+  },
+  {
     char: "b",
     zone: "hampe",
     steps: [
       {
         family: "crochet",
         pathD:
-          "M 69.32 124.79 L 93.79 53.73 L 94.21 52.24 L 94.47 50.71 L 94.56 49.15 L 94.48 47.60 L 94.22 46.07 L 93.80 44.57 L 93.22 43.13 L 92.49 41.76 L 91.61 40.48 L 90.59 39.31 L 89.45 38.25 L 88.20 37.33 L 86.86 36.54 L 85.44 35.91 L 83.96 35.44 L 82.44 35.14 L 80.89 35.00 L 79.34 35.03 L 77.80 35.24 L 76.29 35.61 L 74.83 36.15 L 73.44 36.84 L 72.13 37.68 L 70.92 38.66 L 69.34 40.11",
+          "M 60 150 L 69.32 124.79 L 93.79 53.73 L 94.21 52.24 L 94.47 50.71 L 94.56 49.15 L 94.48 47.60 L 94.22 46.07 L 93.80 44.57 L 93.22 43.13 L 92.49 41.76 L 91.61 40.48 L 90.59 39.31 L 89.45 38.25 L 88.20 37.33 L 86.86 36.54 L 85.44 35.91 L 83.96 35.44 L 82.44 35.14 L 80.89 35.00 L 79.34 35.03 L 77.80 35.24 L 76.29 35.61 L 74.83 36.15 L 73.44 36.84 L 72.13 37.68 L 70.92 38.66 L 69.34 40.11",
       },
       {
         family: "crochet",
@@ -435,34 +465,51 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     ],
   },
   {
+    char: "d",
+    zone: "hampe",
+    steps: [
+      { family: "trait", pathD: "M 53.29 149.00 L 67.20 130.46" },
+      {
+        family: "courbe",
+        pathD:
+          "M 122.80 93.67 C 113.91 82.73 99.08 78.56 85.73 83.29 C 72.39 88.01 63.49 100.62 63.49 114.71 C 63.49 128.80 72.39 141.40 85.73 146.13 C 99.08 150.85 113.91 146.68 122.80 135.75",
+      },
+      {
+        family: "crochet",
+        pathD: "M 122.80 35.00 L 122.80 139.73 C 123.73 145.29 126.51 147.15 130.22 147.15 C 133.93 147.15 136.71 143.44 136.71 143.44",
+      },
+    ],
+  },
+  {
     char: "g",
     zone: "jambe",
     steps: [
-      { family: "courbe", pathD: "M 113.44 52.31 A 27.30 27.30 0 1 0 113.44 83.20" },
-      { family: "trait", pathD: "M 113.71 43.55 L 113.71 177.95" },
-      { family: "crochet", pathD: "M 113.74 178.19 A 17.67 17.67 0 0 1 90.32 153.84 L 123.35 94.26" },
+      { family: "trait", pathD: "M 71.71 108.22 L 76.12 101.92" },
+      { family: "courbe", pathD: "M 105.39 84.47 A 17.20 17.20 0 1 0 105.39 103.94" },
+      { family: "trait", pathD: "M 105.56 78.95 L 105.56 163.65" },
+      { family: "crochet", pathD: "M 105.58 163.80 A 11.14 11.14 0 0 1 90.82 148.46 L 111.64 110.91" },
     ],
   },
   {
     char: "j",
     zone: "jambe",
     steps: [
-      { family: "trait", pathD: "M 94.14 79.54 L 113.86 42.46" },
-      { family: "trait", pathD: "M 113.71 43.55 L 113.71 177.95" },
-      { family: "crochet", pathD: "M 113.74 178.19 A 17.67 17.67 0 0 1 90.32 153.84 L 123.35 94.26" },
-      { family: "point", pathD: "M 114.13 18.57 A 6.16 6.16 0 1 0 114.20 18.57" },
+      { family: "trait", pathD: "M 99.41 110.22 L 110.15 90.02" },
+      { family: "trait", pathD: "M 110.07 90.61 L 110.07 163.83" },
+      { family: "crochet", pathD: "M 110.09 163.96 A 9.63 9.63 0 0 1 97.33 150.70 L 115.33 118.24" },
+      { family: "point", pathD: "M 110.30 69.00 A 3.36 3.36 0 1 0 110.34 69.00" },
     ],
   },
   {
     char: "m",
     zone: "corps",
     steps: [
-      { family: "courbe", pathD: "M 21 77 C 21 67.6 28.6 60 38 60 C 47.4 60 55 67.6 55 77 L 55 149" },
-      { family: "courbe", pathD: "M 55 77 C 55 67.6 62.6 60 72 60 C 81.4 60 89 67.6 89 77 L 89 149" },
+      { family: "courbe", pathD: "M 32.50 90.69 C 32.50 83.12 38.62 77.00 46.19 77.00 C 53.76 77.00 59.87 83.12 59.87 90.69 L 59.87 148.65" },
+      { family: "courbe", pathD: "M 59.87 90.69 C 59.87 83.12 65.99 77.00 73.56 77.00 C 81.13 77.00 87.25 83.12 87.25 90.69 L 87.25 148.65" },
       {
         family: "courbe",
         pathD:
-          "M 89 77 C 89 67.6 96.6 60 106 60 C 115.4 60 123 67.6 123 77 L 123 140 C 123 146 126 149 130 149.3 C 133 150 138 148 139 145",
+          "M 87.25 90.69 C 87.25 83.12 93.36 77.00 100.93 77.00 C 108.50 77.00 114.62 83.12 114.62 90.69 L 114.62 141.40 C 114.62 146.23 117.03 148.65 120.25 148.89 C 122.67 149.45 126.69 147.84 127.50 145.43",
       },
     ],
   },
@@ -470,11 +517,11 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     char: "n",
     zone: "corps",
     steps: [
-      { family: "courbe", pathD: "M 55 77 C 55 67.6 62.6 60 72 60 C 81.4 60 89 67.6 89 77 L 89 149" },
+      { family: "courbe", pathD: "M 63.19 90.69 C 63.19 83.12 69.31 77.00 76.87 77.00 C 84.44 77.00 90.56 83.12 90.56 90.69 L 90.56 148.65" },
       {
         family: "courbe",
         pathD:
-          "M 89 77 C 89 67.6 96.6 60 106 60 C 115.4 60 123 67.6 123 77 L 123 140 C 123 146 126 149 130 149.3 C 133 150 138 148 139 145",
+          "M 90.56 90.69 C 90.56 83.12 96.68 77.00 104.25 77.00 C 111.81 77.00 117.93 83.12 117.93 90.69 L 117.93 141.40 C 117.93 146.23 120.35 148.65 123.57 148.89 C 125.98 149.45 130.01 147.84 130.81 145.43",
       },
     ],
   },
@@ -482,15 +529,15 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     char: "ñ",
     zone: "corps",
     steps: [
-      { family: "courbe", pathD: "M 55 77 C 55 67.6 62.6 60 72 60 C 81.4 60 89 67.6 89 77 L 89 149" },
+      { family: "courbe", pathD: "M 63.19 90.69 C 63.19 83.12 69.31 77.00 76.87 77.00 C 84.44 77.00 90.56 83.12 90.56 90.69 L 90.56 148.65" },
       {
         family: "courbe",
         pathD:
-          "M 89 77 C 89 67.6 96.6 60 106 60 C 115.4 60 123 67.6 123 77 L 123 140 C 123 146 126 149 130 149.3 C 133 150 138 148 139 145",
+          "M 90.56 90.69 C 90.56 83.12 96.68 77.00 104.25 77.00 C 111.81 77.00 117.93 83.12 117.93 90.69 L 117.93 141.40 C 117.93 146.23 120.35 148.65 123.57 148.89 C 125.98 149.45 130.01 147.84 130.81 145.43",
       },
       {
         family: "double-crochet",
-        pathD: "M 99.50 75.55 A 4.55 4.55 0 0 0 94.95 71.00 L 89.00 71.00 L 83.05 71.00 A 4.55 4.55 0 0 1 78.50 66.45",
+        pathD: "M 99.01 89.52 A 3.66 3.66 0 0 0 95.35 85.86 L 90.56 85.86 L 85.77 85.86 A 3.66 3.66 0 0 1 82.11 82.19",
       },
     ],
   },
@@ -520,12 +567,12 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     char: "p",
     zone: "jambe",
     steps: [
-      { family: "trait", pathD: "M 83 100 L 101 77" },
-      { family: "trait", pathD: "M 101 68 L 101 180" },
+      { family: "trait", pathD: "M 89.32 102.14 L 103.46 84.07" },
+      { family: "trait", pathD: "M 103.46 77.00 L 103.46 165.00" },
       {
         family: "courbe",
         pathD:
-          "M 101 95 C 101 80 110 72 123 75 C 126 76 129 79 130 82 C 131 86 131 90 131 94 C 131 100 133 103 136 103 C 136 103 140 104 142 98",
+          "M 103.46 98.21 C 103.46 86.43 110.54 80.14 120.75 82.50 C 123.11 83.29 125.46 85.64 126.25 88.00 C 127.04 91.14 127.04 94.29 127.04 97.43 C 127.04 102.14 128.61 104.50 130.96 104.50 C 130.96 104.50 134.11 105.29 135.68 100.57",
       },
     ],
   },
@@ -533,9 +580,9 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     char: "r",
     zone: "corps",
     steps: [
-      { family: "trait", pathD: "M 47 100.34 L 67 50.42" },
-      { family: "crochet", pathD: "M 61.26 50.40 A 5.12 5.12 0 0 0 61.62 58.60 L 105.30 58.60" },
-      { family: "crochet", pathD: "M 105.28 58.04 L 105.28 105.57 A 10.67 10.67 0 0 0 125.21 109.49" },
+      { family: "trait", pathD: "M 42.51 132.67 L 64.81 77.02" },
+      { family: "crochet", pathD: "M 58.41 77.00 A 5.71 5.71 0 0 0 58.81 86.14 L 107.50 86.14" },
+      { family: "crochet", pathD: "M 107.48 85.52 L 107.48 138.50 A 11.89 11.89 0 0 0 129.70 142.87" },
     ],
   },
   {
@@ -550,24 +597,98 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     char: "t",
     zone: "hampe",
     steps: [
+      { family: "trait", pathD: "M 76.61 149.00 L 97.00 121.20" },
       {
         family: "crochet",
-        pathD: "M 97 27 L 97 140 C 97 146 100 149 105 149.3 C 107 150 115 149 119 145",
+        pathD: "M 97.00 35.00 L 97.00 139.73 C 97.00 145.29 99.78 148.07 104.41 148.35 C 106.27 149.00 113.68 148.07 117.39 144.37",
       },
-      { family: "trait", pathD: "M 97 51 L 117 51" },
+      { family: "trait", pathD: "M 78.46 57.24 L 115.54 57.24" },
     ],
   },
   {
     char: "u",
     zone: "corps",
     steps: [
+      { family: "trait", pathD: "M 69.00 149.00 L 77.00 133.00" },
       {
         family: "crochet",
-        pathD: "M 68 60 L 68 118 C 68 140 84 150 102 150 C 120 150 132 140 132 118",
+        pathD: "M 75.40 77.00 L 75.40 123.40 C 75.40 141.00 88.20 149.00 102.60 149.00 C 117.00 149.00 126.60 141.00 126.60 123.40",
       },
       {
         family: "crochet",
-        pathD: "M 132 60 L 132 140 C 133 146 137 149 141 149.6 C 145 150 149 148 150 145",
+        pathD: "M 126.60 77.00 L 126.60 141.00 C 127.40 145.80 130.60 148.20 133.80 148.68 C 137.00 149.00 140.20 147.40 141.00 145.00",
+      },
+    ],
+  },
+  {
+    char: "l",
+    zone: "hampe",
+    steps: [
+      { family: "crochet", pathD: "M 77.40 148.05 L 86.58 120.52 L 105.85 48.01 A 10.37 10.37 0 0 0 86.58 40.67" },
+      { family: "crochet", pathD: "M 86.58 41.13 L 86.58 137.04 A 11.01 11.01 0 0 0 108.60 138.87" },
+    ],
+  },
+  {
+    char: "o",
+    zone: "corps",
+    steps: [
+      { family: "trait", pathD: "M 62.17 119.13 L 69.06 103.81" },
+      { family: "courbe", pathD: "M 100.47 77.00 A 32.17 36.00 0 1 0 100.54 77.00" },
+      { family: "crochet", pathD: "M 115.79 82.36 C 113.49 85.43 112.72 88.49 114.26 93.09 C 115.79 96.15 117.32 99.21 121.91 100.74 C 126.51 102.28 129.57 99.98 131.03 99.98 L 141.83 95.38" },
+    ],
+  },
+  {
+    char: "v",
+    zone: "corps",
+    steps: [
+      {
+        family: "crochet",
+        pathD:
+          "M 57.99 81.79 L 58.36 81.01 L 58.80 80.29 L 59.33 79.63 L 59.93 79.02 L 60.59 78.48 L 61.31 78.01 L 62.07 77.64 L 62.87 77.34 L 63.70 77.13 L 64.54 77.02 L 65.39 77.00 L 66.25 77.07 L 67.08 77.24 L 67.90 77.50 L 68.68 77.84 L 69.41 78.27 L 70.09 78.78 L 70.72 79.36 L 71.28 80.00 L 71.76 80.70 L 72.17 81.45 L 72.49 82.24 L 72.72 83.06 L 72.86 83.90 L 72.91 84.75 L 72.87 132.69",
+      },
+      { family: "courbe", pathD: "M 72.87 132.69 C 72.87 132.69 72.87 137.03 73.59 139.20 C 74.32 141.37 75.76 144.26 79.38 146.43 C 85.17 149.32 87.33 149.32 91.67 148.60 C 93.84 147.87 97.46 146.43 99.63 144.26 C 101.08 142.81 103.25 139.92 103.97 132.69 L 103.97 81.79", strokeColor: "#4A90E2" },
+      { family: "crochet", pathD: "M 103.97 81.79 C 103.97 81.79 102.52 79.17 98.91 81.34 C 97.46 82.79 96.01 84.96 97.46 87.85 C 98.91 90.74 101.08 91.46 103.97 91.46 L 118.43 91.46" },
+    ],
+  },
+  {
+    char: "w",
+    zone: "corps",
+    steps: [
+      {
+        family: "crochet",
+        pathD:
+          "M 63.94 81.79 L 64.31 81.01 L 64.76 80.29 L 65.28 79.63 L 65.88 79.02 L 66.54 78.48 L 67.26 78.01 L 68.02 77.64 L 68.82 77.34 L 69.65 77.13 L 70.49 77.02 L 71.34 77.00 L 72.20 77.07 L 73.03 77.24 L 73.85 77.50 L 74.63 77.84 L 75.36 78.27 L 76.04 78.78 L 76.67 79.36 L 77.23 80.00 L 77.72 80.70 L 78.12 81.45 L 78.44 82.24 L 78.67 83.06 L 78.81 83.90 L 78.86 84.75 L 78.82 132.69",
+      },
+      { family: "courbe", pathD: "M 78.82 132.69 C 78.82 132.69 78.82 137.03 79.54 139.20 C 80.27 141.37 81.71 144.26 85.33 146.43 C 91.12 149.32 93.29 149.32 97.63 148.60 C 99.79 147.87 103.41 146.43 105.58 144.26 C 107.03 142.81 109.20 139.92 109.92 132.69 L 109.92 81.79", strokeColor: "#4A90E2" },
+      { family: "courbe", pathD: "M 109.92 132.69 C 109.92 132.69 109.92 137.03 110.64 139.20 C 111.37 141.37 112.81 144.26 116.43 146.43 C 122.21 149.32 124.38 149.32 128.72 148.60 C 130.89 147.87 134.51 146.43 136.68 144.26 C 138.12 142.81 140.29 139.92 141.02 132.69 L 141.02 81.79", strokeColor: "#4A90E2" },
+      { family: "crochet", pathD: "M 141.02 81.79 C 141.02 81.79 139.57 79.17 135.96 81.34 C 134.51 82.79 133.06 84.96 134.51 87.85 C 135.96 90.74 138.12 91.46 141.02 91.46 L 155.48 91.46" },
+    ],
+  },
+  {
+    char: "c",
+    zone: "corps",
+    steps: [
+      { family: "trait", pathD: "M 60 150 L 73 130" },
+      {
+        family: "courbe",
+        pathD:
+          "M 130.78 87.50 L 126.15 83.59 L 120.92 80.51 L 115.26 78.35 L 109.32 77.17 L 103.26 77.00 L 97.26 77.85 L 91.48 79.69 L 86.10 82.47 L 81.25 86.11 L 77.09 90.52 L 73.72 95.56 L 71.25 101.09 L 69.73 106.96 L 69.22 113.00 L 69.73 119.04 L 71.25 124.91 L 73.72 130.44 L 77.09 135.48 L 81.25 139.89 L 86.10 143.53 L 91.48 146.31 L 97.26 148.15 L 103.26 149.00 L 109.32 148.83 L 115.26 147.65 L 120.92 145.49 L 126.15 142.41 L 130.78 138.50",
+      },
+    ],
+  },
+  {
+    char: "i",
+    zone: "corps",
+    steps: [
+      { family: "trait", pathD: "M 85 150 L 94 130" },
+      {
+        family: "crochet",
+        pathD:
+          "M 93.93 98.33 L 93.93 140.05 L 93.98 141.04 L 94.15 142.02 L 94.42 142.98 L 94.80 143.90 L 95.28 144.78 L 95.85 145.59 L 96.51 146.34 L 97.25 147.01 L 98.06 147.59 L 98.92 148.08 L 99.84 148.47 L 100.79 148.75 L 101.77 148.93 L 102.76 149.00 L 103.76 148.96 L 104.74 148.81 L 105.70 148.54 L 106.63 148.18 L 107.51 147.71 L 108.33 147.15 L 109.09 146.50 L 109.77 145.77 L 110.36 144.97 L 110.86 144.11",
+      },
+      {
+        family: "point",
+        pathD: "M 90.59 81.80 A 3.36 3.36 0 1 0 90.63 81.80",
       },
     ],
   },
@@ -575,21 +696,51 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     char: "q",
     zone: "jambe",
     steps: [
+      { family: "trait", pathD: "M 60 120 L 70 110" },
       {
         family: "courbe",
         pathD:
-          "M 125 75.3 C 115.4 63.5 99.4 59 85 64.1 C 70.6 69.2 61 82.8 61 98 C 61 113.2 70.6 126.8 85 131.9 C 99.4 137 115.4 132.5 125 120",
+          "M 110.83 87.68 L 108.23 84.30 L 105.05 81.47 L 101.41 79.26 L 97.43 77.75 L 93.23 77.00 L 88.97 77.03 L 84.79 77.84 L 80.83 79.40 L 77.22 81.65 L 74.08 84.53 L 71.52 87.94 L 69.63 91.76 L 68.47 95.85 L 68.08 100.10 L 68.47 104.34 L 69.63 108.44 L 71.52 112.25 L 74.08 115.66 L 77.22 118.54 L 80.83 120.80 L 84.79 122.36 L 88.97 123.16 L 93.23 123.19 L 97.43 122.44 L 101.41 120.93 L 105.05 118.73 L 108.23 115.89 L 110.83 112.52",
       },
-      { family: "trait", pathD: "M 125 62 L 125 195" },
-      { family: "trait", pathD: "M 125 133 L 145 110" },
+      { family: "trait", pathD: "M 110.22 80.71 L 110.22 165.00" },
+      {
+        family: "crochet",
+        pathD:
+          "M 110.36 114.45 L 110.13 115.06 L 109.97 115.69 L 109.88 116.34 L 109.87 116.99 L 109.93 117.64 L 110.06 118.28 L 110.26 118.90 L 110.53 119.49 L 110.87 120.05 L 111.27 120.57 L 111.72 121.04 L 112.22 121.45 L 112.77 121.81 L 113.35 122.10 L 113.96 122.33 L 114.59 122.49 L 115.24 122.57 L 115.89 122.59 L 116.54 122.53 L 117.18 122.39 L 131.92 118.44",
+      },
     ],
   },
   {
-    char: "l",
+    char: "z",
+    zone: "jambe",
+    steps: [
+      { family: "trait", pathD: "M 74.08 99.04 L 89.62 78.42" },
+      {
+        family: "courbe",
+        strokeColor: "#4A90E2",
+        pathD:
+          "M 90.32 77.00 L 89.84 77.62 L 89.44 78.29 L 89.11 79.00 L 88.86 79.74 L 88.70 80.50 L 88.62 81.27 L 88.63 82.06 L 88.73 82.84 L 88.91 83.60 L 89.18 84.33 L 89.53 85.04 L 89.95 85.69 L 90.46 86.29 L 91.01 86.84 L 91.63 87.32 L 92.29 87.73 L 93.01 88.05 L 93.75 88.30 L 94.51 88.47 L 95.29 88.54 L 96.07 88.53 L 116.94 87.07",
+      },
+      { family: "trait", pathD: "M 116.94 87.07 L 102.17 103.89" },
+      {
+        family: "crochet",
+        pathD:
+          "M 102.17 103.89 C 106.39 101.99 110.09 100.14 115.65 103.84 C 119.35 105.69 121.20 111.24 121.20 114.95 L 121.20 153.82 C 121.20 153.82 121.20 159.37 117.50 163.07 C 111.94 166.78 104.54 164.93 101.76 159.37",
+      },
+      { family: "trait", strokeColor: "#4A90E2", pathD: "M 101.76 159.37 C 100.84 155.67 100.84 151.04 104.54 146.41 L 133.23 116.80" },
+    ],
+  },
+  {
+    char: "h",
     zone: "hampe",
     steps: [
-      { family: "crochet", pathD: "M 86 115 L 107 36 A 11.3 11.3 0 0 0 86 28" },
-      { family: "crochet", pathD: "M 86 28.5 L 86 133 A 12 12 0 0 0 110 135" },
+      {
+        family: "crochet",
+        pathD:
+          "M 70 150 L 87.63 113.31 L 111.35 54.62 L 111.85 53.13 L 112.19 51.60 L 112.37 50.04 L 112.36 48.47 L 112.19 46.91 L 111.85 45.38 L 111.34 43.90 L 110.67 42.48 L 109.85 41.14 L 108.89 39.91 L 107.79 38.78 L 106.58 37.78 L 105.27 36.92 L 103.87 36.21 L 102.41 35.66 L 100.89 35.27 L 99.33 35.05 L 97.76 35.00 L 96.20 35.12 L 94.66 35.42 L 93.16 35.88 L 91.72 36.51 L 90.36 37.28 L 89.09 38.21",
+      },
+      { family: "trait", pathD: "M 89.09 38.21 L 89.09 150" },
+      { family: "crochet", pathD: "M 90 110 C 94 106 98 103 103 102 C 108 102 112 103 117 108 L 118 111 L 118 150" },
     ],
   },
 ];

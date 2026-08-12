@@ -20,6 +20,38 @@ export const glyphColorByFamily: Record<SignFamily, { bg: string; stroke: string
 };
 
 /**
+ * Ordre d'empilement (du bas vers le haut) aux points d'intersection entre
+ * traits d'une même lettre : la courbe passe sous le crochet, qui passe
+ * lui-même sous le trait, le point restant toujours au-dessus de tout.
+ */
+export const letterStrokeZOrder: Record<SignFamily, number> = {
+  courbe: 0,
+  crochet: 1,
+  trait: 2,
+  point: 3,
+};
+
+export function letterFamilyZIndex(family: string): number {
+  return letterStrokeZOrder[family as SignFamily] ?? 0;
+}
+
+/**
+ * Ordre d'empilement effectif d'un signe : priorité au `zIndex` explicite
+ * du signe (fourni pour certaines lettres où l'ordre par famille seul ne
+ * suffit pas — ex. "R", où le second trait doit passer sous la courbe),
+ * sinon retombe sur la priorité par défaut de sa famille.
+ */
+export function stepZIndex(step: { family: string; zIndex?: number }): number {
+  return step.zIndex ?? letterFamilyZIndex(step.family);
+}
+
+export function zOrderedStepIndices(steps: { family: string; zIndex?: number }[]): number[] {
+  return steps
+    .map((_, i) => i)
+    .sort((a, b) => stepZIndex(steps[a]) - stepZIndex(steps[b]));
+}
+
+/**
  * TRAIT — supporte les variantes : "vertical", "horizontal", "oblique-gauche", "oblique-droit"
  */
 export function GlyphTrait({

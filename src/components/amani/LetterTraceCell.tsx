@@ -5,6 +5,7 @@ import {
 import type { LetterFormation } from "@/data/letter-formation-catalog";
 import { cn } from "@/lib/utils";
 import { sampleSVGPath, validateTrace, type Point } from "@/lib/traceValidation";
+import { stepZIndex, zOrderedStepIndices } from "./SignGlyph";
 
 interface CompletedStep {
   stepIdx: number;
@@ -77,7 +78,10 @@ export function LetterTraceCell({
     const sc = Math.min(w / 200, h / 200);
     const ox = (w - 200 * sc) / 2;
     const oy = (h - 200 * sc) / 2;
-    for (const completed of completedSteps) {
+    const zOrderedCompleted = [...completedSteps].sort(
+      (a, b) => stepZIndex(letter.steps[a.stepIdx] ?? { family: "courbe" }) - stepZIndex(letter.steps[b.stepIdx] ?? { family: "courbe" }),
+    );
+    for (const completed of zOrderedCompleted) {
       const stepInfo = letter.steps[completed.stepIdx];
       if (!stepInfo) continue;
       const refPts = sampleSVGPath(stepInfo.pathD, 35);
@@ -88,7 +92,7 @@ export function LetterTraceCell({
         ctx.lineTo(refPts[i].x * sc + ox, refPts[i].y * sc + oy);
       }
       ctx.strokeStyle = completed.strokeColor;
-      ctx.lineWidth = Math.max(3, size / 9);
+      ctx.lineWidth = Math.max(2, size / 12);
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
       ctx.stroke();
@@ -125,7 +129,7 @@ export function LetterTraceCell({
     ctx.beginPath();
     ctx.moveTo(pt.x, pt.y);
     ctx.strokeStyle = "#5BAA6A";
-    ctx.lineWidth = Math.max(3, size / 9);
+    ctx.lineWidth = Math.max(2, size / 12);
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
   };
@@ -200,7 +204,8 @@ export function LetterTraceCell({
         <>
           {!solved && (
             <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full pointer-events-none">
-              {letter.steps.map((step, idx) => {
+              {zOrderedStepIndices(letter.steps).map((idx) => {
+                const step = letter.steps[idx];
                 const isDone = completedSteps.some((c) => c.stepIdx === idx);
                 if (isDone) return null;
                 const isCurrentStep = idx === currentStepIdx;
@@ -209,7 +214,7 @@ export function LetterTraceCell({
                     key={idx}
                     d={step.pathD}
                     stroke={isCurrentStep ? (status === "retry" ? "#E05252" : "#9BB5CC") : "#B8CCE0"}
-                    strokeWidth={isCurrentStep ? 13 : 10}
+                    strokeWidth={isCurrentStep ? 10 : 7}
                     strokeLinecap="round"
                     strokeDasharray={isCurrentStep ? "8 6" : "5 7"}
                     fill="none"

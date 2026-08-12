@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Volume2, RotateCcw, Play, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { MobileShell, CahierFrame } from "@/components/amani";
+import { MobileShell, CahierFrame, zOrderedStepIndices } from "@/components/amani";
 import { useSignSpeech } from "@/hooks/useSignSpeech";
 import { LETTER_GROUPS, type LetterFormation, type LetterSignStep } from "@/data/letter-formation-catalog";
 import { getPalier2GroupMap, lettersForGroup } from "@/data/palier2-groups";
@@ -354,7 +354,8 @@ function LetterAnimationCanvas({
 
         {/* SVG : tous les signes */}
         <svg viewBox="0 0 200 200" className="w-full h-full">
-          {letter.steps.map((step, i) => {
+          {zOrderedStepIndices(letter.steps).map((i) => {
+            const step = letter.steps[i];
             const isActive = i === currentStepIdx;
             const isDone = i < currentStepIdx || isFinished;
             const isFuture = i > currentStepIdx && !isFinished;
@@ -367,7 +368,7 @@ function LetterAnimationCanvas({
                   ref={(el) => { pathRefs.current[i] = el; }}
                   d={step.pathD}
                   stroke="#9BB5CC"
-                  strokeWidth={14}
+                  strokeWidth={10}
                   strokeLinecap="round"
                   strokeDasharray={isFuture ? "6 8" : "none"}
                   fill="none"
@@ -379,7 +380,7 @@ function LetterAnimationCanvas({
                   <path
                     d={step.pathD}
                     stroke={step.strokeColor}
-                    strokeWidth={12}
+                    strokeWidth={9}
                     strokeLinecap="round"
                     fill="none"
                     style={{

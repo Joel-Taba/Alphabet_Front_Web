@@ -100,12 +100,6 @@ export const fr = {
       crochet: "Le Crochet",
     },
   },
-  resumeSession: {
-    title: "On continue l'aventure ?",
-    body: "Tu n'avais pas terminé ce que tu avais commencé. Veux-tu reprendre exactement là où tu t'étais arrêté ?",
-    resume: "Oui, je continue",
-    restart: "Non, je repars de l'accueil",
-  },
   parcours: {
     title: "Prêt à commencer ?",
     subtitle: "Je suis tout feu, tout flamme.On y va quand tu veux.",
@@ -557,12 +551,6 @@ export const en: Dictionary = {
       crochet: "The Hook",
     },
   },
-  resumeSession: {
-    title: "Continue the adventure?",
-    body: "You hadn't finished what you started. Do you want to pick up exactly where you left off?",
-    resume: "Yes, let's continue",
-    restart: "No, back to home",
-  },
   parcours: {
     title: "The Branch Path",
     subtitle: "Follow the zigzag path and open the buds one step at a time.",
@@ -1003,12 +991,6 @@ export const es: Dictionary = {
       point: "El Punto",
       crochet: "El Gancho",
     },
-  },
-  resumeSession: {
-    title: "¿Continuamos la aventura?",
-    body: "No habías terminado lo que empezaste. ¿Quieres continuar exactamente donde lo dejaste?",
-    resume: "Sí, continuar",
-    restart: "No, volver al inicio",
   },
   parcours: {
     title: "Recorrido de la rama",

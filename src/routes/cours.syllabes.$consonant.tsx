@@ -322,7 +322,7 @@ function AnimatedStroke({ pathD, color, delayMs }: { pathD: string; color: strin
       ref={ref}
       d={pathD}
       stroke={color}
-      strokeWidth={14}
+      strokeWidth={10}
       strokeLinecap="round"
       fill="none"
       style={{

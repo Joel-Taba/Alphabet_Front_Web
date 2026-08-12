@@ -1,0 +1,289 @@
+import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/SignGlyph-BH0B_An9.js
+var import_jsx_runtime = require_jsx_runtime();
+/** Épaisseur de trait normalisée : 16px sur une grille 200×200 = 8% de la largeur. */
+var SW = 16;
+/** Marge intérieure (padding) pour éviter la coupure aux bords. */
+var PAD = 28;
+/** Centre de la grille. */
+var CX = 100;
+/**
+* Couleurs par famille — à titre de référence ou d'usage fallback.
+*/
+var glyphColorByFamily = {
+	trait: {
+		bg: "#FFFFFF",
+		stroke: "#4A3B2A"
+	},
+	courbe: {
+		bg: "#E05252",
+		stroke: "#FFFFFF"
+	},
+	point: {
+		bg: "#F5EDE0",
+		stroke: "#4A3B2A"
+	},
+	crochet: {
+		bg: "#4A90E2",
+		stroke: "#FFFFFF"
+	}
+};
+/**
+* Ordre d'empilement (du bas vers le haut) aux points d'intersection entre
+* traits d'une même lettre : la courbe passe sous le crochet, qui passe
+* lui-même sous le trait, le point restant toujours au-dessus de tout.
+*/
+var letterStrokeZOrder = {
+	courbe: 0,
+	crochet: 1,
+	trait: 2,
+	point: 3
+};
+function letterFamilyZIndex(family) {
+	return letterStrokeZOrder[family] ?? 0;
+}
+/**
+* Ordre d'empilement effectif d'un signe : priorité au `zIndex` explicite
+* du signe (fourni pour certaines lettres où l'ordre par famille seul ne
+* suffit pas — ex. "R", où le second trait doit passer sous la courbe),
+* sinon retombe sur la priorité par défaut de sa famille.
+*/
+function stepZIndex(step) {
+	return step.zIndex ?? letterFamilyZIndex(step.family);
+}
+function zOrderedStepIndices(steps) {
+	return steps.map((_, i) => i).sort((a, b) => stepZIndex(steps[a]) - stepZIndex(steps[b]));
+}
+/**
+* TRAIT — supporte les variantes : "vertical", "horizontal", "oblique-gauche", "oblique-droit"
+*/
+function GlyphTrait({ stroke = "#1A1009", variant = "vertical", strokeDasharray, strokeWidth, ...props }) {
+	const w = strokeWidth ?? (strokeDasharray ? 4.5 : SW);
+	let x1 = CX;
+	let y1 = PAD;
+	let x2 = CX;
+	let y2 = 200 - PAD;
+	if (variant === "horizontal") {
+		x1 = PAD;
+		y1 = CX;
+		x2 = 200 - PAD;
+		y2 = CX;
+	} else if (variant === "oblique-gauche") {
+		x1 = 40;
+		y1 = 40;
+		x2 = 160;
+		y2 = 160;
+	} else if (variant === "oblique-droit") {
+		x1 = 160;
+		y1 = 40;
+		x2 = 40;
+		y2 = 160;
+	}
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+		viewBox: "0 0 200 200",
+		fill: "none",
+		"aria-hidden": true,
+		...props,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("line", {
+			x1,
+			y1,
+			x2,
+			y2,
+			stroke,
+			strokeWidth: w,
+			strokeLinecap: "round",
+			strokeDasharray
+		})
+	});
+}
+/**
+* COURBE — supporte les variantes :
+* - "open-right" (C ouvert à droite)
+* - "open-left" (Ɔ ouvert à gauche)
+* - "bridge" (∩ en pont vers le bas)
+* - "bowl" (∪ en creux vers le haut)
+* - par défaut : deux moitiés d'arc ouvertes face à face
+*/
+function GlyphCourbe({ stroke = "#FFFFFF", variant = "dual", strokeDasharray, strokeWidth, ...props }) {
+	const w = strokeWidth ?? (strokeDasharray ? 4.5 : SW);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+		viewBox: "0 0 200 200",
+		fill: "none",
+		"aria-hidden": true,
+		...props,
+		children: [
+			variant === "open-right" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+				d: "M 130 35 A 65 65 0 0 0 130 165",
+				stroke,
+				strokeWidth: w,
+				strokeLinecap: "round",
+				strokeDasharray,
+				fill: "none"
+			}),
+			variant === "open-left" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+				d: "M 70 35 A 65 65 0 0 1 70 165",
+				stroke,
+				strokeWidth: w,
+				strokeLinecap: "round",
+				strokeDasharray,
+				fill: "none"
+			}),
+			variant === "bridge" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+				d: "M 35 130 A 65 65 0 0 1 165 130",
+				stroke,
+				strokeWidth: w,
+				strokeLinecap: "round",
+				strokeDasharray,
+				fill: "none"
+			}),
+			variant === "bowl" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+				d: "M 35 70 A 65 65 0 0 0 165 70",
+				stroke,
+				strokeWidth: w,
+				strokeLinecap: "round",
+				strokeDasharray,
+				fill: "none"
+			}),
+			variant === "closed" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+				cx: 100,
+				cy: 100,
+				r: 68,
+				fill: "none",
+				stroke,
+				strokeWidth: w,
+				strokeDasharray
+			}),
+			variant !== "open-right" && variant !== "open-left" && variant !== "bridge" && variant !== "bowl" && variant !== "closed" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+				d: "M 75 45 A 55 55 0 0 0 75 155",
+				stroke,
+				strokeWidth: w,
+				strokeLinecap: "round",
+				strokeDasharray,
+				fill: "none"
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+				d: "M 125 45 A 55 55 0 0 1 125 155",
+				stroke,
+				strokeWidth: w,
+				strokeLinecap: "round",
+				strokeDasharray,
+				fill: "none"
+			})] })
+		]
+	});
+}
+/**
+* POINT — forme circulaire parfaite
+*/
+function GlyphPoint({ stroke = "#4A3B2A", variant = "center", strokeDasharray, strokeWidth, ...props }) {
+	const w = strokeWidth ?? (strokeDasharray ? 4.5 : SW);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+		viewBox: "0 0 200 200",
+		fill: "none",
+		"aria-hidden": true,
+		...props,
+		children: variant === "top" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+			cx: CX,
+			cy: 60,
+			r: 18,
+			fill: stroke,
+			stroke,
+			strokeWidth: strokeDasharray ? w : 0,
+			strokeDasharray
+		}) : variant === "bottom" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+			cx: CX,
+			cy: 140,
+			r: 18,
+			fill: stroke,
+			stroke,
+			strokeWidth: strokeDasharray ? w : 0,
+			strokeDasharray
+		}) : variant === "double" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+			cx: 68,
+			cy: 100,
+			r: 16,
+			fill: stroke,
+			stroke,
+			strokeWidth: strokeDasharray ? w : 0,
+			strokeDasharray
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+			cx: 132,
+			cy: 100,
+			r: 16,
+			fill: stroke,
+			stroke,
+			strokeWidth: strokeDasharray ? w : 0,
+			strokeDasharray
+		})] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+			cx: CX,
+			cy: 100,
+			r: 18,
+			fill: strokeDasharray ? "none" : stroke,
+			stroke,
+			strokeWidth: strokeDasharray ? w : 0,
+			strokeDasharray
+		})
+	});
+}
+/**
+* CROCHET — trait incurvé à son extrémité (forme en J / canne)
+* Supporte les variantes d'orientation : "top-right", "top-left", "bottom-right", "bottom-left"
+*/
+function GlyphCrochet({ stroke = "#4A90E2", variant = "top-right", strokeDasharray, strokeWidth, ...props }) {
+	const w = strokeWidth ?? (strokeDasharray ? 4.5 : SW);
+	let d = "M 150 70 A 45 45 0 0 0 60 70 L 60 170";
+	if (variant === "top-left") d = "M 50 70 A 45 45 0 0 1 140 70 L 140 170";
+	else if (variant === "bottom-right") d = "M 60 30 L 60 130 A 45 45 0 0 0 150 130";
+	else if (variant === "bottom-left") d = "M 140 30 L 140 130 A 45 45 0 0 1 50 130";
+	else if (variant === "double-crochet-gauche") d = "M 65 55 C 65 25, 130 25, 130 80 L 130 120 C 130 175, 65 175, 65 145";
+	else if (variant === "double-crochet-droit") d = "M 135 55 C 135 25, 70 25, 70 80 L 70 120 C 70 175, 135 175, 135 145";
+	else if (variant === "double-crochet-gauche-droit") d = "M 60 55 C 60 25, 100 25, 100 80 L 100 120 C 100 175, 140 175, 140 145";
+	else if (variant === "double-crochet-droit-gauche") d = "M 140 55 C 140 25, 100 25, 100 80 L 100 120 C 100 175, 60 175, 60 145";
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+		viewBox: "0 0 200 200",
+		fill: "none",
+		"aria-hidden": true,
+		...props,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+			d,
+			stroke,
+			strokeWidth: w,
+			strokeLinecap: "round",
+			strokeDasharray,
+			fill: "none"
+		})
+	});
+}
+function SignGlyph({ family, stroke, variant, strokeDasharray, strokeWidth, ...props }) {
+	switch (family) {
+		case "trait": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(GlyphTrait, {
+			stroke,
+			variant,
+			strokeDasharray,
+			strokeWidth,
+			...props
+		});
+		case "courbe": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(GlyphCourbe, {
+			stroke,
+			variant,
+			strokeDasharray,
+			strokeWidth,
+			...props
+		});
+		case "point": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(GlyphPoint, {
+			stroke,
+			variant,
+			strokeDasharray,
+			strokeWidth,
+			...props
+		});
+		case "crochet": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(GlyphCrochet, {
+			stroke,
+			variant,
+			strokeDasharray,
+			strokeWidth,
+			...props
+		});
+	}
+}
+//#endregion
+export { zOrderedStepIndices as i, glyphColorByFamily as n, stepZIndex as r, SignGlyph as t };

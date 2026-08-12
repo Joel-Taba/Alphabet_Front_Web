@@ -87,7 +87,7 @@ export function OccurrenceCanvas({
       ctx.fill();
     }
     ctx.strokeStyle = entry.strokeColor;
-    ctx.lineWidth = 4.5;
+    ctx.lineWidth = 3.5;
     ctx.lineCap = "round"; ctx.lineJoin = "round";
     ctx.stroke();
   }, [w, h, entry.strokeColor]);
@@ -126,7 +126,7 @@ export function OccurrenceCanvas({
     const pt = canvasCoords(e);
     userPointsRef.current.push(svgCoords(pt));
     ctx.beginPath(); ctx.moveTo(pt.x, pt.y);
-    ctx.strokeStyle = "#5BAA6A"; ctx.lineWidth = 4.5;
+    ctx.strokeStyle = "#5BAA6A"; ctx.lineWidth = 3.5;
     ctx.lineCap = "round"; ctx.lineJoin = "round";
   };
 
@@ -198,7 +198,7 @@ export function OccurrenceCanvas({
           <path
             d={entry.pathD}
             stroke={localStatus === "retry" ? "#D9A84A" : "#9BB5CC"}
-            strokeWidth={3.5}
+            strokeWidth={2.5}
             strokeDasharray="7 5"
             strokeLinecap="round"
             fill={entry.family === "point" ? (localStatus === "retry" ? "#D9A84A" : "#9BB5CC") : "none"}

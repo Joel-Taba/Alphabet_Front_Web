@@ -6,6 +6,7 @@ import {
   SignGlyph,
   glyphColorByFamily,
   CrosswordPlay,
+  zOrderedStepIndices,
   type SignFamily,
 } from "@/components/amani";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -56,17 +57,20 @@ function getPenCursor(color: string): string {
 function LetterPreview({ letter, size = 64 }: { letter: LetterFormation; size?: number }) {
   return (
     <svg viewBox="0 0 200 200" width={size} height={size} aria-hidden>
-      {letter.steps.map((step, i) => (
-        <path
-          key={i}
-          d={step.pathD}
-          stroke={step.strokeColor}
-          strokeWidth={14}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
-        />
-      ))}
+      {zOrderedStepIndices(letter.steps).map((i) => {
+        const step = letter.steps[i];
+        return (
+          <path
+            key={i}
+            d={step.pathD}
+            stroke={step.strokeColor}
+            strokeWidth={10}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+        );
+      })}
     </svg>
   );
 }

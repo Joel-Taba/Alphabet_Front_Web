@@ -16,6 +16,8 @@ import {
   EvaluationTimerBadge,
   EvaluationCompleteOverlay,
   ExerciseCompletePopup,
+  zOrderedStepIndices,
+  stepZIndex,
 } from "@/components/amani";
 import { useSignSpeech } from "@/hooks/useSignSpeech";
 import { useExerciseSettings, readEvaluationDurationMinutes } from "@/hooks/useExerciseSettings";
@@ -406,7 +408,11 @@ function LetterDrawingCanvas({
     const oy = (h - 200 * sc) / 2;
 
     // 1. Dessiner d'abord toutes les étapes déjà validées en trait plein coloré
-    for (const completed of completedSteps) {
+    // (dans l'ordre de superposition trait > crochet > courbe, pas l'ordre de tracé)
+    const zOrderedCompleted = [...completedSteps].sort(
+      (a, b) => stepZIndex(letter.steps[a.stepIdx] ?? { family: "courbe" }) - stepZIndex(letter.steps[b.stepIdx] ?? { family: "courbe" }),
+    );
+    for (const completed of zOrderedCompleted) {
       const stepInfo = letter.steps[completed.stepIdx];
       if (!stepInfo) continue;
       const refPts = sampleSVGPath(stepInfo.pathD, 35);
@@ -417,7 +423,7 @@ function LetterDrawingCanvas({
         ctx.lineTo(refPts[i].x * sc + ox, refPts[i].y * sc + oy);
       }
       ctx.strokeStyle = completed.strokeColor;
-      ctx.lineWidth = 11;
+      ctx.lineWidth = 8;
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
       ctx.stroke();
@@ -458,7 +464,7 @@ function LetterDrawingCanvas({
     ctx.beginPath();
     ctx.moveTo(pt.x, pt.y);
     ctx.strokeStyle = "#5BAA6A"; // Vert actif du tracé
-    ctx.lineWidth = 11;
+    ctx.lineWidth = 8;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
   };
@@ -517,7 +523,8 @@ function LetterDrawingCanvas({
     >
       {/* ── Guides SVG en pointillés (Étapes futures / Etape active) ── */}
       <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full pointer-events-none">
-        {letter.steps.map((step, idx) => {
+        {zOrderedStepIndices(letter.steps).map((idx) => {
+          const step = letter.steps[idx];
           const isCompleted = completedSteps.some((c) => c.stepIdx === idx);
           if (isCompleted) return null; // Les étapes validées sont dessinées sur le canvas HTML5
           const isActiveStep = idx === currentStepIdx;
@@ -527,7 +534,7 @@ function LetterDrawingCanvas({
               key={`guide-${idx}`}
               d={step.pathD}
               stroke={isActiveStep ? (stepStatus === "retry" ? "#E05252" : "#9BB5CC") : "#B8CCE0"}
-              strokeWidth={isActiveStep ? 13 : 11}
+              strokeWidth={isActiveStep ? 10 : 8}
               strokeLinecap="round"
               strokeDasharray={isActiveStep ? "8 6" : "5 7"}
               fill="none"

@@ -211,7 +211,7 @@ function CoursFamilyScreen() {
                   ref={pathRef}
                   d={selectedSign.pathD}
                   stroke="#9BB5CC"
-                  strokeWidth={14}
+                  strokeWidth={10}
                   strokeLinecap="round"
                   strokeDasharray="6 8"
                   fill={selectedSign.family === "point" ? "#9BB5CC" : "none"}
@@ -221,7 +221,7 @@ function CoursFamilyScreen() {
                 <path
                   d={selectedSign.pathD}
                   stroke={selectedSign.strokeColor}
-                  strokeWidth={12}
+                  strokeWidth={9}
                   strokeLinecap="round"
                   fill={selectedSign.family === "point" ? selectedSign.strokeColor : "none"}
                   style={{

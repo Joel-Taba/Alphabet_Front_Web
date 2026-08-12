@@ -1,6 +1,6 @@
 export { Button } from "./Button";
 export { SignCard, type SignFamily, type SignState } from "./SignCard";
-export { SignGlyph, glyphColorByFamily } from "./SignGlyph";
+export { SignGlyph, glyphColorByFamily, letterFamilyZIndex, stepZIndex, zOrderedStepIndices } from "./SignGlyph";
 export { ProgressBar, type NodeState } from "./PathNode";
 export { StarBadge } from "./StarBadge";
 export { AmaniMascot, type AmaniPose, type AmaniSize } from "./AmaniMascot";
@@ -21,4 +21,3 @@ export { LetterTraceCell } from "./LetterTraceCell";
 export { CrosswordPlay } from "./CrosswordPlay";
 export { EvaluationTimerBadge, EvaluationCompleteOverlay } from "./EvaluationTimer";
 export { ExerciseCompletePopup } from "./ExerciseCompletePopup";
-export { ResumeSessionDialog } from "./ResumeSessionDialog";

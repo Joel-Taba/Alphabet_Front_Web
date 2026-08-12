@@ -1,1 +1,0 @@
-import{n as e}from"./Match-C6ayxrJr.js";import{t}from"./jsx-runtime-Cv34UvWR.js";import{b as n,x as r}from"./index-ChOamz_t.js";var i=t();function a(){return n()({to:`/exercice`,fuzzy:!1})?(0,i.jsx)(r,{to:`/exercice-liste`}):(0,i.jsx)(e,{})}export{a as component};
