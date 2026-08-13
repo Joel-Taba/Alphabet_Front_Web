@@ -135,7 +135,7 @@ function CoursFamilyScreen() {
             aria-label={t.common.back}
             className="grid h-11 w-11 place-items-center rounded-full bg-white shadow-md active:scale-95 transition-transform"
           >
-            <ArrowLeft className="h-5 w-5 text-gray-700" strokeWidth={2.5} />
+            <ArrowLeft className="h-5 w-5 text-gray-700 rtl:rotate-180" strokeWidth={2.5} />
           </Link>
           <div>
             <h1
@@ -297,7 +297,7 @@ function CoursFamilyScreen() {
                   type="button"
                   onClick={() => setSelectedSign(item)}
                   className={cn(
-                    "flex flex-col items-center justify-between p-3.5 rounded-2xl border-2 transition-all duration-200 text-left select-none relative overflow-hidden min-h-[170px]",
+                    "flex flex-col items-center justify-between p-3.5 rounded-2xl border-2 transition-all duration-200 text-start select-none relative overflow-hidden min-h-[170px]",
                     isSelected
                       ? "border-secondary bg-[#FBF6EC] shadow-lg scale-[1.02]"
                       : "border-gray-200 bg-white hover:border-gray-300 shadow-sm active:scale-98"
@@ -344,7 +344,7 @@ function CoursFamilyScreen() {
               onClick={() => navigate({ to: "/cours/$family", params: { family: prevFamily } })}
               className="flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-[#4A3B2A]/15 text-[#4A3B2A] font-bold text-[14px] shadow-sm active:scale-95 transition-transform"
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-4 w-4 rtl:rotate-180" />
               {t.common.back}
             </button>
           ) : (
@@ -358,7 +358,7 @@ function CoursFamilyScreen() {
               style={{ backgroundColor: familyInfo.color }}
             >
               {t.common.next}
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4 rtl:rotate-180" />
             </button>
           ) : (
             <div />

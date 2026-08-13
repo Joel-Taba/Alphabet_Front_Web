@@ -415,7 +415,7 @@ export function RepetitionRow({
           ))}
 
           {/* Indicateurs de progression */}
-          <div className="flex flex-col gap-1.5 ml-1">
+          <div className="flex flex-col gap-1.5 ms-1">
             {occurrences.map((occ, idx) => (
               <div
                 key={idx}

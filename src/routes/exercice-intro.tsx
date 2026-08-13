@@ -24,7 +24,7 @@ function ExerciceIntro() {
           aria-label="Retour"
           className="grid h-11 w-11 place-items-center rounded-full bg-surface"
         >
-          <ArrowLeft className="h-5 w-5" strokeWidth={2.5} />
+          <ArrowLeft className="h-5 w-5 rtl:rotate-180" strokeWidth={2.5} />
         </Link>
         <h1 className="truncate text-center text-[18px] font-bold text-text-primary">
           Prochain exercice

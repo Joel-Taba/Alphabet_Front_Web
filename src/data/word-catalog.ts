@@ -158,21 +158,21 @@ export function lettersForWord(word: WordEntry, lang: Lang, style: WritingStyle 
     .filter((l): l is LetterFormation => !!l);
 }
 
-const THEME_TITLES: Record<string, { fr: string; en: string; es: string }> = {
-  animaux: { fr: "Animaux", en: "Animals", es: "Animales" },
-  nourriture: { fr: "Nourriture", en: "Food", es: "Comida" },
-  maison: { fr: "Maison", en: "House", es: "Casa" },
-  vetements: { fr: "Vêtements", en: "Clothes", es: "Ropa" },
-  ecole: { fr: "École", en: "School", es: "Escuela" },
-  nature: { fr: "Nature", en: "Nature", es: "Naturaleza" },
-  corps: { fr: "Corps", en: "Body", es: "Cuerpo" },
-  divers: { fr: "Autour de nous", en: "All around us", es: "A nuestro alrededor" },
+const THEME_TITLES: Record<string, { fr: string; en: string; es: string; ar: string }> = {
+  animaux: { fr: "Animaux", en: "Animals", es: "Animales", ar: "حيوانات" },
+  nourriture: { fr: "Nourriture", en: "Food", es: "Comida", ar: "طعام" },
+  maison: { fr: "Maison", en: "House", es: "Casa", ar: "المنزل" },
+  vetements: { fr: "Vêtements", en: "Clothes", es: "Ropa", ar: "ملابس" },
+  ecole: { fr: "École", en: "School", es: "Escuela", ar: "المدرسة" },
+  nature: { fr: "Nature", en: "Nature", es: "Naturaleza", ar: "الطبيعة" },
+  corps: { fr: "Corps", en: "Body", es: "Cuerpo", ar: "الجسم" },
+  divers: { fr: "Autour de nous", en: "All around us", es: "A nuestro alrededor", ar: "من حولنا" },
 };
 
 export interface WordGroup {
   id: string;
   theme: string;
-  title: { fr: string; en: string; es: string };
+  title: { fr: string; en: string; es: string; ar: string };
   words: WordEntry[];
 }
 
@@ -190,13 +190,13 @@ export const PALIER3_GROUPS: WordGroup[] = (() => {
     const chunkCount = Math.ceil(words.length / chunkSize);
     for (let i = 0; i < chunkCount; i++) {
       const chunk = words.slice(i * chunkSize, (i + 1) * chunkSize);
-      const base = THEME_TITLES[theme] ?? { fr: theme, en: theme, es: theme };
+      const base = THEME_TITLES[theme] ?? { fr: theme, en: theme, es: theme, ar: theme };
       groups.push({
         id: `${theme.slice(0, 2)}${i + 1}`,
         theme,
         title:
           chunkCount > 1
-            ? { fr: `${base.fr} ${i + 1}`, en: `${base.en} ${i + 1}`, es: `${base.es} ${i + 1}` }
+            ? { fr: `${base.fr} ${i + 1}`, en: `${base.en} ${i + 1}`, es: `${base.es} ${i + 1}`, ar: `${base.ar} ${i + 1}` }
             : base,
         words: chunk,
       });

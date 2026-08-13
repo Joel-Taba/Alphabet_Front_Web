@@ -64,6 +64,7 @@ const LANGUAGES: { code: Lang; label: string }[] = [
   { code: "fr", label: "Français" },
   { code: "en", label: "English" },
   { code: "es", label: "Español" },
+  { code: "ar", label: "العربية" },
 ];
 
 function ProfileCreate() {
@@ -263,7 +264,7 @@ function ProfileCreate() {
               onClick={() => setLangOpen((v) => !v)}
               aria-haspopup="listbox"
               aria-expanded={langOpen}
-              className="flex items-center gap-3 rounded-full border-2 px-4 h-[58px] w-full transition-all text-left"
+              className="flex items-center gap-3 rounded-full border-2 px-4 h-[58px] w-full transition-all text-start"
               style={{
                 borderColor: "#D8CFC0",
                 background: "#FFFFFF",
@@ -314,7 +315,7 @@ function ProfileCreate() {
                         setLang(l.code);
                         setLangOpen(false);
                       }}
-                      className="w-full px-5 py-3 text-left text-[16px] font-medium transition-colors hover:bg-[#EFE3CE]"
+                      className="w-full px-5 py-3 text-start text-[16px] font-medium transition-colors hover:bg-[#EFE3CE]"
                       style={{
                         color: lang === l.code ? "#8FBF6F" : "#4A3B2A",
                         fontWeight: lang === l.code ? 700 : 500,

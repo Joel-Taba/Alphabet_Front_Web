@@ -383,8 +383,8 @@ function MyProfileContent({ onLock }: { onLock: () => void }) {
 
         {/* Langue */}
         <SettingsCard title={t.profileHub.languageCardTitle} icon={Globe} color="#4A90E2">
-          <div className="grid grid-cols-3 gap-3 mt-1">
-            {(["fr", "en", "es"] as const satisfies readonly Lang[]).map((c) => (
+          <div className="grid grid-cols-2 gap-3 mt-1">
+            {(["fr", "en", "es", "ar"] as const satisfies readonly Lang[]).map((c) => (
               <button
                 key={c}
                 type="button"
@@ -397,7 +397,7 @@ function MyProfileContent({ onLock }: { onLock: () => void }) {
                     : "border-[#4A3B2A]/15 bg-white text-[#7A6A55]"
                 )}
               >
-                {c === "fr" ? "🇫🇷 Français" : c === "en" ? "🇬🇧 English" : "🇪🇸 Español"}
+                {c === "fr" ? "🇫🇷 Français" : c === "en" ? "🇬🇧 English" : c === "es" ? "🇪🇸 Español" : "🇸🇦 العربية"}
               </button>
             ))}
           </div>
@@ -768,8 +768,8 @@ function Toggle({
       >
         <span
           className={cn(
-            "absolute left-1 top-1 h-5 w-5 rounded-full bg-white shadow-md transition-transform",
-            value ? "translate-x-6" : "translate-x-0"
+            "absolute start-1 top-1 h-5 w-5 rounded-full bg-white shadow-md transition-transform",
+            value ? "translate-x-6 rtl:-translate-x-6" : "translate-x-0"
           )}
         />
       </button>

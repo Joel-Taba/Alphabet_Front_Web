@@ -85,7 +85,7 @@ function LetterFormationScreen() {
             aria-label={t.common.back}
             className="grid h-11 w-11 place-items-center rounded-full bg-[#FBF6EC] shadow-[0_2px_6px_rgba(74,59,42,0.12)] active:scale-95 transition-transform"
           >
-            <ArrowLeft className="h-5 w-5 text-[#4A3B2A]" strokeWidth={2.5} />
+            <ArrowLeft className="h-5 w-5 text-[#4A3B2A] rtl:rotate-180" strokeWidth={2.5} />
           </Link>
           <div>
             <h1 className="text-[26px] font-bold text-[#4A3B2A] leading-tight">
@@ -157,7 +157,7 @@ function LetterFormationScreen() {
               }
               className="flex items-center gap-2 px-5 py-3 rounded-full bg-[#FBF6EC] border border-[#4A3B2A]/10 text-[#4A3B2A] font-bold text-[14px] shadow-sm active:scale-95 transition-transform"
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-4 w-4 rtl:rotate-180" />
               {t.common.previous}
             </button>
           ) : (
@@ -176,7 +176,7 @@ function LetterFormationScreen() {
               className="flex items-center gap-2 px-5 py-3 rounded-full bg-[#A9784F] text-white font-bold text-[14px] shadow-md active:scale-95 transition-transform"
             >
               {t.common.next}
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4 rtl:rotate-180" />
             </button>
           ) : (
             <div />

@@ -309,7 +309,7 @@ function ParcoursBranche() {
             {t.parcours.subtitle}
           </p>
         </div>
-        <div className="pointer-events-none shrink-0 -mt-2 -mr-2">
+        <div className="pointer-events-none shrink-0 -mt-2 -me-2">
           <AmaniMascot pose="encouragement" size="small" priority />
         </div>
       </header>

@@ -55,7 +55,7 @@ export function ExerciseCompletePopup({
               className="w-full py-3.5 px-4 rounded-xl font-extrabold text-sm bg-[#8FBF6F] hover:bg-[#7AAE5A] text-white shadow-md active:scale-95 transition-all flex items-center justify-center gap-2"
             >
               {t.common.next}
-              <ChevronRight className="w-4 h-4" strokeWidth={2.5} />
+              <ChevronRight className="w-4 h-4 rtl:rotate-180" strokeWidth={2.5} />
             </button>
           )}
           <button

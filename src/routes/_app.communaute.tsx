@@ -219,7 +219,7 @@ function Communaute() {
       style={{ background: "linear-gradient(180deg, #F5EDE0 0%, #EFE3CE 100%)" }}
     >
       <header className="flex items-start justify-between gap-3">
-        <div className="min-w-0 text-left">
+        <div className="min-w-0 text-start">
           <h1 className="text-[24px] leading-8 font-bold" style={{ color: "#4A3B2A" }}>
             {t.community.title}
           </h1>
@@ -227,7 +227,7 @@ function Communaute() {
             {t.community.subtitle}
           </p>
         </div>
-        <div className="shrink-0 -mt-2 -mr-2">
+        <div className="shrink-0 -mt-2 -me-2">
           <AmaniMascot pose="podium" size="small" />
         </div>
       </header>
@@ -286,7 +286,7 @@ function Communaute() {
                   >
                     {p.prenom}
                     {p.moi && (
-                      <span className="ml-2 rounded-full bg-secondary/30 px-2 py-0.5 text-[12px] font-semibold text-primary-dark">
+                      <span className="ms-2 rounded-full bg-secondary/30 px-2 py-0.5 text-[12px] font-semibold text-primary-dark">
                         {t.community.you}
                       </span>
                     )}

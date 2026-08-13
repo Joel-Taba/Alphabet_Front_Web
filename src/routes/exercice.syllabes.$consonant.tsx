@@ -121,7 +121,7 @@ function SyllableExerciseScreen() {
             aria-label={t.common.back}
             className="grid h-11 w-11 place-items-center rounded-full bg-[#FBF6EC] shadow-[0_2px_6px_rgba(74,59,42,0.12)] active:scale-95 transition-transform"
           >
-            <ArrowLeft className="h-5 w-5 text-[#4A3B2A]" strokeWidth={2.5} />
+            <ArrowLeft className="h-5 w-5 text-[#4A3B2A] rtl:rotate-180" strokeWidth={2.5} />
           </Link>
           <div>
             <h1 className="text-[22px] font-bold text-[#4A3B2A] leading-tight">
@@ -178,7 +178,7 @@ function SyllableExerciseScreen() {
             className="w-full py-4 rounded-2xl bg-[#4A90E2] hover:bg-[#3A7BC8] text-white font-extrabold text-lg shadow-lg flex items-center justify-center gap-3 transition-all active:scale-[0.99]"
           >
             <span>{format(t.exerciceSyllabes.nextGroup, { consonant: evaluationNextGroup.consonant })}</span>
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-5 w-5 rtl:rotate-180" />
           </button>
         )}
       </div>

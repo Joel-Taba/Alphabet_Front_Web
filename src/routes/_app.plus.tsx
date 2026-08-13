@@ -53,8 +53,8 @@ function PlusScreen() {
           <Globe className="w-4.5 h-4.5" style={{ color: "#4A90E2" }} strokeWidth={2.5} />
           <h3 className="text-[16px] font-bold text-[#4A3B2A]">{t.profileHub.languageCardTitle}</h3>
         </div>
-        <div className="grid grid-cols-3 gap-3 mt-1">
-          {(["fr", "en", "es"] as const satisfies readonly Lang[]).map((c) => (
+        <div className="grid grid-cols-2 gap-3 mt-1">
+          {(["fr", "en", "es", "ar"] as const satisfies readonly Lang[]).map((c) => (
             <button
               key={c}
               type="button"
@@ -67,7 +67,7 @@ function PlusScreen() {
                   : "border-[#4A3B2A]/15 bg-white text-[#7A6A55]"
               )}
             >
-              {c === "fr" ? "🇫🇷 Français" : c === "en" ? "🇬🇧 English" : "🇪🇸 Español"}
+              {c === "fr" ? "🇫🇷 Français" : c === "en" ? "🇬🇧 English" : c === "es" ? "🇪🇸 Español" : "🇸🇦 العربية"}
             </button>
           ))}
         </div>

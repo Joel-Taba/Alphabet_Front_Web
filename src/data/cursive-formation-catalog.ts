@@ -266,12 +266,12 @@ function outputFamily(f: CursiveFamily): SignFamily {
   return f === "double-crochet" ? "crochet" : f;
 }
 
-const FAMILY_LABEL: Record<CursiveFamily, { fr: string; en: string; es: string }> = {
-  trait: { fr: "trait", en: "line", es: "trazo" },
-  courbe: { fr: "courbe", en: "curve", es: "curva" },
-  crochet: { fr: "crochet", en: "hook", es: "gancho" },
-  point: { fr: "point", en: "dot", es: "punto" },
-  "double-crochet": { fr: "boucle de liaison", en: "connecting loop", es: "bucle de enlace" },
+const FAMILY_LABEL: Record<CursiveFamily, { fr: string; en: string; es: string; ar: string }> = {
+  trait: { fr: "trait", en: "line", es: "trazo", ar: "خط" },
+  courbe: { fr: "courbe", en: "curve", es: "curva", ar: "منحنى" },
+  crochet: { fr: "crochet", en: "hook", es: "gancho", ar: "خطاف" },
+  point: { fr: "point", en: "dot", es: "punto", ar: "نقطة" },
+  "double-crochet": { fr: "boucle de liaison", en: "connecting loop", es: "bucle de enlace", ar: "حلقة وصل" },
 };
 
 /** Article espagnol genré ("el"/"la") pour chaque famille, seule "courbe" étant féminine. */
@@ -307,11 +307,12 @@ function normalizationTargetFor(char: string, zone: LetterFormation["zone"]): [n
 
 const VOWEL_CHARS = new Set(["a", "e", "i", "o", "u"]);
 
-function familySequenceLabel(steps: CursiveStepInput[], lang: "fr" | "en" | "es"): string {
+function familySequenceLabel(steps: CursiveStepInput[], lang: "fr" | "en" | "es" | "ar"): string {
   const names = [...steps].sort((a, b) => a.order - b.order).map((s) => FAMILY_LABEL[s.family][lang]);
   if (names.length <= 1) return names[0];
   if (lang === "fr") return `${names.slice(0, -1).join(", ")} puis ${names[names.length - 1]}`;
   if (lang === "es") return `${names.slice(0, -1).join(", ")} y luego ${names[names.length - 1]}`;
+  if (lang === "ar") return `${names.slice(0, -1).join("، ")} ثم ${names[names.length - 1]}`;
   return `${names.slice(0, -1).join(", ")} then ${names[names.length - 1]}`;
 }
 
@@ -338,13 +339,14 @@ function buildLetter(input: CursiveLetterInput): LetterFormation {
         fr: `Trace le ${FAMILY_LABEL[step.family].fr} n°${step.order}`,
         en: `Trace the ${FAMILY_LABEL[step.family].en} #${step.order}`,
         es: `Traza ${FAMILY_ARTICLE_ES[step.family]} ${FAMILY_LABEL[step.family].es} n.º${step.order}`,
+        ar: `ارسم ${FAMILY_LABEL[step.family].ar} رقم ${step.order}`,
       },
     };
   });
 
   return {
     char: input.char,
-    name: { fr: `${input.char} cursif`, en: `cursive ${input.char}`, es: `${input.char} cursiva` },
+    name: { fr: `${input.char} cursif`, en: `cursive ${input.char}`, es: `${input.char} cursiva`, ar: `${input.char} بخط متصل` },
     category: isUppercase(input.char) ? "majuscule" : VOWEL_CHARS.has(input.char) ? "voyelle" : "consonne",
     zone,
     steps,
@@ -352,6 +354,7 @@ function buildLetter(input: CursiveLetterInput): LetterFormation {
       fr: `En cursive, la lettre "${input.char}" s'écrit d'un geste lié : ${familySequenceLabel(orderedSteps, "fr")}.`,
       en: `In cursive, the letter "${input.char}" is written in one connected gesture: ${familySequenceLabel(orderedSteps, "en")}.`,
       es: `En cursiva, la letra "${input.char}" se escribe en un solo gesto: ${familySequenceLabel(orderedSteps, "es")}.`,
+      ar: `بخط الرقعة المتصل، يُكتب الحرف "${input.char}" بحركة واحدة متصلة: ${familySequenceLabel(orderedSteps, "ar")}.`,
     },
   };
 }
@@ -406,13 +409,14 @@ function buildLiteralLetter(input: CursiveLiteralLetterInput): LetterFormation {
         fr: `Trace le ${FAMILY_LABEL[step.family].fr} n°${order}`,
         en: `Trace the ${FAMILY_LABEL[step.family].en} #${order}`,
         es: `Traza ${FAMILY_ARTICLE_ES[step.family]} ${FAMILY_LABEL[step.family].es} n.º${order}`,
+        ar: `ارسم ${FAMILY_LABEL[step.family].ar} رقم ${order}`,
       },
     };
   });
 
   return {
     char: input.char,
-    name: { fr: `${input.char} cursif`, en: `cursive ${input.char}`, es: `${input.char} cursiva` },
+    name: { fr: `${input.char} cursif`, en: `cursive ${input.char}`, es: `${input.char} cursiva`, ar: `${input.char} بخط متصل` },
     category: isUppercase(input.char) ? "majuscule" : VOWEL_CHARS.has(input.char) ? "voyelle" : "consonne",
     zone: input.zone,
     steps,
@@ -426,6 +430,9 @@ function buildLiteralLetter(input: CursiveLiteralLetterInput): LetterFormation {
       es: `En cursiva, la letra "${input.char}" se escribe en un solo gesto: ${input.steps
         .map((s) => FAMILY_LABEL[s.family].es)
         .join(", ")}.`,
+      ar: `بخط الرقعة المتصل، يُكتب الحرف "${input.char}" بحركة واحدة متصلة: ${input.steps
+        .map((s) => FAMILY_LABEL[s.family].ar)
+        .join("، ")}.`,
     },
   };
 }
@@ -478,6 +485,14 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
         family: "crochet",
         pathD: "M 122.80 35.00 L 122.80 139.73 C 123.73 145.29 126.51 147.15 130.22 147.15 C 133.93 147.15 136.71 143.44 136.71 143.44",
       },
+    ],
+  },
+  {
+    char: "e",
+    zone: "corps",
+    steps: [
+      { family: "crochet", zIndex: 3, pathD: "M 43.67 121.99 L 105.11 113.36 A 17.16 17.16 0 0 0 114.21 83.60" },
+      { family: "courbe", zIndex: 2, pathD: "M 115.74 85.03 A 36.00 36.00 0 1 0 114.75 141.75" },
     ],
   },
   {
@@ -632,9 +647,9 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     char: "o",
     zone: "corps",
     steps: [
-      { family: "trait", pathD: "M 62.17 119.13 L 69.06 103.81" },
-      { family: "courbe", pathD: "M 100.47 77.00 A 32.17 36.00 0 1 0 100.54 77.00" },
-      { family: "crochet", pathD: "M 115.79 82.36 C 113.49 85.43 112.72 88.49 114.26 93.09 C 115.79 96.15 117.32 99.21 121.91 100.74 C 126.51 102.28 129.57 99.98 131.03 99.98 L 141.83 95.38" },
+      { family: "trait", zIndex: 0, pathD: "M 41.24 143.44 L 53.62 125.76" },
+      { family: "courbe", zIndex: 2, pathD: "M 96.02 77.85 A 36.00 36.00 0 1 0 99.06 78.67" },
+      { family: "crochet", zIndex: 3, pathD: "M 97.80 78.04 A 18.00 18.00 0 0 0 103.81 110.52 L 156.43 122.66" },
     ],
   },
   {
@@ -662,6 +677,20 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
       { family: "courbe", pathD: "M 78.82 132.69 C 78.82 132.69 78.82 137.03 79.54 139.20 C 80.27 141.37 81.71 144.26 85.33 146.43 C 91.12 149.32 93.29 149.32 97.63 148.60 C 99.79 147.87 103.41 146.43 105.58 144.26 C 107.03 142.81 109.20 139.92 109.92 132.69 L 109.92 81.79", strokeColor: "#4A90E2" },
       { family: "courbe", pathD: "M 109.92 132.69 C 109.92 132.69 109.92 137.03 110.64 139.20 C 111.37 141.37 112.81 144.26 116.43 146.43 C 122.21 149.32 124.38 149.32 128.72 148.60 C 130.89 147.87 134.51 146.43 136.68 144.26 C 138.12 142.81 140.29 139.92 141.02 132.69 L 141.02 81.79", strokeColor: "#4A90E2" },
       { family: "crochet", pathD: "M 141.02 81.79 C 141.02 81.79 139.57 79.17 135.96 81.34 C 134.51 82.79 133.06 84.96 134.51 87.85 C 135.96 90.74 138.12 91.46 141.02 91.46 L 155.48 91.46" },
+    ],
+  },
+  {
+    char: "y",
+    zone: "jambe",
+    steps: [
+      {
+        family: "double-crochet",
+        variant: "hd-bg",
+        zIndex: 1,
+        pathD: "M 76.61 78.94 A 5.82 5.82 0 0 1 86.54 83.05 L 86.54 96.64 L 86.54 106.98 A 9.05 9.05 0 0 0 103.67 111.11",
+      },
+      { family: "trait", zIndex: 2, pathD: "M 104.5 77 L 104.5 163.25" },
+      { family: "crochet", zIndex: 3, pathD: "M 104.30 163.60 A 16.10 16.10 0 0 1 87.18 136.72 L 127.09 102.03" },
     ],
   },
   {
@@ -741,6 +770,137 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
       },
       { family: "trait", pathD: "M 89.09 38.21 L 89.09 150" },
       { family: "crochet", pathD: "M 90 110 C 94 106 98 103 103 102 C 108 102 112 103 117 108 L 118 111 L 118 150" },
+    ],
+  },
+  {
+    char: "A",
+    zone: "hampe",
+    steps: [
+      { family: "crochet", zIndex: 2, pathD: "M 28.17 135.44 A 18.35 18.35 0 0 0 63.60 135.42 L 90.51 35.00" },
+      { family: "crochet", zIndex: 3, pathD: "M 91.49 35.00 L 118.40 135.42 A 18.35 18.35 0 0 0 153.83 135.44" },
+      { family: "trait", zIndex: 1, pathD: "M 72.65 104.27 L 109.35 104.27" },
+    ],
+  },
+  {
+    char: "B",
+    zone: "hampe",
+    steps: [
+      { family: "crochet", zIndex: 3, pathD: "M 81.70 39.65 L 81.70 132.61 A 16.41 16.41 0 0 1 51.09 140.82" },
+      { family: "courbe", zIndex: 1, pathD: "M 65.51 55.12 A 25.98 25.98 0 1 1 83.23 85.82" },
+      { family: "courbe", zIndex: 3, pathD: "M 87.99 87.33 A 29.07 29.07 0 1 1 62.03 127.29" },
+    ],
+  },
+  {
+    char: "D",
+    zone: "hampe",
+    steps: [
+      {
+        family: "double-crochet",
+        variant: "hd-bg",
+        zIndex: 1,
+        pathD: "M 86.99 36.33 A 10.64 10.64 0 0 0 80.71 45.12 L 76.59 92.33 L 72.72 136.64 A 13.54 13.54 0 0 1 45.73 134.28",
+      },
+      { family: "courbe", zIndex: 2, pathD: "M 36.71 62.08 A 55.87 55.87 0 1 1 68.25 144.29" },
+    ],
+  },
+  {
+    char: "G",
+    zone: "hampe",
+    steps: [
+      { family: "courbe", zIndex: 2, pathD: "M 107.90 35 A 18.08 18.08 0 1 0 128.43 59.46" },
+      { family: "courbe", zIndex: 2, pathD: "M 128.70 58.73 A 32.88 32.88 0 1 0 128.70 106.02" },
+      { family: "trait", zIndex: 3, pathD: "M 129.26 95.68 L 129.26 161.43" },
+      { family: "crochet", zIndex: 4, pathD: "M 129.21 161.32 A 12.57 12.57 0 0 1 111.42 143.54 L 142.05 112.91" },
+    ],
+  },
+  {
+    char: "O",
+    zone: "hampe",
+    steps: [
+      { family: "courbe", zIndex: 2, pathD: "M 116.71 37.20 A 57.00 57.00 0 1 0 142.00 52.40" },
+      { family: "courbe", zIndex: 2, pathD: "M 150.67 64.24 A 22.80 22.80 0 1 0 107.31 78.34" },
+    ],
+  },
+  {
+    char: "Q",
+    zone: "hampe",
+    steps: [
+      { family: "courbe", zIndex: 2, pathD: "M 116.27 37.14 A 55.38 55.38 0 1 0 140.83 51.91" },
+      { family: "courbe", zIndex: 2, pathD: "M 149.08 62.30 A 27.00 27.00 0 1 0 99.78 84.25" },
+      { family: "trait", zIndex: 3, pathD: "M 127.40 118.88 L 141.44 149.00" },
+    ],
+  },
+  {
+    char: "P",
+    zone: "hampe",
+    steps: [
+      { family: "crochet", zIndex: 1, pathD: "M 86.70 39.87 L 86.70 133.55 A 15.47 15.47 0 0 1 57.98 141.52" },
+      { family: "courbe", zIndex: 2, pathD: "M 67.55 59.42 A 32.22 32.22 0 1 1 86.74 97.10" },
+    ],
+  },
+  {
+    char: "R",
+    zone: "hampe",
+    steps: [
+      { family: "crochet", zIndex: 3, pathD: "M 83.38 40.03 L 83.38 138.01 A 10.89 10.89 0 0 1 61.73 139.72" },
+      { family: "courbe", zIndex: 2, pathD: "M 64.27 59.37 A 32.14 32.14 0 1 1 83.42 96.95" },
+      { family: "crochet", zIndex: 1, pathD: "M 110.50 96.29 L 114.04 136.75 A 11.23 11.23 0 0 0 136.43 134.99" },
+    ],
+  },
+  {
+    char: "S",
+    zone: "hampe",
+    steps: [
+      { family: "courbe", zIndex: 3, pathD: "M 85.81 35 A 18.50 18.50 0 1 0 119.04 51.20" },
+      { family: "crochet", zIndex: 1, pathD: "M 118.92 50.45 A 19.42 19.42 0 0 0 89.60 75.93 L 113.26 103.15" },
+      { family: "crochet", zIndex: 2, pathD: "M 101.05 89.03 L 124.12 115.55 A 20.35 20.35 0 0 1 93.41 142.25" },
+    ],
+  },
+  {
+    char: "U",
+    zone: "hampe",
+    steps: [
+      {
+        family: "double-crochet",
+        variant: "hd-bg",
+        zIndex: 1,
+        pathD: "M 42.05 50.62 A 14.44 14.44 0 0 1 70.93 50.62 L 70.93 90.33 L 70.93 117.40 A 27.07 27.07 0 0 0 122.93 127.99",
+      },
+      { family: "crochet", zIndex: 2, pathD: "M 122.92 35 L 122.92 135.70 A 13.30 13.30 0 0 0 147.37 142.94" },
+    ],
+  },
+  {
+    char: "V",
+    zone: "hampe",
+    steps: [
+      { family: "crochet", zIndex: 1, pathD: "M 14.91 53.98 A 32.76 32.76 0 0 1 75.39 56.62 L 109.01 149" },
+      { family: "trait", zIndex: 2, pathD: "M 108.79 148.5 L 145.66 35.09" },
+      { family: "trait", zIndex: 3, pathD: "M 145.77 35 L 185.09 35" },
+    ],
+  },
+  {
+    char: "W",
+    zone: "hampe",
+    steps: [
+      { family: "crochet", zIndex: 1, pathD: "M 8 76.21 A 24.84 24.84 0 0 1 53.85 78.21 L 79.33 148.24" },
+      { family: "trait", zIndex: 2, pathD: "M 79.17 147.86 L 107.12 61.88" },
+      { family: "trait", zIndex: 4, pathD: "M 107.32 61.88 L 135.27 147.86" },
+      { family: "trait", zIndex: 5, pathD: "M 166.57 64.05 L 135.63 149" },
+      { family: "trait", zIndex: 3, pathD: "M 167.16 63.47 L 192 63.47" },
+    ],
+  },
+  {
+    char: "Y",
+    zone: "hampe",
+    steps: [
+      {
+        family: "double-crochet",
+        variant: "hd-bg",
+        zIndex: 1,
+        pathD: "M 69.15 37.51 A 7.54 7.54 0 0 1 82.02 42.84 L 82.02 60.44 L 82.02 73.84 A 11.73 11.73 0 0 0 104.21 79.19",
+      },
+      { family: "trait", zIndex: 2, pathD: "M 105.28 35 L 105.28 146.73" },
+      { family: "crochet", zIndex: 3, pathD: "M 105.02 147.18 A 20.86 20.86 0 0 1 82.84 112.37 L 134.55 67.42" },
     ],
   },
 ];
@@ -1079,7 +1239,7 @@ const CURSIVE_UPPERCASE_RAW: CursiveLetterInput[] = [
     steps: [
       { family: "crochet", x: 101, y: 124.8, rotation: 0, scale: 0.8, flip: true, curvature: 0.7, order: 1 },
       { family: "crochet", x: 108.3, y: 100.7, rotation: 92, scale: 0.8, flip: false, curvature: 0.7, order: 2, reverse: true },
-      { family: "trait", x: 112.6, y: 125.2, rotation: 91, scale: 0.4, flip: false, order: 3 },
+      { family: "trait", x: 112.6, y: 125.2, rotation: 91, scale: 0.4, flip: false, order: 3, reverse: true },
     ],
   },
   {

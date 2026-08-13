@@ -168,7 +168,7 @@ function LettresScreen() {
             aria-label={t.common.back}
             className="grid h-11 w-11 place-items-center rounded-full bg-[#FBF6EC] shadow-[0_2px_6px_rgba(74,59,42,0.12)] active:scale-95 transition-transform"
           >
-            <ArrowLeft className="h-5 w-5 text-[#4A3B2A]" strokeWidth={2.5} />
+            <ArrowLeft className="h-5 w-5 text-[#4A3B2A] rtl:rotate-180" strokeWidth={2.5} />
           </Link>
           <div>
             <h1 className="text-[24px] font-bold text-[#4A3B2A] leading-tight">

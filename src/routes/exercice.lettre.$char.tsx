@@ -235,7 +235,7 @@ function LetterExerciseScreen() {
             aria-label={t.exerciceLettre.backToNotebook}
             className="grid h-11 w-11 place-items-center rounded-full bg-[#FBF6EC] shadow-[0_2px_6px_rgba(74,59,42,0.12)] active:scale-95 transition-transform"
           >
-            <ArrowLeft className="h-5 w-5 text-[#4A3B2A]" strokeWidth={2.5} />
+            <ArrowLeft className="h-5 w-5 text-[#4A3B2A] rtl:rotate-180" strokeWidth={2.5} />
           </Link>
           <div>
             <h1 className="text-[24px] font-bold text-[#4A3B2A] leading-tight">
@@ -626,7 +626,7 @@ function LetterSuccessOverlay({
               className="w-full py-3.5 px-4 rounded-xl font-extrabold text-sm bg-[#8FBF6F] hover:bg-[#7AAE5A] text-white shadow-md active:scale-95 transition-all flex items-center justify-center gap-2"
             >
               <span>{t.exerciceLettre.nextLetter} ({nextLetter.char})</span>
-              <ChevronRight className="w-4 h-4 stroke-[3]" />
+              <ChevronRight className="w-4 h-4 stroke-[3] rtl:rotate-180" />
             </button>
           )}
 
@@ -643,7 +643,7 @@ function LetterSuccessOverlay({
               className="w-full py-3.5 px-4 rounded-xl font-extrabold text-sm bg-[#8FBF6F] hover:bg-[#7AAE5A] text-white shadow-md active:scale-95 transition-all flex items-center justify-center gap-2"
             >
               <span>{t.exerciceLettre.nextLetter} ({evaluationNextLetter.char})</span>
-              <ChevronRight className="w-4 h-4 stroke-[3]" />
+              <ChevronRight className="w-4 h-4 stroke-[3] rtl:rotate-180" />
             </button>
           )}
 

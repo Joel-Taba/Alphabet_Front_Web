@@ -1,11 +1,20 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { fr, en, es, type Dictionary } from "./translations";
+import { fr, en, es, ar, type Dictionary } from "./translations";
 
-export type Lang = "fr" | "en" | "es";
+export type Lang = "fr" | "en" | "es" | "ar";
 
 const STORAGE_KEY = "amani_setting_lang";
 
-const dictionaries: Record<Lang, Dictionary> = { fr, en, es };
+const dictionaries: Record<Lang, Dictionary> = { fr, en, es, ar };
+
+/** Langues qui s'écrivent de droite à gauche : la mise en page entière (dir="rtl") s'inverse. */
+const RTL_LANGS: ReadonlySet<Lang> = new Set(["ar"]);
+
+function applyDocumentDirection(lang: Lang) {
+  if (typeof document === "undefined") return;
+  document.documentElement.dir = RTL_LANGS.has(lang) ? "rtl" : "ltr";
+  document.documentElement.lang = lang;
+}
 
 interface LanguageContextValue {
   lang: Lang;
@@ -20,8 +29,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === "fr" || saved === "en" || saved === "es") setLangState(saved);
+    if (saved === "fr" || saved === "en" || saved === "es" || saved === "ar") setLangState(saved);
   }, []);
+
+  useEffect(() => {
+    applyDocumentDirection(lang);
+  }, [lang]);
 
   const setLang = (next: Lang) => {
     setLangState(next);
@@ -51,4 +64,5 @@ export const SPEECH_LOCALE: Record<Lang, string> = {
   fr: "fr-FR",
   en: "en-US",
   es: "es-ES",
+  ar: "ar-SA",
 };
