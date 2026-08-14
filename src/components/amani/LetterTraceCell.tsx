@@ -24,6 +24,7 @@ export function LetterTraceCell({
   size = 84,
   isActive,
   given = false,
+  transparent = false,
   onSolved,
 }: {
   letter: LetterFormation;
@@ -31,6 +32,10 @@ export function LetterTraceCell({
   isActive: boolean;
   /** Case déjà "donnée" (résolue via un mot croisé) : lettre imprimée, non interactive. */
   given?: boolean;
+  /** Fond transparent (sans blanc opaque) : pour poser la case sur un cahier
+   * réglé (CahierFrame/lignes Seyès) et laisser les lignes traverser la case,
+   * comme les cases de RepetitionRow au Palier 2. */
+  transparent?: boolean;
   onSolved?: () => void;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -182,12 +187,12 @@ export function LetterTraceCell({
       className={cn(
         "relative shrink-0 rounded-[10px] border-2 overflow-hidden transition-colors",
         given
-          ? "bg-[#FBF6EC] border-[#A9784F]/40"
+          ? cn(transparent ? "bg-transparent" : "bg-[#FBF6EC]", "border-[#A9784F]/40")
           : solved
-            ? "bg-white border-[#8FBF6F]"
+            ? cn(transparent ? "bg-transparent" : "bg-white", "border-[#8FBF6F]")
             : isActive
-              ? "bg-white border-[#A9784F]/50"
-              : "bg-white border-[#4A3B2A]/12"
+              ? cn(transparent ? "bg-transparent" : "bg-white", "border-[#A9784F]/50")
+              : cn(transparent ? "bg-transparent" : "bg-white", "border-[#4A3B2A]/12")
       )}
       style={{ width: w, height: h }}
     >

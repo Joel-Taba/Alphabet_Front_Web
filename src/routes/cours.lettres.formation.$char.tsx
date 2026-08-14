@@ -52,7 +52,6 @@ function LetterFormationScreen() {
   // groupe de progression prime, sinon on retombe sur la première lettre du
   // groupe de référence pour rester stable d'une lettre à l'autre du même groupe.
   const groupCode = progressionGroup?.id ?? `own-${ownGroup?.letters[0]?.char ?? char}`;
-  const groupTitle = progressionGroup?.title[lang] ?? ownGroup?.title[lang] ?? t.coursFormationChar.vowelsTitle;
   const currentIdx = allLetters.findIndex((l) => l.char === char);
   const prevLetter = currentIdx > 0 ? allLetters[currentIdx - 1] : null;
   const nextLetter = currentIdx < allLetters.length - 1 ? allLetters[currentIdx + 1] : null;
@@ -113,9 +112,6 @@ function LetterFormationScreen() {
 
         {/* Navigation entre les lettres du groupe */}
         <section>
-          <h3 className="text-[14px] font-bold text-[#4A3B2A] uppercase tracking-wide mb-3 px-1">
-            {groupTitle}
-          </h3>
           <div className="grid grid-cols-5 gap-3">
             {allLetters.map((l) => (
               <button

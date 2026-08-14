@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Volume2, ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { ArrowLeft, Dumbbell, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { MobileShell, AmaniMascot, LetterTraceCell } from "@/components/amani";
 import { useSignSpeech } from "@/hooks/useSignSpeech";
 import {
@@ -104,6 +104,7 @@ function WordCourseScreen() {
               groupId={group.id}
               totalWords={group.words.length}
               palier={lang === "fr" ? 4 : 3}
+              practiceWordAria={t.coursMots.practiceWordAria}
             />
           ))}
         </div>
@@ -157,6 +158,7 @@ function WordCard({
   groupId,
   totalWords,
   palier,
+  practiceWordAria,
 }: {
   word: WordEntry;
   lang: ReturnType<typeof useLanguage>["lang"];
@@ -165,7 +167,9 @@ function WordCard({
   groupId: string;
   totalWords: number;
   palier: number;
+  practiceWordAria: string;
 }) {
+  const navigate = useNavigate();
   const letters = lettersForWord(word, lang, style);
   const text = wordText(word, lang);
 
@@ -178,7 +182,19 @@ function WordCard({
   };
 
   return (
-    <div className="bg-white rounded-[20px] p-4 border border-[#4A3B2A]/10 shadow-[0_2px_8px_rgba(74,59,42,0.08)] flex items-center gap-3">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={handleSpeak}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          handleSpeak();
+        }
+      }}
+      aria-label={text}
+      className="bg-white rounded-[20px] p-4 border border-[#4A3B2A]/10 shadow-[0_2px_8px_rgba(74,59,42,0.08)] flex items-center gap-3 cursor-pointer active:scale-[0.99] transition-transform"
+    >
       <div className="flex-1 flex items-center gap-1.5 overflow-x-auto py-1">
         {letters.map((letter, i) => (
           <LetterTraceCell key={`${word.id}-${i}`} letter={letter} size={48} isActive={false} given />
@@ -189,11 +205,14 @@ function WordCard({
       </div>
       <button
         type="button"
-        onClick={handleSpeak}
-        aria-label={text}
+        onClick={(e) => {
+          e.stopPropagation();
+          navigate({ to: "/exercice/mots/$groupId", params: { groupId }, search: { word: word.id } });
+        }}
+        aria-label={format(practiceWordAria, { mot: text })}
         className="w-10 h-10 shrink-0 grid place-items-center rounded-full bg-[#4A90E2]/15 text-[#2D6BBF] hover:bg-[#4A90E2] hover:text-white transition-colors"
       >
-        <Volume2 className="w-4.5 h-4.5" />
+        <Dumbbell className="w-4.5 h-4.5" />
       </button>
     </div>
   );

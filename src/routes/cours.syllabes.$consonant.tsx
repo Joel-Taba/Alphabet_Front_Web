@@ -134,7 +134,7 @@ function SyllableLessonScreen() {
               className="flex items-center gap-2 px-5 py-3 rounded-full bg-[#FBF6EC] border border-[#4A3B2A]/10 text-[#4A3B2A] font-bold text-[14px] shadow-sm active:scale-95 transition-transform"
             >
               <ChevronLeft className="h-4 w-4 rtl:rotate-180" />
-              &quot;{group.syllables[syllableIdx - 1].syllable}&quot;
+              {t.common.previous}
             </button>
           ) : (
             <div />
@@ -145,7 +145,7 @@ function SyllableLessonScreen() {
               onClick={() => goToSyllable(syllableIdx + 1)}
               className="flex items-center gap-2 px-5 py-3 rounded-full bg-[#A9784F] text-white font-bold text-[14px] shadow-md active:scale-95 transition-transform"
             >
-              &quot;{group.syllables[syllableIdx + 1].syllable}&quot;
+              {t.common.next}
               <ChevronRight className="h-4 w-4 rtl:rotate-180" />
             </button>
           ) : nextConsonantGroup ? (
@@ -156,7 +156,7 @@ function SyllableLessonScreen() {
               }
               className="flex items-center gap-2 px-5 py-3 rounded-full bg-[#A9784F] text-white font-bold text-[14px] shadow-md active:scale-95 transition-transform"
             >
-              {format(t.coursSyllabes.nextConsonant, { consonant: nextConsonantGroup.consonant })}
+              {t.common.next}
               <ChevronRight className="h-4 w-4 rtl:rotate-180" />
             </button>
           ) : (

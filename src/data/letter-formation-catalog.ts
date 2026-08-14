@@ -83,7 +83,7 @@ export const VOWELS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-right",
-        pathD: "M 122.46 87.54 A 36.00 36.00 0 1 0 122.46 138.46",
+        pathD: "M 112.77 82.21 A 24.66 24.66 0 1 0 112.77 117.1",
         startXY: [122.46, 87.54],
         strokeColor: C.courbe,
         description: {
@@ -96,7 +96,7 @@ export const VOWELS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 122.46 83 L 122.46 150",
+        pathD: "M 112.77 79.1 L 112.77 125",
         startXY: [122.46, 83.54],
         strokeColor: C.trait,
         description: {
@@ -126,7 +126,7 @@ export const VOWELS: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 62.61 126.00 L 102.81 126.00",
+        pathD: "M 58.88 94.04 L 106.76 94.04",
         startXY: [62.61, 126],
         strokeColor: C.trait,
         description: {
@@ -139,7 +139,7 @@ export const VOWELS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-right",
-        pathD: "M 102.59 125.03 A 21.00 21.00 0 1 0 99.34 143.49",
+        pathD: "M 106.48 92.89 A 25 25 0 1 0 102.61 114.87",
         startXY: [102.59, 125.03],
         strokeColor: C.courbe,
         description: {
@@ -169,7 +169,7 @@ export const VOWELS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 90.85 93.56 L 90.85 149",
+        pathD: "M 91.24 86.5 L 91.24 125",
         startXY: [90.85, 93.56],
         strokeColor: C.trait,
         description: {
@@ -182,7 +182,7 @@ export const VOWELS: LetterFormation[] = [
       {
         family: "point",
         variant: "center",
-        pathD: "M 92.11 77.00 A 3.36 3.36 0 1 0 92.17 77.00",
+        pathD: "M 92.11 75 A 2.33 2.33 0 1 0 92.17 75",
         startXY: [92.11, 77],
         strokeColor: C.trait,
         description: {
@@ -212,7 +212,7 @@ export const VOWELS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "closed",
-        pathD: "M 100 55 A 42 47 0 1 0 100.1 55",
+        pathD: "M 100.03 75 A 22.34 25 0 1 0 100.08 75",
         startXY: [100, 55],
         strokeColor: C.courbe,
         description: {
@@ -242,7 +242,7 @@ export const VOWELS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "bottom-right",
-        pathD: "M 68 60 L 68 118 C 68 140 84 150 102 150 C 120 150 132 140 132 118",
+        pathD: "M 82.23 75 L 82.23 107.23 C 82.23 119.44 91.11 125 101.11 125 C 111.11 125 117.77 119.44 117.77 107.23",
         startXY: [68, 60],
         strokeColor: C.crochet,
         description: {
@@ -255,7 +255,7 @@ export const VOWELS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 132 60 L 132 150",
+        pathD: "M 117.77 75 L 117.77 125",
         startXY: [132, 60],
         strokeColor: C.trait,
         description: {
@@ -287,7 +287,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 69.78 88.65 L 69.78 148.65",
+        pathD: "M 57.15 15 L 57.15 124.37",
         startXY: [69.78, 88.65],
         strokeColor: C.trait,
         description: {
@@ -300,7 +300,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-left",
-        pathD: "M 69.95 118.04 A 18.00 18.00 0 1 1 69.95 143.94",
+        pathD: "M 57.46 68.58 A 32.82 32.82 0 1 1 57.46 115.78",
         startXY: [69.95, 118.04],
         strokeColor: C.courbe,
         description: {
@@ -327,7 +327,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-right",
-        pathD: "M 125 90.3 C 115.4 78.5 99.4 74 85 79.1 C 70.6 84.2 61 97.8 61 113 C 61 128.2 70.6 141.8 85 146.9 C 99.4 152 115.4 147.5 125 135.7",
+        pathD: "M 115.23 84.23 C 108.57 76.03 97.44 72.9 87.43 76.44 C 77.43 79.99 70.77 89.43 70.77 100 C 70.77 110.57 77.43 120.01 87.43 123.56 C 97.44 127.1 108.57 123.97 115.23 115.77",
         startXY: [125, 90.3],
         strokeColor: C.courbe,
         description: {
@@ -354,7 +354,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-right",
-        pathD: "M 125 90.3 C 115.4 78.5 99.4 74 85 79.1 C 70.6 84.2 61 97.8 61 113 C 61 128.2 70.6 141.8 85 146.9 C 99.4 152 115.4 147.5 125 135.7",
+        pathD: "M 121.86 72.08 C 113.19 61.43 98.78 57.38 85.78 61.97 C 72.82 66.58 64.14 78.84 64.14 92.54 C 64.14 106.25 72.82 118.51 85.78 123.1 C 98.78 127.7 113.19 123.64 121.86 113.01",
         startXY: [125, 90.3],
         strokeColor: C.courbe,
         description: {
@@ -367,7 +367,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 125 27 L 125 149",
+        pathD: "M 121.86 15 L 121.86 125",
         startXY: [125, 27],
         strokeColor: C.trait,
         description: {
@@ -394,7 +394,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "top-right",
-        pathD: "M 115 41 C 115 31.1 106.9 23 97 23 C 87.1 23 79 31.1 79 41 L 79 149",
+        pathD: "M 111.7 30.72 C 111.7 22.08 104.63 15 95.99 15 C 87.34 15 80.27 22.08 80.27 30.72 L 80.27 125",
         startXY: [115, 41],
         strokeColor: C.crochet,
         description: {
@@ -407,7 +407,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 63 99 L 99 99",
+        pathD: "M 66.3 81.34 L 97.73 81.34",
         startXY: [63, 99],
         strokeColor: C.trait,
         description: {
@@ -434,7 +434,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-right",
-        pathD: "M 97.42 123.10 A 15.00 15.00 0 1 0 97.42 144.68",
+        pathD: "M 106.58 82.29 A 25.97 25.97 0 1 0 106.58 119.64",
         startXY: [97.42, 123.10],
         strokeColor: C.courbe,
         description: {
@@ -447,7 +447,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "bottom-left",
-        pathD: "M 97.77 122.47 L 97.77 168.97 A 13.50 13.50 0 0 1 73.21 176.71",
+        pathD: "M 107.19 81.2 L 107.19 161.68 A 23.38 23.38 0 0 1 64.69 175.08",
         startXY: [97.77, 122.47],
         strokeColor: C.crochet,
         description: {
@@ -474,7 +474,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 80.00 101.00 L 80.00 149.00",
+        pathD: "M 72.25 15 L 72.25 125",
         startXY: [80, 101],
         strokeColor: C.trait,
         description: {
@@ -487,7 +487,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "top-left",
-        pathD: "M 80.00 131.00 A 6.00 6.00 0 0 1 92.00 131.00 L 92.00 149.00",
+        pathD: "M 72.25 83.75 A 13.75 13.75 0 0 1 99.75 83.75 L 99.75 125",
         startXY: [80, 131],
         strokeColor: C.crochet,
         description: {
@@ -514,7 +514,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "bottom-left",
-        pathD: "M 115.81 95.56 L 115.81 157.39 A 20.61 20.61 0 0 1 74.59 157.39",
+        pathD: "M 115.54 104.17 L 115.54 165.19 A 20.34 20.34 0 0 1 74.86 165.19",
         startXY: [115.81, 95.56],
         strokeColor: C.crochet,
         description: {
@@ -527,7 +527,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "point",
         variant: "center",
-        pathD: "M 112.45 66.00 A 3.36 3.36 0 1 0 112.52 66.00",
+        pathD: "M 112.22 75 A 3.31 3.31 0 1 0 112.29 75",
         startXY: [112.45, 66],
         strokeColor: C.trait,
         description: {
@@ -554,7 +554,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 68 27 L 68 149",
+        pathD: "M 69.67 15 L 69.67 125",
         startXY: [68, 27],
         strokeColor: C.trait,
         description: {
@@ -567,7 +567,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 102.00 77.00 L 68.00 113.00",
+        pathD: "M 100.33 60.07 L 69.67 92.54",
         startXY: [102, 77],
         strokeColor: C.trait,
         description: {
@@ -580,7 +580,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 68 113 L 102 149",
+        pathD: "M 69.67 92.54 L 100.33 125",
         startXY: [68, 113],
         strokeColor: C.trait,
         description: {
@@ -607,7 +607,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 97 27 L 97 149",
+        pathD: "M 97 15 L 97 125",
         startXY: [97, 27],
         strokeColor: C.trait,
         description: {
@@ -634,7 +634,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 58.69 77 L 58.69 149",
+        pathD: "M 67.53 75 L 67.53 125",
         startXY: [58.69, 77],
         strokeColor: C.trait,
         description: {
@@ -647,7 +647,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "top-left",
-        pathD: "M 58.93 92.03 A 14.49 14.49 0 0 1 87.41 95.77 L 87.41 148.14",
+        pathD: "M 67.69 85.43 A 10.07 10.07 0 0 1 87.48 88.03 L 87.48 124.4",
         startXY: [58.93, 92.03],
         strokeColor: C.crochet,
         description: {
@@ -660,7 +660,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "top-left",
-        pathD: "M 88.08 92.89 A 14.49 14.49 0 0 1 116.55 96.63 L 116.55 149.00",
+        pathD: "M 87.95 86.03 A 10.07 10.07 0 0 1 107.71 88.63 L 107.71 125",
         startXY: [88.08, 92.89],
         strokeColor: C.crochet,
         description: {
@@ -687,7 +687,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 63.14 77 L 63.14 149",
+        pathD: "M 68.9 75 L 68.9 125",
         startXY: [63.14, 77],
         strokeColor: C.trait,
         description: {
@@ -700,7 +700,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "top-left",
-        pathD: "M 63.62 95.75 A 18.94 18.94 0 0 1 100.86 100.66 L 100.86 148.57",
+        pathD: "M 69.23 88.03 A 13.16 13.16 0 0 1 95.1 91.43 L 95.1 124.7",
         startXY: [63.62, 95.75],
         strokeColor: C.crochet,
         description: {
@@ -727,7 +727,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 68 77 L 68 149",
+        pathD: "M 87.31 96.44 L 87.31 125",
         startXY: [68, 77],
         strokeColor: C.trait,
         description: {
@@ -740,7 +740,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "top-left",
-        pathD: "M 68 77 C 68 59.3 82.3 45 100 45 C 117.7 45 132 59.3 132 77 L 132 149",
+        pathD: "M 87.31 96.44 C 87.31 89.41 92.97 83.74 100 83.74 C 107.03 83.74 112.69 89.41 112.69 96.44 L 112.69 125",
         startXY: [68, 77],
         strokeColor: C.crochet,
         description: {
@@ -753,7 +753,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "tilde",
-        pathD: "M 79 30 C 85 21 93 21 100 28 C 107 35 115 35 121 26",
+        pathD: "M 91.67 77.8 C 94.04 74.21 97.23 74.21 100 77 C 102.77 79.77 105.96 79.77 108.33 76.2",
         startXY: [79, 30],
         strokeColor: C.courbe,
         description: {
@@ -780,7 +780,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 56.73 71.54 L 56.73 178",
+        pathD: "M 57.22 80.43 L 57.22 185",
         startXY: [56.73, 71.54],
         strokeColor: C.trait,
         description: {
@@ -793,7 +793,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-left",
-        pathD: "M 56.35 75.34 A 33.27 33.27 0 1 1 56.35 123.20",
+        pathD: "M 56.86 84.17 A 32.67 32.67 0 1 1 56.86 131.17",
         startXY: [56.35, 75.34],
         strokeColor: C.courbe,
         description: {
@@ -820,7 +820,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-right",
-        pathD: "M 125 75.3 C 115.4 63.5 99.4 59 85 64.1 C 70.6 69.2 61 82.8 61 98 C 61 113.2 70.6 126.8 85 131.9 C 99.4 137 115.4 132.5 125 120.7",
+        pathD: "M 123.09 87.5 C 114.07 76.42 99.01 72.18 85.46 76.98 C 71.94 81.77 62.92 94.55 62.92 108.85 C 62.92 123.14 71.94 135.93 85.46 140.71 C 99.01 145.51 114.07 141.29 123.09 130.18",
         startXY: [125, 75.3],
         strokeColor: C.courbe,
         description: {
@@ -833,7 +833,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 125 62 L 125 179",
+        pathD: "M 123.09 75 L 123.09 185",
         startXY: [125, 62],
         strokeColor: C.trait,
         description: {
@@ -860,7 +860,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 71 77 L 71 149",
+        pathD: "M 74.98 75 L 74.98 125",
         startXY: [71, 77],
         strokeColor: C.trait,
         description: {
@@ -873,7 +873,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "top-right",
-        pathD: "M 71 92 C 71 84.8 76.8 79 84 79 C 91.2 79 97 84.8 97 92",
+        pathD: "M 74.98 85.43 C 74.98 80.43 79 76.39 84 76.39 C 89 76.39 93.03 80.43 93.03 85.43",
         startXY: [71, 92],
         strokeColor: C.crochet,
         description: {
@@ -900,7 +900,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "top-right",
-        pathD: "M 117.7 83.5 C 113.9 73 102.8 67 91.9 69.6 C 81.1 72.2 73.9 82.5 75.1 93.6 C 76.4 104.6 85.8 113 97 113",
+        pathD: "M 108.76 83.24 C 106.6 77.27 100.3 73.87 94.1 75.34 C 87.97 76.81 83.87 82.67 84.56 88.97 C 85.3 95.23 90.64 100 97 100",
         startXY: [117.7, 83.5],
         strokeColor: C.crochet,
         description: {
@@ -913,7 +913,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "bottom-left",
-        pathD: "M 97 113 C 108.2 113 117.6 121.4 118.9 132.4 C 120.1 143.5 112.9 153.8 102.1 156.4 C 91.2 159 80.1 153 76.3 142.5",
+        pathD: "M 97 100 C 103.36 100 108.7 104.77 109.44 111.03 C 110.13 117.33 106.03 123.19 99.9 124.66 C 93.71 126.13 87.4 122.73 85.24 116.76",
         startXY: [97, 113],
         strokeColor: C.crochet,
         description: {
@@ -940,7 +940,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 97 27 L 97 149",
+        pathD: "M 97 15 L 97 125",
         startXY: [97, 27],
         strokeColor: C.trait,
         description: {
@@ -953,7 +953,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 77 51 L 117 51",
+        pathD: "M 78.96 36.64 L 115.04 36.64",
         startXY: [77, 51],
         strokeColor: C.trait,
         description: {
@@ -980,7 +980,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 65 77 L 97 149",
+        pathD: "M 74.77 75 L 97 125",
         startXY: [65, 77],
         strokeColor: C.trait,
         description: {
@@ -993,7 +993,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 97 149 L 129 77",
+        pathD: "M 97 125 L 119.23 75",
         startXY: [97, 149],
         strokeColor: C.trait,
         description: {
@@ -1020,7 +1020,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 57 77 L 77 149",
+        pathD: "M 69.23 75 L 83.11 125",
         startXY: [57, 77],
         strokeColor: C.trait,
         description: {
@@ -1033,7 +1033,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 77 149 L 97 77",
+        pathD: "M 83.11 125 L 97 75",
         startXY: [77, 149],
         strokeColor: C.trait,
         description: {
@@ -1046,7 +1046,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 97 77 L 117 149",
+        pathD: "M 97 75 L 110.89 125",
         startXY: [97, 77],
         strokeColor: C.trait,
         description: {
@@ -1059,7 +1059,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 117 149 L 137 77",
+        pathD: "M 110.89 125 L 124.77 75",
         startXY: [117, 149],
         strokeColor: C.trait,
         description: {
@@ -1086,7 +1086,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 65 77 L 129 149",
+        pathD: "M 74.77 75 L 119.23 125",
         startXY: [65, 77],
         strokeColor: C.trait,
         description: {
@@ -1099,7 +1099,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 129 77 L 65 149",
+        pathD: "M 119.23 75 L 74.77 125",
         startXY: [129, 77],
         strokeColor: C.trait,
         description: {
@@ -1126,7 +1126,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 65 77 L 97 149",
+        pathD: "M 64.41 75 L 97 148.33",
         startXY: [65, 77],
         strokeColor: C.trait,
         description: {
@@ -1139,7 +1139,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 129 77 L 97 149 L 83 185",
+        pathD: "M 129.59 75 L 97 148.33 L 82.74 185",
         startXY: [129, 77],
         strokeColor: C.trait,
         description: {
@@ -1166,7 +1166,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 63 77 L 131 77",
+        pathD: "M 73.39 75 L 120.61 75",
         startXY: [63, 77],
         strokeColor: C.trait,
         description: {
@@ -1179,7 +1179,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 131 77 L 63 149",
+        pathD: "M 120.61 75 L 73.39 125",
         startXY: [131, 77],
         strokeColor: C.trait,
         description: {
@@ -1192,7 +1192,7 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 63 149 L 131 149",
+        pathD: "M 73.39 125 L 120.61 125",
         startXY: [63, 149],
         strokeColor: C.trait,
         description: {
@@ -1224,7 +1224,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 93.06 19.14 L 48.35 149",
+        pathD: "M 92.91 15.95 L 55.36 125",
         startXY: [93.06, 19.14],
         strokeColor: C.trait,
         description: {
@@ -1237,7 +1237,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 93.45 18.00 L 135.89 148.61",
+        pathD: "M 93.24 15 L 128.88 124.67",
         startXY: [93.45, 18],
         strokeColor: C.trait,
         description: {
@@ -1250,7 +1250,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 70.10 95.60 L 118.17 95.60",
+        pathD: "M 73.63 80.16 L 114 80.16",
         startXY: [70.1, 95.6],
         strokeColor: C.trait,
         description: {
@@ -1277,7 +1277,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 72.98 38.34 L 72.98 148.95",
+        pathD: "M 73.58 17.75 L 73.58 124.96",
         startXY: [72.98, 38.34],
         strokeColor: C.trait,
         description: {
@@ -1290,7 +1290,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-left",
-        pathD: "M 74.51 36.88 A 28.17 28.17 0 1 1 74.51 90.45",
+        pathD: "M 75.06 16.34 A 27.3 27.3 0 1 1 75.06 68.26",
         startXY: [74.51, 36.88],
         strokeColor: C.courbe,
         description: {
@@ -1303,7 +1303,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-left",
-        pathD: "M 75.25 94.05 A 28.17 28.17 0 1 1 75.25 147.62",
+        pathD: "M 75.78 71.74 A 27.3 27.3 0 1 1 75.78 123.66",
         startXY: [75.25, 94.05],
         strokeColor: C.courbe,
         description: {
@@ -1330,7 +1330,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-right",
-        pathD: "M 130.30 73.71 A 43.50 43.50 0 1 0 130.30 136.29",
+        pathD: "M 140.03 30.44 A 55 55 0 1 0 140.03 109.56",
         startXY: [130.3, 73.71],
         strokeColor: C.courbe,
         description: {
@@ -1357,7 +1357,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 75 48.9 L 75 118.1",
+        pathD: "M 63.73 22.4 L 63.73 117.61",
         startXY: [75, 48.9],
         strokeColor: C.trait,
         description: {
@@ -1370,7 +1370,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-left",
-        pathD: "M 75 48.9 C 91.8 39.2 113.2 42.9 125.6 57.8 C 138.1 72.7 138.1 94.3 125.6 109.2 C 113.2 124.1 91.8 127.8 75 118.1",
+        pathD: "M 63.73 22.4 C 86.84 9.04 116.28 14.15 133.34 34.64 C 150.55 55.14 150.55 84.86 133.34 105.37 C 116.28 125.86 86.84 130.95 63.73 117.61",
         startXY: [75, 48.9],
         strokeColor: C.courbe,
         description: {
@@ -1397,7 +1397,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 61 18 L 61 149",
+        pathD: "M 66.77 15 L 66.77 125",
         startXY: [61, 18],
         strokeColor: C.trait,
         description: {
@@ -1410,7 +1410,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 61 18 L 133 18",
+        pathD: "M 66.77 15 L 127.23 15",
         startXY: [61, 18],
         strokeColor: C.trait,
         description: {
@@ -1423,7 +1423,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 61 83.5 L 123 83.5",
+        pathD: "M 66.77 70 L 118.83 70",
         startXY: [61, 83.5],
         strokeColor: C.trait,
         description: {
@@ -1436,7 +1436,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 61 149 L 133 149",
+        pathD: "M 66.77 125 L 127.23 125",
         startXY: [61, 149],
         strokeColor: C.trait,
         description: {
@@ -1463,7 +1463,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 61 18 L 61 149",
+        pathD: "M 66.77 15 L 66.77 125",
         startXY: [61, 18],
         strokeColor: C.trait,
         description: {
@@ -1476,7 +1476,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 61 18 L 133 18",
+        pathD: "M 66.77 15 L 127.23 15",
         startXY: [61, 18],
         strokeColor: C.trait,
         description: {
@@ -1489,7 +1489,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 61 83.5 L 123 83.5",
+        pathD: "M 66.77 70 L 118.83 70",
         startXY: [61, 83.5],
         strokeColor: C.trait,
         description: {
@@ -1516,7 +1516,7 @@ export const UPPERCASE: LetterFormation[] = [
     {
       family: "courbe",
       variant: "open-right",
-      pathD: "M 128.1 65.6 C 109.7 60.1 89.8 66.9 78.6 82.5 C 67.5 98.2 67.5 119.2 78.6 134.9 C 89.8 150.5 109.7 157.3 128.1 151.8",
+      pathD: "M 134.54 17.31 C 112.04 10.58 87.71 18.89 74.01 37.96 C 60.44 57.16 60.44 82.84 74.01 102.03 C 87.71 121.1 112.04 129.41 134.54 122.7",
       startXY: [128.1, 65.6],
       strokeColor: C.courbe,
       description: { fr: "Grande courbe ouverte à droite", en: "Large curve open on the right", es: "Gran curva abierta a la derecha", ar: "منحنى كبير مفتوح من اليمين" },
@@ -1524,7 +1524,7 @@ export const UPPERCASE: LetterFormation[] = [
     {
       family: "trait",
       variant: "horizontal",
-      pathD: "M 100.7 108.7 L 128.1 108.7",
+      pathD: "M 101.04 70 L 134.54 70",
       startXY: [100.7, 108.7],
       strokeColor: C.trait,
       description: { fr: "Trait horizontal, de gauche à droite, au centre de la courbe", en: "Horizontal line, left to right, at the curve's center", es: "Trazo horizontal, de izquierda a derecha, en el centro de la curva", ar: "خط أفقي، من اليسار إلى اليمين، في منتصف المنحنى"},
@@ -1532,7 +1532,7 @@ export const UPPERCASE: LetterFormation[] = [
     {
       family: "trait",
       variant: "vertical",
-      pathD: "M 128.1 108.7 L 128.1 149.3",
+      pathD: "M 134.54 70 L 134.54 119.63",
       startXY: [128.1, 108.7],
       strokeColor: C.trait,
       description: { fr: "Trait vertical, à l'extrémité de l'horizontale, du haut vers le bas", en: "Vertical line, at the end of the horizontal, top to bottom", es: "Trazo vertical, en el extremo de la horizontal, de arriba hacia abajo", ar: "خط عمودي، عند طرف الأفقي، من الأعلى إلى الأسفل"},
@@ -1554,7 +1554,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 61 18 L 61 149",
+        pathD: "M 66.77 15 L 66.77 125",
         startXY: [61, 18],
         strokeColor: C.trait,
         description: {
@@ -1567,7 +1567,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 133 18 L 133 149",
+        pathD: "M 127.23 15 L 127.23 125",
         startXY: [133, 18],
         strokeColor: C.trait,
         description: {
@@ -1580,7 +1580,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 61 83.5 L 133 83.5",
+        pathD: "M 66.77 70 L 127.23 70",
         startXY: [61, 83.5],
         strokeColor: C.trait,
         description: {
@@ -1607,7 +1607,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 97 18 L 97 149",
+        pathD: "M 97 15 L 97 125",
         startXY: [97, 18],
         strokeColor: C.trait,
         description: {
@@ -1634,7 +1634,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 69.56 18.00 L 139.08 18.00",
+        pathD: "M 70.42 15 L 137.76 15",
         startXY: [69.56, 18],
         strokeColor: C.trait,
         zIndex: 2,
@@ -1648,7 +1648,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "crochet",
         variant: "bottom-left",
-        pathD: "M 103.62 20.78 L 103.62 107.92 A 24.10 24.10 0 0 1 55.42 107.92",
+        pathD: "M 103.42 17.7 L 103.42 102.11 A 23.35 23.35 0 0 1 56.74 102.11",
         startXY: [103.62, 20.78],
         strokeColor: C.crochet,
         zIndex: 1,
@@ -1676,7 +1676,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 55.33 18 L 55.33 149",
+        pathD: "M 62.33 15 L 62.33 125",
         startXY: [55.33, 18],
         strokeColor: C.trait,
         zIndex: 1,
@@ -1690,7 +1690,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 139.03 27.85 L 55.55 86.29",
+        pathD: "M 132.61 23.27 L 62.51 72.35",
         startXY: [139.03, 27.85],
         strokeColor: C.trait,
         zIndex: 2,
@@ -1704,7 +1704,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 59.19 87.75 L 142.64 146.19",
+        pathD: "M 65.57 73.57 L 135.64 122.63",
         startXY: [59.19, 87.75],
         strokeColor: C.trait,
         zIndex: 3,
@@ -1732,7 +1732,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 61 18 L 61 149",
+        pathD: "M 66.12 15 L 66.12 125",
         startXY: [61, 18],
         strokeColor: C.trait,
         description: {
@@ -1745,7 +1745,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 61 149 L 125 149",
+        pathD: "M 66.12 125 L 119.88 125",
         startXY: [61, 149],
         strokeColor: C.trait,
         description: {
@@ -1772,7 +1772,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 57 18 L 57 149",
+        pathD: "M 63.41 15 L 63.41 125",
         startXY: [57, 18],
         strokeColor: C.trait,
         description: {
@@ -1785,7 +1785,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 57 18 L 97 117",
+        pathD: "M 63.41 15 L 97 98.12",
         startXY: [57, 18],
         strokeColor: C.trait,
         description: {
@@ -1798,7 +1798,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 97 117 L 137 18",
+        pathD: "M 97 98.12 L 130.59 15",
         startXY: [97, 117],
         strokeColor: C.trait,
         description: {
@@ -1811,7 +1811,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 137 18 L 137 149",
+        pathD: "M 130.59 15 L 130.59 125",
         startXY: [137, 18],
         strokeColor: C.trait,
         description: {
@@ -1838,7 +1838,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 57 18 L 57 149",
+        pathD: "M 63.41 15 L 63.41 125",
         startXY: [57, 18],
         strokeColor: C.trait,
         description: {
@@ -1851,7 +1851,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 57 18 L 137 149",
+        pathD: "M 63.41 15 L 130.59 125",
         startXY: [57, 18],
         strokeColor: C.trait,
         description: {
@@ -1864,7 +1864,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 137 18 L 137 149",
+        pathD: "M 130.59 15 L 130.59 125",
         startXY: [137, 18],
         strokeColor: C.trait,
         description: {
@@ -1891,7 +1891,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 57 18 L 57 149",
+        pathD: "M 66.87 26.32 L 66.87 125",
         startXY: [57, 18],
         strokeColor: C.trait,
         description: {
@@ -1904,7 +1904,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 57 18 L 137 149",
+        pathD: "M 66.87 26.32 L 127.13 125",
         startXY: [57, 18],
         strokeColor: C.trait,
         description: {
@@ -1917,7 +1917,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 137 18 L 137 149",
+        pathD: "M 127.13 26.32 L 127.13 125",
         startXY: [137, 18],
         strokeColor: C.trait,
         description: {
@@ -1930,7 +1930,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "courbe",
         variant: "tilde",
-        pathD: "M 75 10 C 81 1 89 1 96 8 C 103 15 111 15 119 6",
+        pathD: "M 80.43 20.29 C 84.95 13.51 90.97 13.51 96.24 18.78 C 101.51 24.06 107.54 24.06 113.57 17.28",
         startXY: [75, 10],
         strokeColor: C.courbe,
         description: {
@@ -1957,7 +1957,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "courbe",
         variant: "closed",
-        pathD: "M 97 18 A 40 65.5 0 1 0 97.1 18",
+        pathD: "M 97.01 15 A 33.59 55 0 1 0 97.09 15",
         startXY: [97, 18],
         strokeColor: C.courbe,
         description: {
@@ -1984,7 +1984,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 78.33 43.25 L 78.33 149",
+        pathD: "M 79.15 22.51 L 79.15 125",
         startXY: [78.33, 43.25],
         strokeColor: C.trait,
         zIndex: 2,
@@ -1998,7 +1998,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-left",
-        pathD: "M 78.49 44.40 A 31.72 31.72 0 1 1 78.49 90.05",
+        pathD: "M 79.31 23.63 A 30.75 30.75 0 1 1 79.31 67.86",
         startXY: [78.49, 44.4],
         strokeColor: C.courbe,
         zIndex: 1,
@@ -2026,7 +2026,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "courbe",
         variant: "closed",
-        pathD: "M 97 18 A 40 65.5 0 1 0 97.1 18",
+        pathD: "M 97.01 15 A 32.6 53.37 0 1 0 97.09 15",
         startXY: [97, 18],
         strokeColor: C.courbe,
         description: {
@@ -2039,7 +2039,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 105 127 L 123 153",
+        pathD: "M 103.53 103.82 L 118.2 125",
         startXY: [105, 127],
         strokeColor: C.trait,
         description: {
@@ -2066,7 +2066,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 77.79 43.58 L 77.79 149",
+        pathD: "M 78.67 22.83 L 78.67 125",
         startXY: [77.79, 43.58],
         strokeColor: C.trait,
         zIndex: 3,
@@ -2080,7 +2080,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-left",
-        pathD: "M 78.67 44.37 A 31.63 31.63 0 1 1 78.67 89.88",
+        pathD: "M 79.52 23.59 A 30.65 30.65 0 1 1 79.52 67.71",
         startXY: [78.67, 44.37],
         strokeColor: C.courbe,
         zIndex: 2,
@@ -2094,7 +2094,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 105.78 101.42 L 134.49 145.63",
+        pathD: "M 105.79 78.89 L 133.61 121.74",
         startXY: [105.78, 101.42],
         strokeColor: C.trait,
         zIndex: 1,
@@ -2122,7 +2122,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "crochet",
         variant: "top-right",
-        pathD: "M 127.1 40.6 C 121.5 25.3 105.4 16.6 89.6 20.4 C 73.8 24.1 63.3 39.1 65.2 55.2 C 67.1 71.3 80.8 83.5 97 83.5",
+        pathD: "M 122.87 33.13 C 118.07 19.97 104.22 12.5 90.65 15.76 C 77.05 18.94 68.03 31.83 69.67 45.68 C 71.3 59.51 83.08 70 97 70",
         startXY: [127.1, 40.6],
         strokeColor: C.crochet,
         description: {
@@ -2135,7 +2135,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "crochet",
         variant: "bottom-left",
-        pathD: "M 97 83.5 C 113.2 83.5 126.9 95.7 128.8 111.8 C 130.7 127.9 120.2 142.9 104.4 146.6 C 88.6 150.4 72.5 141.7 66.9 126.4",
+        pathD: "M 97 70 C 110.92 70 122.7 80.49 124.33 94.33 C 125.97 108.17 116.95 121.06 103.35 124.24 C 89.78 127.5 75.93 120.02 71.13 106.87",
         startXY: [97, 83.5],
         strokeColor: C.crochet,
         description: {
@@ -2162,7 +2162,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 57 18 L 137 18",
+        pathD: "M 63.41 15 L 130.59 15",
         startXY: [57, 18],
         strokeColor: C.trait,
         description: {
@@ -2175,7 +2175,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 97 18 L 97 149",
+        pathD: "M 97 15 L 97 125",
         startXY: [97, 18],
         strokeColor: C.trait,
         description: {
@@ -2202,7 +2202,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "crochet",
         variant: "bottom",
-        pathD: "M 55.09 18 L 55.09 117.65 A 39.40 39.40 0 0 0 131.49 131.11",
+        pathD: "M 63.06 15 L 63.06 93.86 A 31.17 31.17 0 0 0 123.52 104.5",
         startXY: [55.09, 18],
         strokeColor: C.crochet,
         zIndex: 1,
@@ -2216,7 +2216,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 131.33 18.67 L 131.33 129.91",
+        pathD: "M 123.39 15.53 L 123.39 103.55",
         startXY: [131.33, 18.67],
         strokeColor: C.trait,
         zIndex: 2,
@@ -2244,7 +2244,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 57 18 L 97 149",
+        pathD: "M 63.41 15 L 97 125",
         startXY: [57, 18],
         strokeColor: C.trait,
         description: {
@@ -2257,7 +2257,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 137.00 18.00 L 97.00 149.00",
+        pathD: "M 130.59 15 L 97 125",
         startXY: [137, 18],
         strokeColor: C.trait,
         description: {
@@ -2281,10 +2281,10 @@ export const UPPERCASE: LetterFormation[] = [
       ar: "يتكون الحرف W من أربعة خطوط مائلة تتناوب بين النزول والصعود.",
     },
     steps: [
-      { family: "trait", variant: "oblique-gauche", pathD: "M 53 18 L 75 149", startXY: [53, 18], strokeColor: C.trait, description: { fr: "Première oblique descendante", en: "First diagonal going down", es: "Primer oblicuo descendente", ar: "المائل الأول النازل" } },
-      { family: "trait", variant: "oblique-droit", pathD: "M 75 149 L 97 18", startXY: [75, 149], strokeColor: C.trait, description: { fr: "Deuxième oblique montante", en: "Second diagonal going up", es: "Segundo oblicuo ascendente", ar: "المائل الثاني الصاعد" } },
-      { family: "trait", variant: "oblique-gauche", pathD: "M 97 18 L 119 149", startXY: [97, 18], strokeColor: C.trait, description: { fr: "Troisième oblique descendante", en: "Third diagonal going down", es: "Tercer oblicuo descendente", ar: "المائل الثالث النازل" } },
-      { family: "trait", variant: "oblique-droit", pathD: "M 119 149 L 141 18", startXY: [119, 149], strokeColor: C.trait, description: { fr: "Quatrième oblique montante", en: "Fourth diagonal going up", es: "Cuarto oblicuo ascendente", ar: "المائل الرابع الصاعد" } },
+      { family: "trait", variant: "oblique-gauche", pathD: "M 60.06 15 L 78.53 125", startXY: [53, 18], strokeColor: C.trait, description: { fr: "Première oblique descendante", en: "First diagonal going down", es: "Primer oblicuo descendente", ar: "المائل الأول النازل" } },
+      { family: "trait", variant: "oblique-droit", pathD: "M 78.53 125 L 97 15", startXY: [75, 149], strokeColor: C.trait, description: { fr: "Deuxième oblique montante", en: "Second diagonal going up", es: "Segundo oblicuo ascendente", ar: "المائل الثاني الصاعد" } },
+      { family: "trait", variant: "oblique-gauche", pathD: "M 97 15 L 115.47 125", startXY: [97, 18], strokeColor: C.trait, description: { fr: "Troisième oblique descendante", en: "Third diagonal going down", es: "Tercer oblicuo descendente", ar: "المائل الثالث النازل" } },
+      { family: "trait", variant: "oblique-droit", pathD: "M 115.47 125 L 133.94 15", startXY: [119, 149], strokeColor: C.trait, description: { fr: "Quatrième oblique montante", en: "Fourth diagonal going up", es: "Cuarto oblicuo ascendente", ar: "المائل الرابع الصاعد" } },
     ],
   },
    {
@@ -2302,7 +2302,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 57 18 L 137 149",
+        pathD: "M 63.41 15 L 130.59 125",
         startXY: [57, 18],
         strokeColor: C.trait,
         description: {
@@ -2315,7 +2315,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 137 18 L 57 149",
+        pathD: "M 130.59 15 L 63.41 125",
         startXY: [137, 18],
         strokeColor: C.trait,
         description: {
@@ -2342,7 +2342,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 81.32 18.00 L 110.47 80.50",
+        pathD: "M 86.02 15 L 110.51 67.48",
         startXY: [81.32, 18],
         strokeColor: C.trait,
         description: {
@@ -2355,7 +2355,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 140.08 18.29 L 110.93 80.79",
+        pathD: "M 135.38 15.25 L 110.89 67.73",
         startXY: [140.08, 18.29],
         strokeColor: C.trait,
         description: {
@@ -2368,7 +2368,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 110.70 80.03 L 110.70 149.00",
+        pathD: "M 110.7 67.09 L 110.7 125",
         startXY: [110.7, 80.03],
         strokeColor: C.trait,
         description: {
@@ -2395,7 +2395,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 57 18 L 137 18",
+        pathD: "M 63.41 15 L 130.59 15",
         startXY: [57, 18],
         strokeColor: C.trait,
         description: {
@@ -2408,7 +2408,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 137 18 L 57 149",
+        pathD: "M 130.59 15 L 63.41 125",
         startXY: [137, 18],
         strokeColor: C.trait,
         description: {
@@ -2421,7 +2421,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 57 149 L 137 149",
+        pathD: "M 63.41 125 L 130.59 125",
         startXY: [57, 149],
         strokeColor: C.trait,
         description: {
@@ -2453,7 +2453,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "closed",
-        pathD: "M 97 77 A 21.98 36.00 0 1 0 97.10 77",
+        pathD: "M 97.02 75 A 15.27 25 0 1 0 97.08 75",
         startXY: [97, 77],
         strokeColor: C.courbe,
         description: {
@@ -2480,7 +2480,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 67.85 118.75 L 88.50 89.26",
+        pathD: "M 68.69 102.13 L 87.68 75",
         startXY: [67.85, 118.75],
         strokeColor: C.trait,
         description: {
@@ -2493,7 +2493,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 88.71 89.64 L 88.71 143.64",
+        pathD: "M 87.87 75.34 L 87.87 125",
         startXY: [88.71, 89.64],
         strokeColor: C.trait,
         description: {
@@ -2520,7 +2520,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "crochet",
         variant: "top-left",
-        pathD: "M 92.69 103.37 A 12.75 12.75 0 0 1 110.72 121.40 L 83.67 148.45",
+        pathD: "M 92.5 78.81 A 13.02 13.02 0 0 1 110.92 97.22 L 83.29 124.86",
         startXY: [92.69, 103.37],
         strokeColor: C.crochet,
         description: {
@@ -2533,7 +2533,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 83.77 148.59 L 119.77 148.59",
+        pathD: "M 83.39 125 L 120.15 125",
         startXY: [83.77, 148.59],
         strokeColor: C.trait,
         description: {
@@ -2560,7 +2560,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-left",
-        pathD: "M 68.3 95.8 C 66.7 86.7 71 77.6 79 72.9 C 87 68.3 97.1 69.2 104.1 75.1 C 111.2 81.1 113.8 90.8 110.7 99.5 C 107.5 108.2 99.2 114 90 114",
+        pathD: "M 77.67 89.67 C 76.77 84.5 79.21 79.33 83.75 76.66 C 88.28 74.05 94.02 74.56 97.99 77.92 C 102.02 81.33 103.49 86.83 101.75 91.77 C 99.94 96.71 95.21 100 89.99 100",
         startXY: [68.3, 95.8],
         strokeColor: C.courbe,
         description: {
@@ -2573,7 +2573,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-left",
-        pathD: "M 90 114 C 99.2 114 107.5 119.8 110.7 128.5 C 113.8 137.2 111.2 146.9 104.1 152.9 C 97.1 158.8 87 159.7 79 155.1 C 71 150.4 66.7 141.3 68.3 132.2",
+        pathD: "M 89.99 100 C 95.21 100 99.94 103.29 101.75 108.23 C 103.49 113.17 102.02 118.67 97.99 122.08 C 94.02 125.44 88.28 125.95 83.75 123.34 C 79.21 120.67 76.77 115.5 77.67 110.33",
         startXY: [90, 114],
         strokeColor: C.courbe,
         description: {
@@ -2600,7 +2600,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 96.49 94.24 L 72.09 149.05",
+        pathD: "M 98.86 75 L 84.58 107.07",
         startXY: [96.49, 94.24],
         strokeColor: C.trait,
         description: {
@@ -2613,7 +2613,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 72.29 149.12 L 132.29 149.12",
+        pathD: "M 84.7 107.11 L 119.8 107.11",
         startXY: [72.29, 149.12],
         strokeColor: C.trait,
         description: {
@@ -2626,7 +2626,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 102.47 119.69 L 102.47 179.69",
+        pathD: "M 102.36 89.89 L 102.36 125",
         startXY: [102.47, 119.69],
         strokeColor: C.trait,
         description: {
@@ -2653,7 +2653,7 @@ export const DIGITS: LetterFormation[] = [
     {
       family: "trait",
       variant: "horizontal",
-      pathD: "M 74 77 L 114 77",
+      pathD: "M 85.06 75 L 106.22 75",
       startXY: [74, 77],
       strokeColor: C.trait,
       description: { fr: "Trait horizontal en haut", en: "Horizontal line at the top", es: "Trazo horizontal arriba", ar: "خط أفقي في الأعلى" },
@@ -2661,7 +2661,7 @@ export const DIGITS: LetterFormation[] = [
     {
       family: "trait",
       variant: "vertical",
-      pathD: "M 75 82 L 75 116",
+      pathD: "M 85.59 77.64 L 85.59 95.63",
       startXY: [75, 82],
       strokeColor: C.trait,
       description: { fr: "Petit trait vertical à gauche", en: "Small vertical line on the left", es: "Pequeño trazo vertical a la izquierda", ar: "خط عمودي صغير إلى اليسار"},
@@ -2669,7 +2669,7 @@ export const DIGITS: LetterFormation[] = [
     {
       family: "crochet",
       variant: "bottom-right",
-      pathD: "M 75 116 C 87.6 108.2 104 110.7 113.7 121.9 C 123.4 133.2 123.4 149.8 113.7 161.1 C 104 172.3 87.6 174.8 75 166.9",
+      pathD: "M 85.59 95.63 C 92.26 91.51 100.93 92.83 106.06 98.76 C 111.2 104.73 111.2 113.53 106.06 119.5 C 100.93 125.43 92.26 126.74 85.59 122.57",
       startXY: [75, 116],
       strokeColor: C.crochet,
       description: { fr: "Crochet qui balaie un grand arc et redescend aligné avec son point de départ", en: "Hook sweeping a large arc and coming back down aligned with its starting point", es: "Gancho que traza un gran arco y vuelve a bajar alineado con su punto de partida", ar: "خطاف يرسم قوسًا كبيرًا وينزل محاذيًا لنقطة انطلاقه"},
@@ -2691,7 +2691,7 @@ export const DIGITS: LetterFormation[] = [
     {
       family: "crochet",
       variant: "top-right",
-      pathD: "M 115.77 90.93 A 15.54 15.54 0 0 0 84.77 92.56 L 84.77 137.18",
+      pathD: "M 111.42 84.68 A 10.79 10.79 0 0 0 89.89 85.81 L 89.89 116.8",
       startXY: [115.77, 90.93],
       strokeColor: C.crochet,
       description: {
@@ -2704,7 +2704,7 @@ export const DIGITS: LetterFormation[] = [
     {
       family: "courbe",
       variant: "closed",
-      pathD: "M 85.07 138.22 A 17.25 17.25 0 1 0 85.07 125.28",
+      pathD: "M 90.11 117.52 A 11.98 11.98 0 1 0 90.11 108.53",
       startXY: [85.07, 138.22],
       strokeColor: C.courbe,
       description: {
@@ -2731,7 +2731,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "trait",
         variant: "horizontal",
-        pathD: "M 76.69 77.00 L 126.06 77.00",
+        pathD: "M 84.33 75 L 118.62 75",
         startXY: [76.69, 77],
         strokeColor: C.trait,
         description: {
@@ -2744,7 +2744,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 126.70 77.41 L 93.33 149.00",
+        pathD: "M 119.06 75.29 L 95.89 125",
         startXY: [126.7, 77.41],
         strokeColor: C.trait,
         description: {
@@ -2771,7 +2771,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "closed",
-        pathD: "M 97 77 A 22 18 0 1 0 97.1 77",
+        pathD: "M 97.02 75 A 14.87 12.16 0 1 0 97.08 75",
         startXY: [97, 77],
         strokeColor: C.courbe,
         description: {
@@ -2784,7 +2784,7 @@ export const DIGITS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "closed",
-        pathD: "M 97 111 A 24 20 0 1 0 97.1 111",
+        pathD: "M 97.02 97.97 A 16.21 13.51 0 1 0 97.08 97.97",
         startXY: [97, 111],
         strokeColor: C.courbe,
         description: {
@@ -2811,7 +2811,7 @@ export const DIGITS: LetterFormation[] = [
     {
       family: "courbe",
       variant: "closed",
-      pathD: "M 124.96 87.35 A 18.19 18.19 0 1 0 124.96 103.02",
+      pathD: "M 119.68 82.19 A 12.62 12.62 0 1 0 119.68 93.05",
       startXY: [124.96, 87.35],
       strokeColor: C.courbe,
       description: {
@@ -2824,7 +2824,7 @@ export const DIGITS: LetterFormation[] = [
     {
       family: "crochet",
       variant: "bottom-left",
-      pathD: "M 124.84 85.34 L 124.84 133.08 A 15.91 15.91 0 0 1 93.97 138.52",
+      pathD: "M 119.59 80.79 L 119.59 113.91 A 11.03 11.03 0 0 1 98.16 117.68",
       startXY: [124.84, 85.34],
       strokeColor: C.crochet,
       description: {

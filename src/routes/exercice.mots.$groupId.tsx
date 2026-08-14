@@ -26,10 +26,13 @@ import { useCountdown } from "@/hooks/useCountdown";
 import { awardCompletion, awardRestartBonus } from "@/lib/progress";
 
 export const Route = createFileRoute("/exercice/mots/$groupId")({
-  validateSearch: (search: Record<string, unknown>): { amaniEval?: string } => ({
+  validateSearch: (search: Record<string, unknown>): { amaniEval?: string; word?: string } => ({
     // Nommé "amaniEval" — certains noms de clé courts (ex. "chrono"=1) sont
     // interceptés et redirigés silencieusement par le proxy de dev.
     amaniEval: typeof search.amaniEval === "string" ? search.amaniEval : undefined,
+    // Id du mot ciblé par le bouton haltère (page de cours) : la page
+    // n'affiche alors que ce seul mot, au lieu de tout le groupe.
+    word: typeof search.word === "string" ? search.word : undefined,
   }),
   head: ({ params }) => ({
     meta: [
@@ -42,7 +45,7 @@ export const Route = createFileRoute("/exercice/mots/$groupId")({
 
 function WordExerciseScreen() {
   const { groupId } = Route.useParams();
-  const { amaniEval } = Route.useSearch();
+  const { amaniEval, word: onlyWordId } = Route.useSearch();
   const navigate = useNavigate();
   const { speak } = useSignSpeech();
   const { t, lang } = useLanguage();
@@ -51,6 +54,12 @@ function WordExerciseScreen() {
   const group = PALIER3_GROUP_MAP.get(groupId);
   const groupIdx = PALIER3_GROUPS.findIndex((g) => g.id === groupId);
   const nextGroup = groupIdx >= 0 && groupIdx < PALIER3_GROUPS.length - 1 ? PALIER3_GROUPS[groupIdx + 1] : null;
+
+  // Bouton haltère d'un mot précis (page de cours) : la page ne montre plus
+  // que ce mot, au lieu de tout le groupe — retombe sur le groupe complet si
+  // l'id ne correspond à rien (lien invalide).
+  const words = onlyWordId ? group?.words.filter((w) => w.id === onlyWordId) ?? [] : group?.words ?? [];
+  const wordsToShow = words.length > 0 ? words : group?.words ?? [];
 
   // En évaluation, une fois le dernier groupe atteint on reboucle sur le
   // premier — seul le chronomètre décide de la fin de la session.
@@ -68,7 +77,7 @@ function WordExerciseScreen() {
   // le bonus n'est attribué qu'à ce moment-là (voir l'effet plus bas), jamais
   // au clic lui-même.
   const [awaitingRepeatCompletion, setAwaitingRepeatCompletion] = useState(false);
-  const allDone = !!group && doneWords.size === group.words.length;
+  const allDone = wordsToShow.length > 0 && doneWords.size === wordsToShow.length;
 
   useEffect(() => {
     if (allDone && awaitingRepeatCompletion) {
@@ -127,7 +136,7 @@ function WordExerciseScreen() {
               {groupTitle}
             </h1>
             <p className="text-[13px] text-[#7A6A55] font-normal">
-              {format(t.exerciceMots.wordsReady, { done: doneWords.size, total: group.words.length })}
+              {format(t.exerciceMots.wordsReady, { done: doneWords.size, total: wordsToShow.length })}
             </p>
           </div>
         </div>
@@ -147,7 +156,7 @@ function WordExerciseScreen() {
         </div>
 
         <div className="flex flex-col gap-3.5">
-          {group.words.map((word) => (
+          {wordsToShow.map((word) => (
             <WordTraceRow
               key={`${word.id}-r${restartKey}`}
               word={word}
@@ -245,16 +254,40 @@ function WordTraceRow({
           </button>
         </div>
       </div>
-      <div className="flex items-center gap-2 px-3 py-3 overflow-x-auto">
-        {letters.map((letter, i) => (
-          <LetterTraceCell
-            key={`${word.id}-${i}`}
-            letter={letter}
-            size={64}
-            isActive={i === activeIdx}
-            onSolved={() => handleLetterSolved(i)}
-          />
-        ))}
+      <div className="overflow-x-auto" style={{ backgroundColor: "#FFFFFF" }}>
+        <div className="relative inline-block min-w-full" style={{ minHeight: 64 + 24 }}>
+          {/* Lignes Seyès de référence — mêmes 4 lignes équidistantes (intervalle
+              60 dans l'espace lettre 0-200) que CahierFrame.tsx, converties en
+              pixels ici via l'échelle des cases carrées de LetterTraceCell
+              (size=64, sc=0.32, pas de décalage de centrage) plus le padding
+              vertical (py-3=12px) de la rangée : pixelY = 12 + yLettre * 0.32.
+              Le conteneur est en inline-block (largeur = contenu) pour que les
+              lignes défilent avec les lettres sur les mots longs. */}
+          {[10, 70, 130, 190].map((yLettre, i) => (
+            <div
+              key={yLettre}
+              className="absolute left-0 right-0"
+              style={{
+                top: 12 + yLettre * 0.32,
+                height: i === 2 ? 1.5 : 1,
+                backgroundColor: i === 2 ? "#E05252" : "#4A90E2",
+                opacity: 0.8,
+              }}
+            />
+          ))}
+          <div className="relative z-10 flex items-center gap-2 px-3 py-3">
+            {letters.map((letter, i) => (
+              <LetterTraceCell
+                key={`${word.id}-${i}`}
+                letter={letter}
+                size={64}
+                isActive={i === activeIdx}
+                transparent
+                onSolved={() => handleLetterSolved(i)}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

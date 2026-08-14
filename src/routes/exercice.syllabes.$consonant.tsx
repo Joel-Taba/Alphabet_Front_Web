@@ -250,16 +250,36 @@ function SyllableTraceRow({
           </button>
         </div>
       </div>
-      <div className="flex items-center gap-2 px-3 py-3">
-        {letters.map((letter, i) => (
-          <LetterTraceCell
-            key={`${entry.syllable}-${i}`}
-            letter={letter}
-            size={72}
-            isActive={i === activeIdx}
-            onSolved={() => handleLetterSolved(i)}
+      <div className="relative overflow-hidden" style={{ backgroundColor: "#FFFFFF", minHeight: 72 + 24 }}>
+        {/* Lignes Seyès de référence — mêmes 4 lignes équidistantes (intervalle
+            60 dans l'espace lettre 0-200) que CahierFrame.tsx, converties en
+            pixels ici via l'échelle des cases carrées de LetterTraceCell
+            (size=72, sc=0.36, pas de décalage de centrage) plus le padding
+            vertical (py-3=12px) de la rangée : pixelY = 12 + yLettre * 0.36. */}
+        {[10, 70, 130, 190].map((yLettre, i) => (
+          <div
+            key={yLettre}
+            className="absolute left-0 right-0"
+            style={{
+              top: 12 + yLettre * 0.36,
+              height: i === 2 ? 1.5 : 1,
+              backgroundColor: i === 2 ? "#E05252" : "#4A90E2",
+              opacity: 0.8,
+            }}
           />
         ))}
+        <div className="relative z-10 flex items-center gap-2 px-3 py-3">
+          {letters.map((letter, i) => (
+            <LetterTraceCell
+              key={`${entry.syllable}-${i}`}
+              letter={letter}
+              size={72}
+              isActive={i === activeIdx}
+              transparent
+              onSolved={() => handleLetterSolved(i)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

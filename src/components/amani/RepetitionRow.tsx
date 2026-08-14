@@ -384,15 +384,19 @@ export function RepetitionRow({
           minHeight: OCC_H + 24,
         }}
       >
-        {/* Lignes Seyès de référence */}
-        {[20, 45, 70, 95, 115, 135].map((y, i) => (
+        {/* Lignes Seyès de référence — mêmes 4 lignes équidistantes (intervalle
+            60 dans l'espace lettre 0-200) que CahierFrame.tsx, converties en
+            pixels ici via l'échelle fixe de OccurrenceCanvas (sc=0.5, oy=20)
+            plus le padding vertical (py-3=12px) de la zone d'occurrences :
+            pixelY = 32 + yLettre * 0.5. */}
+        {[10, 70, 130, 190].map((yLettre, i) => (
           <div
-            key={y}
+            key={yLettre}
             className="absolute left-0 right-0"
             style={{
-              top: y + 12,
-              height: i === 3 ? 1.5 : 1,
-              backgroundColor: i === 3 ? "#E05252" : "#4A90E2",
+              top: 32 + yLettre * 0.5,
+              height: i === 2 ? 1.5 : 1,
+              backgroundColor: i === 2 ? "#E05252" : "#4A90E2",
               opacity: 0.8,
             }}
           />

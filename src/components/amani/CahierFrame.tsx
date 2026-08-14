@@ -5,16 +5,21 @@ import { cn } from "@/lib/utils";
  * Fond quadrillé + lignes réglées façon cahier français (Seyès simplifié),
  * utilisé comme cadre pour tous les tracés de signes/lettres (cours et exercices).
  *
- * Les lignes réglées sont positionnées en % pour correspondre exactement aux
- * zones du système de coordonnées 200×200 partagé par tout le catalogue de
- * lettres (ASC_TOP=27, CORPS_TOP=77, BASELINE=149, DESC_BOT=194), afin que le
- * tracé affiché par-dessus s'aligne toujours naturellement sur les lignes.
+ * 4 lignes strictement équidistantes (intervalle = 60, dans le système de
+ * coordonnées 200×200 partagé par tout le catalogue de lettres) :
+ *   HAMPE_TOP=10, CORPS_TOP=70, BASELINE=130, JAMBE_BOT=190.
+ * Les lettres courtes (corps) tiennent exactement entre CORPS_TOP et BASELINE ;
+ * les lettres à hampe ET les majuscules entre HAMPE_TOP et BASELINE (2
+ * intervalles, même hauteur pour les deux — pas de ligne dédiée séparée pour
+ * les majuscules) ; les lettres à jambe ont leur tête entre CORPS_TOP et
+ * BASELINE et leur jambage entre BASELINE et JAMBE_BOT (1 intervalle de
+ * chaque côté).
  */
 const RULED_LINES = [
-  { pct: 13.5, baseline: false }, // haut de la zone hampe haute
-  { pct: 38.5, baseline: false }, // haut du corps de ligne
-  { pct: 74.5, baseline: true },  // ligne d'écriture (base)
-  { pct: 97, baseline: false },   // bas de la zone jambe basse
+  { pct: 5, baseline: false },    // haut de la zone hampe / majuscules
+  { pct: 35, baseline: false },   // haut du corps de ligne / tête des lettres à jambe
+  { pct: 65, baseline: true },    // ligne d'écriture (base)
+  { pct: 95, baseline: false },   // bas de la zone jambe
 ];
 
 const PAPER_BG_COLOR = "#FFFFFF";

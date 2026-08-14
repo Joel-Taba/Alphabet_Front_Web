@@ -9,7 +9,16 @@
 
 /* Polices liées au format d'écriture (Profil > Réglages > "Format d'écriture") */
 @import "@fontsource/comic-neue/latin-300.css";
-@import "@fontsource/dancing-script/latin-700.css";
+
+/* Police cursive personnalisée (fournie par l'équipe, fichier auto-hébergé
+ * dans public/fonts — pas de package @fontsource pour celle-ci). */
+@font-face {
+  font-family: "CursiveStandard";
+  src: url("/fonts/cursive-standard.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 @custom-variant dark (&:is(.dark *));
 
@@ -89,7 +98,7 @@
 
   --font-sans: "Baloo 2", ui-rounded, system-ui, sans-serif;
   --font-script: "Comic Neue", "Baloo 2", ui-rounded, system-ui, sans-serif;
-  --font-cursive: "Dancing Script", "Comic Neue", cursive, "Baloo 2", system-ui, sans-serif;
+  --font-cursive: "CursiveStandard", "Comic Neue", cursive, "Baloo 2", system-ui, sans-serif;
 
   --shadow-card: 0 2px 6px rgba(74, 59, 42, 0.12);
   --shadow-modal: 0 8px 24px rgba(74, 59, 42, 0.25);
