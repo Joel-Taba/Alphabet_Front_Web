@@ -1,6 +1,6 @@
 import React from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Lock, Leaf, Sprout, PenTool, BookOpen, Blocks, Grid3x3, Sparkle } from "lucide-react";
+import { Lock, Leaf, Sprout, PenTool, BookOpen, Blocks, Grid3x3, Search, Sparkle } from "lucide-react";
 import { AmaniMascot } from "@/components/amani";
 import victoirePalierImg from "@/assets/amani-victoire-palier-badge.png";
 import { getPalier2Groups } from "@/data/palier2-groups";
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/_app/accueil")({
   component: ParcoursBranche,
 });
 
-type StepKind = "active" | "locked" | "bonus" | "crossword" | "medal" | "header";
+type StepKind = "active" | "locked" | "bonus" | "crossword" | "wordsearch" | "medal" | "header";
 
 type Step = {
   kind: StepKind;
@@ -232,15 +232,17 @@ function ParcoursBranche() {
           to: { pathname: `/exercice/mots/${group.id}` },
         },
       ];
-      // Mots croisés à difficulté progressive : un niveau (2 → 10 mots) inséré tous les deux groupes.
+      // Mots croisés / mots mêlés à difficulté progressive, en alternance : un niveau
+      // (2 → 10 mots) inséré tous les deux groupes, un coup mots croisés, un coup mots mêlés.
       if (idx % 2 === 1) {
         const levelIdx = (idx - 1) / 2;
         const level = PALIER3_CROSSWORD_LEVELS[levelIdx];
         if (level) {
+          const isWordSearch = levelIdx % 2 === 1;
           entries.push({
-            step: { kind: "crossword" },
+            step: { kind: isWordSearch ? "wordsearch" : "crossword" },
             side: 0,
-            to: { pathname: `/exercice/mots-croises/lvl${level}` },
+            to: { pathname: isWordSearch ? `/exercice/mots-meles/lvl${level}` : `/exercice/mots-croises/lvl${level}` },
           });
         }
       }
@@ -501,9 +503,11 @@ function StepNode({
   const stepLabel =
     step.kind === "crossword"
       ? t.parcours.crosswordStep
-      : step.iconType === "branche"
-        ? t.parcours.exerciceStep
-        : t.parcours.coursStep;
+      : step.kind === "wordsearch"
+        ? t.parcours.wordSearchStep
+        : step.iconType === "branche"
+          ? t.parcours.exerciceStep
+          : t.parcours.coursStep;
 
   const content = (() => {
     if (step.kind === "header") {
@@ -661,6 +665,55 @@ function StepNode({
               }
             >
               <Grid3x3 className={cn(isCurrent ? "h-9 w-9" : "h-6 w-6 opacity-70")} strokeWidth={2.2} />
+            </div>
+            {number != null && <NumberBadge number={number} color={borderColor} muted={!isCurrent} />}
+          </div>
+          <span
+            className={cn("text-[11px] font-bold uppercase tracking-wide text-center", !isCurrent && "text-text-secondary/70")}
+            style={isCurrent ? { color: borderColor } : undefined}
+          >
+            {stepLabel}
+          </span>
+        </div>
+      );
+    }
+
+    if (step.kind === "wordsearch") {
+      return (
+        <div className="relative flex flex-col items-center gap-2.5">
+          {isCurrent && (
+            <div className="relative">
+              <div
+                className="rounded-full border-2 bg-surface px-5 py-1.5 text-[14px] font-bold uppercase tracking-wide shadow-[var(--shadow-card)]"
+                style={{ borderColor, color: borderColor }}
+              >
+                {t.parcours.start}
+              </div>
+              <span
+                aria-hidden
+                className="absolute left-1/2 -bottom-1.5 h-3 w-3 -translate-x-1/2 rotate-45 border-b-2 border-r-2 bg-surface"
+                style={{ borderColor }}
+              />
+            </div>
+          )}
+          <div className="relative">
+            {isCurrent && <CurrentSparkles color={borderColor} />}
+            <div
+              aria-label={t.parcours.wordSearchStep}
+              className={cn(
+                "grid place-items-center rounded-2xl border-4 shadow-[var(--shadow-card)]",
+                isCurrent ? "h-20 w-20 text-surface" : "h-14 w-14 border-disabled bg-disabled text-text-secondary"
+              )}
+              style={
+                isCurrent
+                  ? {
+                      borderColor,
+                      background: `radial-gradient(circle at 32% 28%, color-mix(in srgb, ${color} 70%, white) 0%, ${color} 60%)`,
+                    }
+                  : undefined
+              }
+            >
+              <Search className={cn(isCurrent ? "h-9 w-9" : "h-6 w-6 opacity-70")} strokeWidth={2.2} />
             </div>
             {number != null && <NumberBadge number={number} color={borderColor} muted={!isCurrent} />}
           </div>

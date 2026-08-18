@@ -6,6 +6,7 @@ import {
   SignGlyph,
   glyphColorByFamily,
   CrosswordPlay,
+  WordSearchPlay,
   zOrderedStepIndices,
   type SignFamily,
 } from "@/components/amani";
@@ -15,6 +16,7 @@ import { getLetterFormation } from "@/data/letter-style-resolver";
 import { useWritingStyle } from "@/hooks/useWritingStyle";
 import { FULL_WORD_BANK } from "@/data/word-bank-full";
 import { generateCrossword, type GeneratedCrossword } from "@/lib/crosswordGenerator";
+import { generateWordSearch, type GeneratedWordSearch } from "@/lib/wordSearchGenerator";
 import { cn } from "@/lib/utils";
 import gribouillageImg from "@/assets/amani-gribouillage.png";
 
@@ -31,7 +33,7 @@ export const Route = createFileRoute("/_app/bibliotheque")({
   component: ModeLibre,
 });
 
-type Tab = "scribble" | "sign" | "letter" | "digit" | "crossword";
+type Tab = "scribble" | "sign" | "letter" | "digit" | "crossword" | "wordsearch";
 
 const SIGN_FAMILIES: SignFamily[] = ["trait", "courbe", "point", "crochet"];
 /** Liste des caractères a→z puis A→Z (le style script sert uniquement à énumérer les lettres). */
@@ -166,7 +168,7 @@ function ModeLibre() {
     ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
   };
 
-  const tabs: Tab[] = ["scribble", "sign", "letter", "digit", "crossword"];
+  const tabs: Tab[] = ["scribble", "sign", "letter", "digit", "crossword", "wordsearch"];
 
   return (
     <div className="relative flex flex-col flex-1 overflow-y-auto">
@@ -215,6 +217,8 @@ function ModeLibre() {
 
         {tab === "crossword" ? (
           <FreeCrosswordSection />
+        ) : tab === "wordsearch" ? (
+          <FreeWordSearchSection />
         ) : (
         <>
         {/* Sélecteur de modèle (masqué en griffonnage libre) */}
@@ -460,6 +464,61 @@ function FreeCrosswordSection() {
         <CrosswordPlay key={gameKey} crossword={crossword} />
       ) : (
         <p className="text-center text-[13px] text-[#7A6A55] py-8">{t.modeLibreCroises.generating}</p>
+      )}
+    </div>
+  );
+}
+
+/* ── Section Mots Mêlés du Mode Libre : grille aléatoire à volonté ────── */
+function FreeWordSearchSection() {
+  const { t } = useLanguage();
+  const [wordSearch, setWordSearch] = useState<GeneratedWordSearch | null>(null);
+  const [gameKey, setGameKey] = useState(0);
+
+  const newGame = useCallback(() => {
+    const wordCount = Math.random() < 0.5 ? 5 : 6;
+    const seed = Math.floor(Math.random() * 1_000_000);
+    const result = generateWordSearch(FULL_WORD_BANK, wordCount, seed);
+    setWordSearch(result);
+    setGameKey((k) => k + 1);
+  }, []);
+
+  useEffect(() => {
+    newGame();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div
+        className="flex items-center gap-4 rounded-3xl p-4"
+        style={{ background: "#FBF6EC", boxShadow: "0 2px 8px rgba(74,59,42,0.10)" }}
+      >
+        <AmaniMascot pose="curiosite" size="small" />
+        <div className="min-w-0">
+          <p className="text-[15px] font-bold leading-tight" style={{ color: "#4A3B2A" }}>
+            {t.modeLibreMeles.title}
+          </p>
+          <p className="text-[13px] mt-0.5" style={{ color: "#7A6A55" }}>
+            {t.modeLibreMeles.intro}
+          </p>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={newGame}
+        className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl font-extrabold text-[15px] text-white transition-transform active:scale-95"
+        style={{ background: "#4A90E2", boxShadow: "0 3px 0 0 #2D6BBF" }}
+      >
+        <Shuffle className="w-4.5 h-4.5" />
+        {t.modeLibreMeles.newGame}
+      </button>
+
+      {wordSearch ? (
+        <WordSearchPlay key={gameKey} wordSearch={wordSearch} />
+      ) : (
+        <p className="text-center text-[13px] text-[#7A6A55] py-8">{t.modeLibreMeles.generating}</p>
       )}
     </div>
   );

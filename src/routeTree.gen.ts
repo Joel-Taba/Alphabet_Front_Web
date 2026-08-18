@@ -25,6 +25,7 @@ import { Route as AppBibliothequeRouteImport } from './routes/_app.bibliotheque'
 import { Route as AppAccueilRouteImport } from './routes/_app.accueil'
 import { Route as ExerciceSyllabesConsonantRouteImport } from './routes/exercice.syllabes.$consonant'
 import { Route as ExerciceMotsGroupIdRouteImport } from './routes/exercice.mots.$groupId'
+import { Route as ExerciceMotsMelesPuzzleIdRouteImport } from './routes/exercice.mots-meles.$puzzleId'
 import { Route as ExerciceMotsCroisesPuzzleIdRouteImport } from './routes/exercice.mots-croises.$puzzleId'
 import { Route as ExerciceLettreCharRouteImport } from './routes/exercice.lettre.$char'
 import { Route as CoursSyllabesConsonantRouteImport } from './routes/cours.syllabes.$consonant'
@@ -112,6 +113,12 @@ const ExerciceMotsGroupIdRoute = ExerciceMotsGroupIdRouteImport.update({
   path: '/mots/$groupId',
   getParentRoute: () => ExerciceRoute,
 } as any)
+const ExerciceMotsMelesPuzzleIdRoute =
+  ExerciceMotsMelesPuzzleIdRouteImport.update({
+    id: '/mots-meles/$puzzleId',
+    path: '/mots-meles/$puzzleId',
+    getParentRoute: () => ExerciceRoute,
+  } as any)
 const ExerciceMotsCroisesPuzzleIdRoute =
   ExerciceMotsCroisesPuzzleIdRouteImport.update({
     id: '/mots-croises/$puzzleId',
@@ -164,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/cours/syllabes/$consonant': typeof CoursSyllabesConsonantRoute
   '/exercice/lettre/$char': typeof ExerciceLettreCharRoute
   '/exercice/mots-croises/$puzzleId': typeof ExerciceMotsCroisesPuzzleIdRoute
+  '/exercice/mots-meles/$puzzleId': typeof ExerciceMotsMelesPuzzleIdRoute
   '/exercice/mots/$groupId': typeof ExerciceMotsGroupIdRoute
   '/exercice/syllabes/$consonant': typeof ExerciceSyllabesConsonantRoute
   '/cours/lettres/formation/$char': typeof CoursLettresFormationCharRoute
@@ -187,6 +195,7 @@ export interface FileRoutesByTo {
   '/cours/syllabes/$consonant': typeof CoursSyllabesConsonantRoute
   '/exercice/lettre/$char': typeof ExerciceLettreCharRoute
   '/exercice/mots-croises/$puzzleId': typeof ExerciceMotsCroisesPuzzleIdRoute
+  '/exercice/mots-meles/$puzzleId': typeof ExerciceMotsMelesPuzzleIdRoute
   '/exercice/mots/$groupId': typeof ExerciceMotsGroupIdRoute
   '/exercice/syllabes/$consonant': typeof ExerciceSyllabesConsonantRoute
   '/cours/lettres/formation/$char': typeof CoursLettresFormationCharRoute
@@ -212,6 +221,7 @@ export interface FileRoutesById {
   '/cours/syllabes/$consonant': typeof CoursSyllabesConsonantRoute
   '/exercice/lettre/$char': typeof ExerciceLettreCharRoute
   '/exercice/mots-croises/$puzzleId': typeof ExerciceMotsCroisesPuzzleIdRoute
+  '/exercice/mots-meles/$puzzleId': typeof ExerciceMotsMelesPuzzleIdRoute
   '/exercice/mots/$groupId': typeof ExerciceMotsGroupIdRoute
   '/exercice/syllabes/$consonant': typeof ExerciceSyllabesConsonantRoute
   '/cours/lettres/formation/$char': typeof CoursLettresFormationCharRoute
@@ -237,6 +247,7 @@ export interface FileRouteTypes {
     | '/cours/syllabes/$consonant'
     | '/exercice/lettre/$char'
     | '/exercice/mots-croises/$puzzleId'
+    | '/exercice/mots-meles/$puzzleId'
     | '/exercice/mots/$groupId'
     | '/exercice/syllabes/$consonant'
     | '/cours/lettres/formation/$char'
@@ -260,6 +271,7 @@ export interface FileRouteTypes {
     | '/cours/syllabes/$consonant'
     | '/exercice/lettre/$char'
     | '/exercice/mots-croises/$puzzleId'
+    | '/exercice/mots-meles/$puzzleId'
     | '/exercice/mots/$groupId'
     | '/exercice/syllabes/$consonant'
     | '/cours/lettres/formation/$char'
@@ -284,6 +296,7 @@ export interface FileRouteTypes {
     | '/cours/syllabes/$consonant'
     | '/exercice/lettre/$char'
     | '/exercice/mots-croises/$puzzleId'
+    | '/exercice/mots-meles/$puzzleId'
     | '/exercice/mots/$groupId'
     | '/exercice/syllabes/$consonant'
     | '/cours/lettres/formation/$char'
@@ -416,6 +429,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExerciceMotsGroupIdRouteImport
       parentRoute: typeof ExerciceRoute
     }
+    '/exercice/mots-meles/$puzzleId': {
+      id: '/exercice/mots-meles/$puzzleId'
+      path: '/mots-meles/$puzzleId'
+      fullPath: '/exercice/mots-meles/$puzzleId'
+      preLoaderRoute: typeof ExerciceMotsMelesPuzzleIdRouteImport
+      parentRoute: typeof ExerciceRoute
+    }
     '/exercice/mots-croises/$puzzleId': {
       id: '/exercice/mots-croises/$puzzleId'
       path: '/mots-croises/$puzzleId'
@@ -484,6 +504,7 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 interface ExerciceRouteChildren {
   ExerciceLettreCharRoute: typeof ExerciceLettreCharRoute
   ExerciceMotsCroisesPuzzleIdRoute: typeof ExerciceMotsCroisesPuzzleIdRoute
+  ExerciceMotsMelesPuzzleIdRoute: typeof ExerciceMotsMelesPuzzleIdRoute
   ExerciceMotsGroupIdRoute: typeof ExerciceMotsGroupIdRoute
   ExerciceSyllabesConsonantRoute: typeof ExerciceSyllabesConsonantRoute
 }
@@ -491,6 +512,7 @@ interface ExerciceRouteChildren {
 const ExerciceRouteChildren: ExerciceRouteChildren = {
   ExerciceLettreCharRoute: ExerciceLettreCharRoute,
   ExerciceMotsCroisesPuzzleIdRoute: ExerciceMotsCroisesPuzzleIdRoute,
+  ExerciceMotsMelesPuzzleIdRoute: ExerciceMotsMelesPuzzleIdRoute,
   ExerciceMotsGroupIdRoute: ExerciceMotsGroupIdRoute,
   ExerciceSyllabesConsonantRoute: ExerciceSyllabesConsonantRoute,
 }

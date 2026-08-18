@@ -21,7 +21,7 @@ import { useLanguage, format } from "@/i18n/LanguageContext";
 import { cn } from "@/lib/utils";
 import { useWritingStyle } from "@/hooks/useWritingStyle";
 import type { WritingStyle } from "@/data/letter-style-resolver";
-import { readEvaluationDurationMinutes } from "@/hooks/useExerciseSettings";
+import { readEvaluationDurationMinutes, useExerciseSettings } from "@/hooks/useExerciseSettings";
 import { useCountdown } from "@/hooks/useCountdown";
 import { awardCompletion, awardRestartBonus } from "@/lib/progress";
 
@@ -50,6 +50,7 @@ function WordExerciseScreen() {
   const { speak } = useSignSpeech();
   const { t, lang } = useLanguage();
   const writingStyle = useWritingStyle();
+  const { repetitions } = useExerciseSettings();
 
   const group = PALIER3_GROUP_MAP.get(groupId);
   const groupIdx = PALIER3_GROUPS.findIndex((g) => g.id === groupId);
@@ -163,6 +164,7 @@ function WordExerciseScreen() {
               lang={lang}
               speak={speak}
               done={doneWords.has(word.id)}
+              repetitions={repetitions}
               onDone={() => {
                 setDoneWords((prev) => new Set(prev).add(word.id));
                 awardCompletion({ typeEtape: "MOT", modalite: "EXERCICE", etapeCode: word.id, palier: lang === "fr" ? 4 : 3 });
@@ -194,11 +196,20 @@ function WordExerciseScreen() {
   );
 }
 
+/** Index de la première lettre non résolue d'une ligne, ou -1 si elle est complète. */
+function firstUnsolvedIdx(solved: Set<number>, total: number): number {
+  for (let i = 0; i < total; i++) {
+    if (!solved.has(i)) return i;
+  }
+  return -1;
+}
+
 function WordTraceRow({
   word,
   lang,
   speak,
   done,
+  repetitions,
   onDone,
   doneLabel,
   style,
@@ -207,31 +218,38 @@ function WordTraceRow({
   lang: ReturnType<typeof useLanguage>["lang"];
   speak: (text: string) => void;
   done: boolean;
+  repetitions: number;
   onDone: () => void;
   doneLabel: string;
   style: WritingStyle;
 }) {
   const letters = lettersForWord(word, lang, style);
   const text = wordText(word, lang);
-  const [solvedIdx, setSolvedIdx] = useState<Set<number>>(new Set());
+  // Une ligne d'écriture par répétition demandée (Profil > Réglages) : le
+  // mot doit être reproduit intégralement sur chaque ligne, l'une après
+  // l'autre, avant d'être considéré comme réussi.
+  const [lineSolvedIdx, setLineSolvedIdx] = useState<Set<number>[]>(() =>
+    Array.from({ length: repetitions }, () => new Set<number>())
+  );
+
+  // Réinitialise si le réglage de répétitions ou le mot change (même logique que RepetitionRow).
+  useEffect(() => {
+    setLineSolvedIdx(Array.from({ length: repetitions }, () => new Set<number>()));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [repetitions, word.id]);
 
   const handleLetterSolved = useCallback(
-    (idx: number) => {
-      setSolvedIdx((prev) => {
-        const next = new Set(prev).add(idx);
-        if (next.size === letters.length) onDone();
+    (lineIdx: number, letterIdx: number) => {
+      setLineSolvedIdx((prev) => {
+        const next = prev.map((s, i) => (i === lineIdx ? new Set(s).add(letterIdx) : s));
+        if (next.every((s) => s.size === letters.length)) onDone();
         return next;
       });
     },
     [letters.length, onDone]
   );
 
-  const activeIdx = (() => {
-    for (let i = 0; i < letters.length; i++) {
-      if (!solvedIdx.has(i)) return i;
-    }
-    return -1;
-  })();
+  const activeLine = lineSolvedIdx.findIndex((s) => s.size < letters.length);
 
   return (
     <div
@@ -254,41 +272,50 @@ function WordTraceRow({
           </button>
         </div>
       </div>
-      <div className="overflow-x-auto" style={{ backgroundColor: "#FFFFFF" }}>
-        <div className="relative inline-block min-w-full" style={{ minHeight: 64 + 24 }}>
-          {/* Lignes Seyès de référence — mêmes 4 lignes équidistantes (intervalle
-              60 dans l'espace lettre 0-200) que CahierFrame.tsx, converties en
-              pixels ici via l'échelle des cases carrées de LetterTraceCell
-              (size=64, sc=0.32, pas de décalage de centrage) plus le padding
-              vertical (py-3=12px) de la rangée : pixelY = 12 + yLettre * 0.32.
-              Le conteneur est en inline-block (largeur = contenu) pour que les
-              lignes défilent avec les lettres sur les mots longs. */}
-          {[10, 70, 130, 190].map((yLettre, i) => (
-            <div
-              key={yLettre}
-              className="absolute left-0 right-0"
-              style={{
-                top: 12 + yLettre * 0.32,
-                height: i === 2 ? 1.5 : 1,
-                backgroundColor: i === 2 ? "#E05252" : "#4A90E2",
-                opacity: 0.8,
-              }}
-            />
-          ))}
-          <div className="relative z-10 flex items-center gap-2 px-3 py-3">
-            {letters.map((letter, i) => (
-              <LetterTraceCell
-                key={`${word.id}-${i}`}
-                letter={letter}
-                size={64}
-                isActive={i === activeIdx}
-                transparent
-                onSolved={() => handleLetterSolved(i)}
-              />
-            ))}
+      {lineSolvedIdx.map((solvedIdx, lineIdx) => {
+        const activeLetterIdx = lineIdx === activeLine ? firstUnsolvedIdx(solvedIdx, letters.length) : -1;
+        return (
+          <div
+            key={lineIdx}
+            className={cn("overflow-x-auto", lineIdx > 0 && "border-t border-[#4A3B2A]/10")}
+            style={{ backgroundColor: "#FFFFFF" }}
+          >
+            <div className="relative inline-block min-w-full" style={{ minHeight: 64 + 24 }}>
+              {/* Lignes Seyès de référence — mêmes 4 lignes équidistantes (intervalle
+                  60 dans l'espace lettre 0-200) que CahierFrame.tsx, converties en
+                  pixels ici via l'échelle des cases carrées de LetterTraceCell
+                  (size=64, sc=0.32, pas de décalage de centrage) plus le padding
+                  vertical (py-3=12px) de la rangée : pixelY = 12 + yLettre * 0.32.
+                  Le conteneur est en inline-block (largeur = contenu) pour que les
+                  lignes défilent avec les lettres sur les mots longs. */}
+              {[10, 70, 130, 190].map((yLettre, i) => (
+                <div
+                  key={yLettre}
+                  className="absolute left-0 right-0"
+                  style={{
+                    top: 12 + yLettre * 0.32,
+                    height: i === 2 ? 1.5 : 1,
+                    backgroundColor: i === 2 ? "#E05252" : "#4A90E2",
+                    opacity: 0.8,
+                  }}
+                />
+              ))}
+              <div className="relative z-10 flex items-center gap-2 px-3 py-3">
+                {letters.map((letter, i) => (
+                  <LetterTraceCell
+                    key={`${word.id}-${lineIdx}-${i}`}
+                    letter={letter}
+                    size={64}
+                    isActive={i === activeLetterIdx}
+                    transparent
+                    onSolved={() => handleLetterSolved(lineIdx, i)}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        );
+      })}
     </div>
   );
 }

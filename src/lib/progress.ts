@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
  * Clairière" (classement, score de "moi").
  */
 
-export type TypeEtape = "SIGNE" | "LETTRE" | "SYLLABE" | "MOT" | "MOTS_CROISES";
+export type TypeEtape = "SIGNE" | "LETTRE" | "SYLLABE" | "MOT" | "MOTS_CROISES" | "MOTS_MELES";
 export type Modalite = "COURS" | "EXERCICE";
 
 export const POINTS_PAR_MODALITE: Record<Modalite, number> = {

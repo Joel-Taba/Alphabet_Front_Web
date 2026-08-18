@@ -300,8 +300,8 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-left",
-        pathD: "M 57.46 68.58 A 32.82 32.82 0 1 1 57.46 115.78",
-        startXY: [69.95, 118.04],
+        pathD: "M 57.15 82.21 A 24.66 24.66 0 1 1 57.15 117.1",
+        startXY: [47.46, 87.54],
         strokeColor: C.courbe,
         description: {
           fr: "Courbe ronde accolée en bas à droite du trait",
@@ -354,8 +354,8 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-right",
-        pathD: "M 121.86 72.08 C 113.19 61.43 98.78 57.38 85.78 61.97 C 72.82 66.58 64.14 78.84 64.14 92.54 C 64.14 106.25 72.82 118.51 85.78 123.1 C 98.78 127.7 113.19 123.64 121.86 113.01",
-        startXY: [125, 90.3],
+        pathD: "M 112.77 82.21 A 24.66 24.66 0 1 0 112.77 117.1",
+        startXY: [122.46, 87.54],
         strokeColor: C.courbe,
         description: {
           fr: "Courbe ronde ouverte à droite",
@@ -367,8 +367,8 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 121.86 15 L 121.86 125",
-        startXY: [125, 27],
+        pathD: "M 112.77 15 L 112.77 125",
+        startXY: [115.91, 27],
         strokeColor: C.trait,
         description: {
           fr: "Trait vertical à droite, prolongé vers le haut",

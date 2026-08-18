@@ -19,5 +19,6 @@ export {
 } from "./RepetitionRow";
 export { LetterTraceCell } from "./LetterTraceCell";
 export { CrosswordPlay } from "./CrosswordPlay";
+export { WordSearchPlay } from "./WordSearchPlay";
 export { EvaluationTimerBadge, EvaluationCompleteOverlay } from "./EvaluationTimer";
 export { ExerciseCompletePopup } from "./ExerciseCompletePopup";
