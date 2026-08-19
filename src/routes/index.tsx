@@ -5,11 +5,11 @@ import { useLanguage } from "@/i18n/LanguageContext";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Amani — Bienvenue" },
+      { title: "Flores — Bienvenue" },
       {
         name: "description",
         content:
-          "Découvre Amani et pars à l'aventure des 5 signes, à ton rythme et sans pression.",
+          "Découvre Flores et pars à l'aventure des 5 signes, à ton rythme et sans pression.",
       },
     ],
   }),
@@ -33,7 +33,7 @@ function Welcome() {
           </p>
         </div>
 
-        <AmaniMascot pose="accueil" size="hero" priority />
+        <AmaniMascot pose="accueil" size="hero-lg" priority />
 
         <div className="flex w-full flex-col gap-3">
           <Button variant="primary" asChild={false} className="w-full">

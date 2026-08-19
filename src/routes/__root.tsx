@@ -80,14 +80,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Amani — Design System" },
+      { title: "Flores Gong Nota — Design System" },
       {
         name: "description",
         content:
-          "Fondations visuelles Amani : tokens, composants et mascotte pour l'apprentissage doux des 5 signes.",
+          "Fondations visuelles Flores Gong Nota : tokens, composants et mascotte pour l'apprentissage doux des 5 signes.",
       },
-      { name: "author", content: "Amani" },
-      { property: "og:title", content: "Amani — Design System" },
+      { name: "author", content: "Flores Gong Nota" },
+      { property: "og:title", content: "Flores Gong Nota — Design System" },
       {
         property: "og:description",
         content: "Un design system doux et accessible pour enfants de 4 à 12 ans.",

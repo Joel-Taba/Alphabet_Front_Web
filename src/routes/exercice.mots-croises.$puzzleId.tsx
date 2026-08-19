@@ -9,7 +9,7 @@ import { useLanguage, format } from "@/i18n/LanguageContext";
 export const Route = createFileRoute("/exercice/mots-croises/$puzzleId")({
   head: ({ params }) => ({
     meta: [
-      { title: `Mots croisés — Amani` },
+      { title: `Mots croisés — Flores` },
       { name: "description", content: `Complète la grille de mots croisés ${params.puzzleId}.` },
     ],
   }),

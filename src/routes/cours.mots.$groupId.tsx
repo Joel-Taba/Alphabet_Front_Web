@@ -17,7 +17,7 @@ import { markCoursItemViewed } from "@/lib/progress";
 export const Route = createFileRoute("/cours/mots/$groupId")({
   head: ({ params }) => ({
     meta: [
-      { title: `Cours de mots — Amani` },
+      { title: `Cours de mots — Flores` },
       {
         name: "description",
         content: `Découvre comment écrire et prononcer les mots du groupe ${params.groupId}.`,

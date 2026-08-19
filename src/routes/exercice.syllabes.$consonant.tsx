@@ -32,7 +32,7 @@ export const Route = createFileRoute("/exercice/syllabes/$consonant")({
   }),
   head: ({ params }) => ({
     meta: [
-      { title: `Exercice de syllabes — Amani` },
+      { title: `Exercice de syllabes — Flores Gong Nota` },
       { name: "description", content: `Exerce-toi à tracer les syllabes avec la consonne "${params.consonant}".` },
     ],
   }),

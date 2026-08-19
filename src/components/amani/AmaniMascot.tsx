@@ -35,7 +35,7 @@ export type AmaniPose =
   | "perdu"
   | "profil";
 
-export type AmaniSize = "hero" | "medium" | "small" | "avatar";
+export type AmaniSize = "hero-lg" | "hero" | "medium" | "small" | "avatar";
 
 const poses: Record<AmaniPose, string> = {
   accueil,
@@ -58,6 +58,7 @@ const poses: Record<AmaniPose, string> = {
 };
 
 const sizes: Record<AmaniSize, number> = {
+  "hero-lg": 288,
   hero: 240,
   medium: 120,
   small: 72,
@@ -65,23 +66,23 @@ const sizes: Record<AmaniSize, number> = {
 };
 
 const labels: Record<AmaniPose, string> = {
-  accueil: "Amani te salue",
-  demonstration: "Amani te montre un signe",
-  encouragement: "Amani t'encourage",
-  celebration: "Amani célèbre ta réussite",
-  reconfort: "Amani te réconforte",
-  reflexion: "Amani réfléchit",
-  veille: "Amani se repose",
-  mini_reussite: "Amani est ravi de ta réussite",
-  mini_reessai: "Amani t'encourage à réessayer",
-  invitation: "Amani t'invite à continuer",
-  curiosite: "Amani est curieux",
-  emerveillement: "Amani s'émerveille",
-  victoire_palier: "Amani fête ton palier",
-  podium: "Amani te félicite sur le podium",
-  dessin: "Amani dessine",
-  perdu: "Amani est perdu",
-  profil: "Amani lit et prend des notes dans la forêt",
+  accueil: "Flores Gong Nota te salue",
+  demonstration: "Flores Gong Nota te montre un signe",
+  encouragement: "Flores Gong Nota t'encourage",
+  celebration: "Flores Gong Nota célèbre ta réussite",
+  reconfort: "Flores Gong Nota te réconforte",
+  reflexion: "Flores Gong Nota réfléchit",
+  veille: "Flores Gong Nota se repose",
+  mini_reussite: "Flores Gong Nota est ravi de ta réussite",
+  mini_reessai: "Flores Gong Nota t'encourage à réessayer",
+  invitation: "Flores Gong Nota t'invite à continuer",
+  curiosite: "Flores Gong Nota est curieux",
+  emerveillement: "Flores Gong Nota s'émerveille",
+  victoire_palier: "Flores Gong Nota fête ton palier",
+  podium: "Flores Gong Nota te félicite sur le podium",
+  dessin: "Flores Gong Nota dessine",
+  perdu: "Flores Gong Nota est perdu",
+  profil: "Flores Gong Nota lit et prend des notes dans la forêt",
 };
 
 export function AmaniMascot({

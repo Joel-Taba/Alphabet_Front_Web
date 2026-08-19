@@ -12,7 +12,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 export const Route = createFileRoute("/_app/accueil")({
   head: () => ({
     meta: [
-      { title: "Parcours de la branche — Amani" },
+      { title: "Parcours de la branche — Flores Gong Nota" },
       {
         name: "description",
         content: "Suis le chemin en zigzag et fais éclore les bourgeons une étape à la fois.",

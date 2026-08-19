@@ -21,7 +21,7 @@ export const Route = createFileRoute("/exercice-liste")({
   }),
   head: () => ({
     meta: [
-      { title: "Cahier d'Écriture — Amani" },
+      { title: "Cahier d'Écriture — Flores Gong Nota" },
       { name: "description", content: "Repasse sur les pointillés pour apprendre à tracer les signes de la méthode Flores Gong Nota." },
     ],
   }),

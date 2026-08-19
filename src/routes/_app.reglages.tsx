@@ -4,7 +4,7 @@ import { useEffect } from "react";
 export const Route = createFileRoute("/_app/reglages")({
   head: () => ({
     meta: [
-      { title: "Réglages — Amani" },
+      { title: "Réglages — Flores" },
       { name: "description", content: "Ajuste la langue, le son, la police et les animations." },
     ],
   }),

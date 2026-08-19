@@ -40,7 +40,7 @@ export const Route = createFileRoute("/exercice/lettre/$char")({
   }),
   head: ({ params }) => ({
     meta: [
-      { title: `Exercice : Tracé de "${params.char}" — Amani` },
+      { title: `Exercice : Tracé de "${params.char}" — Flores Gong Nota` },
       {
         name: "description",
         content: `Exerce-toi à tracer la lettre "${params.char}" signe par signe selon la méthode Flores Gong Nota.`,

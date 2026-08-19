@@ -309,7 +309,7 @@ function Communaute() {
             {t.community.amaniLine}
           </p>
           <p className="mt-1 text-[14px] text-text-secondary">
-            — Amani : « {t.community.amaniQuote} »
+            — Flores Gong Nota : « {t.community.amaniQuote} »
           </p>
         </div>
       </div>

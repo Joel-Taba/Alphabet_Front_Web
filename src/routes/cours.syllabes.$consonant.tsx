@@ -19,7 +19,7 @@ import { markCoursItemViewed } from "@/lib/progress";
 export const Route = createFileRoute("/cours/syllabes/$consonant")({
   head: ({ params }) => ({
     meta: [
-      { title: `Syllabes avec "${params.consonant}" — Amani` },
+      { title: `Syllabes avec "${params.consonant}" — Flores Gong Nota` },
       {
         name: "description",
         content: `Apprends à former les syllabes avec la consonne "${params.consonant}".`,

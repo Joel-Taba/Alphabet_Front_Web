@@ -23,7 +23,7 @@ import gribouillageImg from "@/assets/amani-gribouillage.png";
 export const Route = createFileRoute("/_app/bibliotheque")({
   head: () => ({
     meta: [
-      { title: "Mode Libre — Amani" },
+      { title: "Mode Libre — Flores" },
       {
         name: "description",
         content: "Dessine et exerce-toi librement, sans contrainte, pour maîtriser ton doigté.",

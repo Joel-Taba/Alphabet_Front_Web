@@ -9,7 +9,7 @@ import { useSignSpeech, VOLUME_STORAGE_KEY } from "@/hooks/useSignSpeech";
 export const Route = createFileRoute("/_app/plus")({
   head: () => ({
     meta: [
-      { title: "Plus d'options — Amani" },
+      { title: "Plus d'options — Flores Gong Nota" },
       { name: "description", content: "Réglages complémentaires : langue, volume, format d'écriture." },
     ],
   }),

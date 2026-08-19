@@ -8,7 +8,7 @@ export const Route = createFileRoute("/exercice-intro")({
       { title: "Prêt·e pour l'exercice ?" },
       {
         name: "description",
-        content: "Amani te présente l'exercice avant de commencer.",
+        content: "Flores Gong Nota te présente l'exercice avant de commencer.",
       },
     ],
   }),

@@ -35,7 +35,7 @@ const MIN_PASSWORD_LENGTH = 4;
 export const Route = createFileRoute("/_app/mon-profil")({
   head: () => ({
     meta: [
-      { title: "Mon carnet & Réglages — Amani" },
+      { title: "Mon carnet & Réglages — Flores" },
       { name: "description", content: "Le carnet de l'explorateur : progression, badges, signes appris et réglages de l'application." },
     ],
   }),

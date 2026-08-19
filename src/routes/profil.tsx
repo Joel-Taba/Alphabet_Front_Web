@@ -12,7 +12,7 @@ const MIN_PASSWORD_LENGTH = 4;
 export const Route = createFileRoute("/profil")({
   head: () => ({
     meta: [
-      { title: "Créer mon profil — Amani" },
+      { title: "Créer mon profil — Flores Gong Nota" },
       {
         name: "description",
         content: "Crée ton profil d'explorateur : prénom et langue.",
@@ -148,7 +148,7 @@ function ProfileCreate() {
           <div className="relative" style={{ width: 140, height: 140 }}>
             <img
               src={photo ?? amaniInscription}
-              alt={photo ? "" : "Amani se penche avec curiosité"}
+              alt={photo ? "" : "Flores Gong Nota se penche avec curiosité"}
               aria-hidden={photo ? true : undefined}
               className="select-none"
               draggable={false}

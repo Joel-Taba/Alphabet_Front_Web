@@ -16,7 +16,7 @@ import { useLanguage, format } from "@/i18n/LanguageContext";
 export const Route = createFileRoute("/cours/lettres")({
   head: () => ({
     meta: [
-      { title: "Lettres & Chiffres — Amani" },
+      { title: "Lettres & Chiffres — Flores Gong Nota" },
       {
         name: "description",
         content:

@@ -9,7 +9,7 @@ import { useLanguage, format } from "@/i18n/LanguageContext";
 export const Route = createFileRoute("/exercice/mots-meles/$puzzleId")({
   head: ({ params }) => ({
     meta: [
-      { title: `Mots mêlés — Amani` },
+      { title: `Mots mêlés — Flores Gong Nota` },
       { name: "description", content: `Trouve tous les mots cachés dans la grille ${params.puzzleId}.` },
     ],
   }),

@@ -36,7 +36,7 @@ export const Route = createFileRoute("/exercice/mots/$groupId")({
   }),
   head: ({ params }) => ({
     meta: [
-      { title: `Exercice de mots — Amani` },
+      { title: `Exercice de mots — Flores` },
       { name: "description", content: `Exerce-toi à écrire les mots du groupe ${params.groupId}.` },
     ],
   }),
