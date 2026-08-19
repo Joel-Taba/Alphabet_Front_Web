@@ -12,7 +12,7 @@ import { markCoursItemViewed } from "@/lib/progress";
 export const Route = createFileRoute("/cours/$family")({
   head: () => ({
     meta: [
-      { title: "Cours & Variantes — Flores" },
+      { title: "Cours & Variantes — Flores Gong Nota" },
       { name: "description", content: "Découvre les variantes de signes et leur animation de tracé." },
     ],
   }),

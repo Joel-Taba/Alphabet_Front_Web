@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/cours/lettres/$char")({
   head: ({ params }) => ({
     meta: [
-      { title: `Décomposition de "${params.char}" — Flores` },
+      { title: `Décomposition de "${params.char}" — Flores Gong Nota` },
       {
         name: "description",
         content: `Découvre les signes qui composent la lettre "${params.char}" dans la méthode Flores Gong Nota.`,

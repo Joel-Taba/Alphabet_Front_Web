@@ -19,7 +19,7 @@ export const Route = createFileRoute("/cours/lettres/formation/$char")({
   }),
   head: ({ params }) => ({
     meta: [
-      { title: `Former la lettre "${params.char}" — Flores` },
+      { title: `Former la lettre "${params.char}" — Flores Gong Nota` },
       {
         name: "description",
         content: `Découvre comment former la lettre "${params.char}" en combinant les signes de base.`,

@@ -8,6 +8,7 @@ import {
   CrosswordPlay,
   WordSearchPlay,
   zOrderedStepIndices,
+  CahierFrame,
   type SignFamily,
 } from "@/components/amani";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -23,7 +24,7 @@ import gribouillageImg from "@/assets/amani-gribouillage.png";
 export const Route = createFileRoute("/_app/bibliotheque")({
   head: () => ({
     meta: [
-      { title: "Mode Libre — Flores" },
+      { title: "Mode Libre — Flores Gong Nota" },
       {
         name: "description",
         content: "Dessine et exerce-toi librement, sans contrainte, pour maîtriser ton doigté.",
@@ -348,17 +349,17 @@ function ModeLibre() {
           </div>
         </div>
 
-        {/* Page blanche de dessin libre — sans aucune indication */}
+        {/* Page de dessin libre — lignes d'écriture façon cahier, comme sur les pages de cours */}
         <div
           ref={containerRef}
           className="relative w-full rounded-[20px] overflow-hidden border"
           style={{
             height: 380,
-            background: "#FFFFFF",
             borderColor: "#4A3B2A15",
             boxShadow: "0 2px 10px rgba(74,59,42,0.10)",
           }}
         >
+          <CahierFrame className="absolute inset-0" rounded={0} />
           <canvas
             ref={canvasRef}
             onPointerDown={handlePointerDown}

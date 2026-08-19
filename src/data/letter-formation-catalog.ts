@@ -993,8 +993,8 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 97 125 L 119.23 75",
-        startXY: [97, 149],
+        pathD: "M 119.23 75 L 97 125",
+        startXY: [129, 77],
         strokeColor: C.trait,
         description: {
           fr: "Oblique montante, centre-bas vers haut-droite",
@@ -1033,8 +1033,8 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 83.11 125 L 97 75",
-        startXY: [77, 149],
+        pathD: "M 97 75 L 83.11 125",
+        startXY: [97, 77],
         strokeColor: C.trait,
         description: {
           fr: "Deuxième oblique montante",
@@ -1059,8 +1059,8 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 110.89 125 L 124.77 75",
-        startXY: [117, 149],
+        pathD: "M 124.77 75 L 110.89 125",
+        startXY: [132, 77],
         strokeColor: C.trait,
         description: {
           fr: "Quatrième oblique montante",
@@ -1126,8 +1126,8 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 64.41 75 L 97 148.33",
-        startXY: [65, 77],
+        pathD: "M 74.78 75 L 97 125",
+        startXY: [75, 77],
         strokeColor: C.trait,
         description: {
           fr: "Diagonale du haut-gauche vers le point de croisement sur la ligne de base",
@@ -1139,8 +1139,8 @@ export const CONSONANTS: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-gauche",
-        pathD: "M 129.59 75 L 97 148.33 L 82.74 185",
-        startXY: [129, 77],
+        pathD: "M 119.22 75 L 97 125 L 87.28 150",
+        startXY: [119, 77],
         strokeColor: C.trait,
         description: {
           fr: "Diagonale du haut-droite, croise, descend en zone basse",
@@ -1598,23 +1598,49 @@ export const UPPERCASE: LetterFormation[] = [
     category: "majuscule",
     zone: "hampe",
     consigne: {
-      fr: "La lettre I est un simple trait vertical pleine hauteur, tracé du haut vers le bas.",
-      en: "The letter I is a simple full-height vertical line, traced from top to bottom.",
-      es: "La letra I es un simple trazo vertical de altura completa, trazado de arriba hacia abajo.",
-      ar: "الحرف I هو خط عمودي بسيط بارتفاع كامل، يُرسم من الأعلى إلى الأسفل.",
+      fr: "La lettre I se forme en trois gestes. D'abord un trait vertical pleine hauteur. Ensuite un trait horizontal en haut, puis un trait horizontal en bas.",
+      en: "The letter I is formed in three gestures. First a full-height vertical line. Then a horizontal line at the top, then a horizontal line at the bottom.",
+      es: "La letra I se forma en tres gestos. Primero un trazo vertical de altura completa. Luego un trazo horizontal arriba, y otro trazo horizontal abajo.",
+      ar: "يتكون الحرف I من ثلاث حركات. أولاً خط عمودي بارتفاع كامل. ثم خط أفقي في الأعلى، ثم خط أفقي في الأسفل.",
     },
     steps: [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 97 15 L 97 125",
-        startXY: [97, 18],
+        pathD: "M 103 15 L 103 125",
+        startXY: [103, 27],
         strokeColor: C.trait,
         description: {
           fr: "Trait vertical, du haut vers le bas",
           en: "Vertical line, from top to bottom",
           es: "Trazo vertical, de arriba hacia abajo",
           ar: "خط عمودي، من الأعلى إلى الأسفل",
+        },
+      },
+      {
+        family: "trait",
+        variant: "horizontal",
+        pathD: "M 78 15 L 126 15",
+        startXY: [78, 22],
+        strokeColor: C.trait,
+        description: {
+          fr: "Trait horizontal en haut",
+          en: "Horizontal line at the top",
+          es: "Trazo horizontal arriba",
+          ar: "خط أفقي في الأعلى",
+        },
+      },
+      {
+        family: "trait",
+        variant: "horizontal",
+        pathD: "M 80 125 L 128 125",
+        startXY: [80, 118],
+        strokeColor: C.trait,
+        description: {
+          fr: "Trait horizontal en bas",
+          en: "Horizontal line at the bottom",
+          es: "Trazo horizontal abajo",
+          ar: "خط أفقي في الأسفل",
         },
       },
     ],
@@ -1690,8 +1716,8 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 132.61 23.27 L 62.51 72.35",
-        startXY: [139.03, 27.85],
+        pathD: "M 144.42 15 L 62.51 72.35",
+        startXY: [151, 20],
         strokeColor: C.trait,
         zIndex: 2,
         description: {
@@ -1704,7 +1730,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 65.57 73.57 L 135.64 122.63",
+        pathD: "M 65.57 73.57 L 139.04 125",
         startXY: [59.19, 87.75],
         strokeColor: C.trait,
         zIndex: 3,
@@ -1984,8 +2010,8 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "vertical",
-        pathD: "M 79.15 22.51 L 79.15 125",
-        startXY: [78.33, 43.25],
+        pathD: "M 100 22.51 L 100 125",
+        startXY: [99.18, 43.25],
         strokeColor: C.trait,
         zIndex: 2,
         description: {
@@ -1998,8 +2024,8 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "courbe",
         variant: "open-left",
-        pathD: "M 79.15 27.56 A 24.66 24.66 0 1 1 79.15 62.45",
-        startXY: [69.46, 32.89],
+        pathD: "M 100 27.56 A 24.66 24.66 0 1 1 100 62.45",
+        startXY: [90.31, 32.89],
         strokeColor: C.courbe,
         zIndex: 1,
         description: {
@@ -2094,7 +2120,7 @@ export const UPPERCASE: LetterFormation[] = [
       {
         family: "trait",
         variant: "oblique-droit",
-        pathD: "M 99.81 71.45 L 127.63 114.3",
+        pathD: "M 99.81 71.45 L 134.59 125",
         startXY: [99.8, 93.98],
         strokeColor: C.trait,
         zIndex: 1,
@@ -2282,9 +2308,9 @@ export const UPPERCASE: LetterFormation[] = [
     },
     steps: [
       { family: "trait", variant: "oblique-gauche", pathD: "M 60.06 15 L 78.53 125", startXY: [53, 18], strokeColor: C.trait, description: { fr: "Première oblique descendante", en: "First diagonal going down", es: "Primer oblicuo descendente", ar: "المائل الأول النازل" } },
-      { family: "trait", variant: "oblique-droit", pathD: "M 78.53 125 L 97 15", startXY: [75, 149], strokeColor: C.trait, description: { fr: "Deuxième oblique montante", en: "Second diagonal going up", es: "Segundo oblicuo ascendente", ar: "المائل الثاني الصاعد" } },
+      { family: "trait", variant: "oblique-droit", pathD: "M 97 15 L 78.53 125", startXY: [97, 18], strokeColor: C.trait, description: { fr: "Deuxième oblique montante", en: "Second diagonal going up", es: "Segundo oblicuo ascendente", ar: "المائل الثاني الصاعد" } },
       { family: "trait", variant: "oblique-gauche", pathD: "M 97 15 L 115.47 125", startXY: [97, 18], strokeColor: C.trait, description: { fr: "Troisième oblique descendante", en: "Third diagonal going down", es: "Tercer oblicuo descendente", ar: "المائل الثالث النازل" } },
-      { family: "trait", variant: "oblique-droit", pathD: "M 115.47 125 L 133.94 15", startXY: [119, 149], strokeColor: C.trait, description: { fr: "Quatrième oblique montante", en: "Fourth diagonal going up", es: "Cuarto oblicuo ascendente", ar: "المائل الرابع الصاعد" } },
+      { family: "trait", variant: "oblique-droit", pathD: "M 133.94 15 L 115.47 125", startXY: [128, 18], strokeColor: C.trait, description: { fr: "Quatrième oblique montante", en: "Fourth diagonal going up", es: "Cuarto oblicuo ascendente", ar: "المائل الرابع الصاعد" } },
     ],
   },
    {

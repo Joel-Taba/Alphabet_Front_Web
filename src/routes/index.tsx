@@ -5,11 +5,11 @@ import { useLanguage } from "@/i18n/LanguageContext";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Flores — Bienvenue" },
+      { title: "Flores Gong Nota — Bienvenue" },
       {
         name: "description",
         content:
-          "Découvre Flores et pars à l'aventure des 5 signes, à ton rythme et sans pression.",
+          "Découvre Flores Gong Nota et pars à l'aventure des 5 signes, à ton rythme et sans pression.",
       },
     ],
   }),

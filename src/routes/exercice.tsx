@@ -12,7 +12,7 @@ import { createFileRoute, Navigate, Outlet, useMatchRoute } from "@tanstack/reac
 export const Route = createFileRoute("/exercice")({
   head: () => ({
     meta: [
-      { title: "Exercice — Flores" },
+      { title: "Exercice — Flores Gong Nota" },
       { name: "description", content: "Récapitulatif des signes et variantes du palier." },
     ],
   }),
