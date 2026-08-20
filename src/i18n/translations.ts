@@ -405,7 +405,7 @@ export const fr = {
     introSpeak: "Voici le cours sur {titre}. Touche un mot pour l'écouter.",
     introTitle: "Écoute et regarde chaque mot",
     introBody: "Chaque mot est déjà écrit avec les lettres que tu connais. Touche le mot pour l'entendre, ou l'haltère pour t'exercer dessus !",
-    practiceGroup: "M'exercer sur {titre}",
+    practiceGroup: "M'exercer",
     practiceWordAria: "S'exercer sur « {mot} »",
   },
   exerciceMots: {
@@ -876,7 +876,7 @@ export const en: Dictionary = {
     introSpeak: "Here's the lesson on {titre}. Tap a word to hear it.",
     introTitle: "Listen and look at each word",
     introBody: "Each word is already written with letters you know. Tap the word to hear it, or the dumbbell to practice it!",
-    practiceGroup: "Practice {titre}",
+    practiceGroup: "Practice",
     practiceWordAria: "Practice \"{mot}\"",
   },
   exerciceMots: {
@@ -1337,7 +1337,7 @@ export const es: Dictionary = {
     introSpeak: "Aquí está la lección sobre {titre}. Toca una palabra para escucharla.",
     introTitle: "Escucha y observa cada palabra",
     introBody: "Cada palabra ya está escrita con letras que conoces. ¡Toca la palabra para escucharla, o la mancuerna para practicarla!",
-    practiceGroup: "Practicar {titre}",
+    practiceGroup: "Practicar",
     practiceWordAria: "Practicar «{mot}»",
   },
   exerciceMots: {
@@ -1798,7 +1798,7 @@ export const ar: Dictionary = {
     introSpeak: "إليك درس {titre}. المس الكلمة لسماعها.",
     introTitle: "استمع وشاهد كل كلمة",
     introBody: "كل كلمة مكتوبة بالفعل بالحروف التي تعرفها. المس الكلمة لسماعها، أو المس الدمبل للتدرّب عليها!",
-    practiceGroup: "تدرّب على {titre}",
+    practiceGroup: "تدرّب",
     practiceWordAria: "تدرّب على «{mot}»",
   },
   exerciceMots: {

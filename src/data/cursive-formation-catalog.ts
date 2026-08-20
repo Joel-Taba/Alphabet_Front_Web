@@ -602,8 +602,8 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     char: "r",
     zone: "corps",
     steps: [
-      { family: "trait", pathD: "M 54.89 76.92 L 52.22 107.61" },
-      { family: "crochet", pathD: "M 91.86 82.45 L 57.36 82.45 A 2.46 2.46 0 0 1 55.61 78.23" },
+      { family: "trait", pathD: "M 52.22 107.61 L 54.89 76.92" },
+      { family: "crochet", pathD: "M 55.61 78.23 A 2.46 2.46 0 0 0 57.36 82.45 L 91.86 82.45" },
       { family: "crochet", pathD: "M 91.32 81.36 L 91.32 118.33 A 12.32 12.32 0 0 0 115.08 122.93" },
     ],
   },
@@ -646,8 +646,11 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     char: "l",
     zone: "hampe",
     steps: [
-      { family: "crochet", pathD: "M 77.94 124.08 L 86.8 97.52 L 105.4 27.55 A 10.01 10.01 0 0 0 86.8 20.47" },
-      { family: "crochet", pathD: "M 86.8 20.91 L 86.8 113.46 A 10.62 10.62 0 0 0 108.06 115.22" },
+      { family: "crochet", pathD: "M 77.94 116.92 L 106.05 40.74 A 10.91 16.38 0 0 0 91.21 18.47" },
+      {
+        family: "double-crochet",
+        pathD: "M 102.09 18.54 A 7.92 11.9 0 0 0 88.54 26.99 L 88.54 70.04 L 88.54 110.36 A 9.76 14.66 0 0 0 108.06 110.36",
+      },
     ],
   },
   {
@@ -688,10 +691,10 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     char: "y",
     zone: "jambe",
     steps: [
-      { family: "trait", zIndex: 3, pathD: "M 101.32 78.86 L 92.68 99.23" },
+      { family: "trait", zIndex: 3, pathD: "M 92.68 99.23 L 101.32 78.86" },
       { family: "crochet", zIndex: 3, pathD: "M 101.72 79.17 L 101.72 100.23 A 16.1 16.1 0 0 0 129.61 111.21" },
       { family: "crochet", zIndex: 2, pathD: "M 129.47 78 L 129.47 161.55 A 13.79 13.79 0 0 1 105.93 171.29" },
-      { family: "crochet", zIndex: 4, pathD: "M 140.9 119.31 L 106.23 154 A 12.91 12.91 0 0 0 123.65 173" },
+      { family: "crochet", zIndex: 4, pathD: "M 123.65 173 A 12.91 12.91 0 0 1 106.23 154 L 140.9 119.31" },
     ],
   },
   {
@@ -740,14 +743,14 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     char: "z",
     zone: "jambe",
     steps: [
-      { family: "trait", pathD: "M 63.46 78.11 L 61.33 102.63" },
-      { family: "crochet", pathD: "M 87.89 80.8 L 64.92 80.8 A 1.64 1.64 0 0 1 63.77 78" },
+      { family: "trait", pathD: "M 61.33 102.63 L 63.46 78.11" },
+      { family: "crochet", pathD: "M 63.77 78 A 1.64 1.64 0 0 0 64.92 80.8 L 87.89 80.8" },
       { family: "trait", pathD: "M 87.87 80.3 L 83.39 108.64" },
       {
         family: "double-crochet",
-        pathD: "M 97.05 161.15 L 97.05 118.96 A 11.11 11.11 0 0 0 83.06 108.23 M 97.1 127.99 L 97.1 173.92 A 11.48 11.48 0 0 1 76.69 181.13",
+        pathD: "M 83.06 108.23 A 11.11 11.11 0 0 1 97.05 118.96 L 97.05 161.15 M 97.1 127.99 L 97.1 173.92 A 11.48 11.48 0 0 1 76.69 181.13",
       },
-      { family: "crochet", pathD: "M 112.6 107.08 L 75.01 164.97 A 12.98 12.98 0 0 0 94.24 182" },
+      { family: "crochet", pathD: "M 94.24 182 A 12.98 12.98 0 0 1 75.01 164.97 L 112.6 107.08" },
     ],
   },
   {
@@ -791,6 +794,15 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     ],
   },
   {
+    char: "E",
+    zone: "hampe",
+    steps: [
+      { family: "courbe", zIndex: 3, strokeColor: "#E05252", pathD: "M 87.05 15.00 A 15.73 18.78 0 1 0 111.13 39.12" },
+      { family: "courbe", zIndex: 2, strokeColor: "#E05252", pathD: "M 110.83 38.35 A 18.60 22.20 0 1 0 100.84 75.09" },
+      { family: "courbe", zIndex: 1, strokeColor: "#E05252", pathD: "M 100.75 75.05 A 20.92 24.98 0 1 0 121.25 96.33" },
+    ],
+  },
+  {
     char: "G",
     zone: "hampe",
     steps: [
@@ -822,7 +834,7 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     zone: "hampe",
     steps: [
       { family: "crochet", zIndex: 1, pathD: "M 86.99 19.71 L 86.99 110.07 A 14.92 14.92 0 0 1 59.27 117.76" },
-      { family: "courbe", zIndex: 2, pathD: "M 68.51 38.56 A 31.09 31.09 0 1 1 87.01 74.91" },
+      { family: "courbe", zIndex: 2, pathD: "M 69.58 37.73 A 30 30 0 1 1 87.43 72.81" },
     ],
   },
   {
@@ -830,7 +842,7 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     zone: "hampe",
     steps: [
       { family: "crochet", zIndex: 3, pathD: "M 83.92 19.85 L 83.92 114.44 A 10.51 10.51 0 0 1 63.02 116.1" },
-      { family: "courbe", zIndex: 2, pathD: "M 65.47 38.51 A 31.03 31.03 0 1 1 83.96 74.81" },
+      { family: "courbe", zIndex: 2, pathD: "M 66.49 37.73 A 30 30 0 1 1 84.36 72.83" },
       { family: "crochet", zIndex: 1, pathD: "M 110.11 74.16 L 113.52 113.22 A 10.83 10.83 0 0 0 135.14 111.53" },
     ],
   },
@@ -869,11 +881,11 @@ const CURSIVE_LITERAL_RAW: CursiveLiteralLetterInput[] = [
     char: "W",
     zone: "hampe",
     steps: [
-      { family: "crochet", zIndex: 1, pathD: "M -16.16 33.1 A 31.36 31.36 0 0 1 41.73 35.62 L 73.9 124.05" },
-      { family: "trait", zIndex: 2, pathD: "M 73.7 123.57 L 108.99 15" },
-      { family: "trait", zIndex: 4, pathD: "M 109.25 15 L 144.53 123.57" },
-      { family: "trait", zIndex: 5, pathD: "M 184.05 17.74 L 144.99 125" },
-      { family: "trait", zIndex: 3, pathD: "M 184.8 17.01 L 216.16 17.01" },
+      { family: "crochet", zIndex: 1, pathD: "M 8 33.1 A 24.84 31.36 0 0 1 53.85 35.62 L 79.33 124.05" },
+      { family: "trait", zIndex: 2, pathD: "M 79.17 123.57 L 107.12 15" },
+      { family: "trait", zIndex: 4, pathD: "M 107.33 15 L 135.27 123.57" },
+      { family: "trait", zIndex: 5, pathD: "M 166.57 17.74 L 135.63 125" },
+      { family: "trait", zIndex: 3, pathD: "M 167.16 17.01 L 192 17.01" },
     ],
   },
   {
@@ -1214,14 +1226,6 @@ const CURSIVE_UPPERCASE_RAW: CursiveLetterInput[] = [
     ],
   },
   {
-    char: "E",
-    steps: [
-      { family: "courbe", x: 100.3, y: 89.3, rotation: -51, scale: 0.29, flip: false, curvature: 0, order: 1, reverse: true },
-      { family: "courbe", x: 97.8, y: 105.7, rotation: 14, scale: 0.5, flip: false, curvature: 0.28, order: 2, reverse: true },
-      { family: "courbe", x: 99.4, y: 135.3, rotation: -18, scale: 0.5, flip: false, curvature: 0.23, order: 3, reverse: true },
-    ],
-  },
-  {
     char: "F",
     steps: [
       { family: "crochet", x: 101, y: 124.8, rotation: 0, scale: 0.8, flip: true, curvature: 0.7, order: 1 },
@@ -1252,14 +1256,14 @@ const CURSIVE_UPPERCASE_RAW: CursiveLetterInput[] = [
   {
     char: "I",
     steps: [
-      { family: "crochet", x: 103, y: 100, rotation: 92, scale: 0.73, flip: false, curvature: 0.64, order: 1, reverse: true },
+      { family: "crochet", x: 103, y: 100, rotation: 90, scale: 0.73, flip: false, curvature: 0.64, order: 1, reverse: true },
       { family: "crochet", x: 104, y: 124, rotation: 0, scale: 0.8, flip: true, curvature: 0.65, order: 2 },
     ],
   },
   {
     char: "J",
     steps: [
-      { family: "crochet", x: 104.3, y: 100, rotation: 92, scale: 0.6, flip: false, curvature: 0.64, order: 1, reverse: true },
+      { family: "crochet", x: 104.3, y: 100, rotation: 90, scale: 0.6, flip: false, curvature: 0.64, order: 1, reverse: true },
       { family: "crochet", x: 105.4, y: 127.4, rotation: 45, scale: 0.7, flip: false, curvature: 0.69, order: 3, reverse: true },
       { family: "trait", x: 104, y: 124.5, rotation: 0, scale: 0.8, flip: false, order: 2 },
     ],

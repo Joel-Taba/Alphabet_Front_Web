@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Type, Globe, Volume2, VolumeX, Play } from "lucide-react";
+import { Type, Volume2, VolumeX, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useLanguage, type Lang } from "@/i18n/LanguageContext";
+import { useLanguage } from "@/i18n/LanguageContext";
 import { useWritingStyleState } from "@/hooks/useWritingStyle";
 import { useSignSpeech, VOLUME_STORAGE_KEY } from "@/hooks/useSignSpeech";
 
@@ -10,14 +10,14 @@ export const Route = createFileRoute("/_app/plus")({
   head: () => ({
     meta: [
       { title: "Plus d'options — Flores Gong Nota" },
-      { name: "description", content: "Réglages complémentaires : langue, volume, format d'écriture." },
+      { name: "description", content: "Réglages complémentaires : volume, format d'écriture." },
     ],
   }),
   component: PlusScreen,
 });
 
 function PlusScreen() {
-  const { t, lang, setLang } = useLanguage();
+  const { t } = useLanguage();
   const { speak } = useSignSpeech();
   const [format_, setFormat] = useWritingStyleState();
 
@@ -46,32 +46,6 @@ function PlusScreen() {
           {t.plusScreen.subtitle}
         </p>
       </header>
-
-      {/* Langue */}
-      <div className="rounded-[24px] bg-[#FBF6EC] p-5 border border-[#4A3B2A]/10 shadow-[0_2px_8px_rgba(74,59,42,0.06)] flex flex-col gap-3">
-        <div className="flex items-center gap-2 mb-1">
-          <Globe className="w-4.5 h-4.5" style={{ color: "#4A90E2" }} strokeWidth={2.5} />
-          <h3 className="text-[16px] font-bold text-[#4A3B2A]">{t.profileHub.languageCardTitle}</h3>
-        </div>
-        <div className="grid grid-cols-2 gap-3 mt-1">
-          {(["fr", "en", "es", "ar"] as const satisfies readonly Lang[]).map((c) => (
-            <button
-              key={c}
-              type="button"
-              onClick={() => setLang(c)}
-              aria-pressed={lang === c}
-              className={cn(
-                "h-12 rounded-2xl border-2 text-[13px] font-bold transition-all active:scale-95 px-1",
-                lang === c
-                  ? "border-[#4A90E2] bg-[#4A90E2]/15 text-[#2D6BBF] shadow-sm"
-                  : "border-[#4A3B2A]/15 bg-white text-[#7A6A55]"
-              )}
-            >
-              {c === "fr" ? "🇫🇷 Français" : c === "en" ? "🇬🇧 English" : c === "es" ? "🇪🇸 Español" : "🇸🇦 العربية"}
-            </button>
-          ))}
-        </div>
-      </div>
 
       {/* Volume */}
       <div className="rounded-[24px] bg-[#FBF6EC] p-5 border border-[#4A3B2A]/10 shadow-[0_2px_8px_rgba(74,59,42,0.06)] flex flex-col gap-3">

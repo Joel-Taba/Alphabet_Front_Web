@@ -25,6 +25,7 @@ export function LetterTraceCell({
   isActive,
   given = false,
   transparent = false,
+  bold = false,
   onSolved,
 }: {
   letter: LetterFormation;
@@ -36,6 +37,10 @@ export function LetterTraceCell({
    * réglé (CahierFrame/lignes Seyès) et laisser les lignes traverser la case,
    * comme les cases de RepetitionRow au Palier 2. */
   transparent?: boolean;
+  /** Cadre et signes-guides plus marqués : utilisé pour la grille de mots
+   * croisés, posée sur une image de fond, où le contraste par défaut est
+   * trop faible pour bien distinguer chaque case. */
+  bold?: boolean;
   onSolved?: () => void;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -185,14 +190,15 @@ export function LetterTraceCell({
   return (
     <div
       className={cn(
-        "relative shrink-0 rounded-[10px] border-2 overflow-hidden transition-colors",
+        "relative shrink-0 rounded-[10px] overflow-hidden transition-colors",
+        bold ? "border-[3px]" : "border-2",
         given
-          ? cn(transparent ? "bg-transparent" : "bg-[#FBF6EC]", "border-[#A9784F]/40")
+          ? cn(transparent ? "bg-transparent" : "bg-[#FBF6EC]", bold ? "border-[#A9784F]/70" : "border-[#A9784F]/40")
           : solved
             ? cn(transparent ? "bg-transparent" : "bg-white", "border-[#8FBF6F]")
             : isActive
               ? cn(transparent ? "bg-transparent" : "bg-white", "border-[#A9784F]/50")
-              : cn(transparent ? "bg-transparent" : "bg-white", "border-[#4A3B2A]/12")
+              : cn(transparent ? "bg-transparent" : "bg-white", bold ? "border-[#4A3B2A]/45" : "border-[#4A3B2A]/12")
       )}
       style={{ width: w, height: h }}
     >
@@ -218,12 +224,16 @@ export function LetterTraceCell({
                   <path
                     key={idx}
                     d={step.pathD}
-                    stroke={isCurrentStep ? (status === "retry" ? "#E05252" : "#9BB5CC") : "#B8CCE0"}
+                    stroke={
+                      isCurrentStep
+                        ? status === "retry" ? "#E05252" : bold ? "#7A99B8" : "#9BB5CC"
+                        : bold ? "#96AFC7" : "#B8CCE0"
+                    }
                     strokeWidth={isCurrentStep ? 10 : 7}
                     strokeLinecap="round"
                     strokeDasharray={isCurrentStep ? "8 6" : "5 7"}
                     fill="none"
-                    opacity={isCurrentStep ? 0.85 : 0.3}
+                    opacity={isCurrentStep ? 0.85 : bold ? 0.55 : 0.3}
                   />
                 );
               })}

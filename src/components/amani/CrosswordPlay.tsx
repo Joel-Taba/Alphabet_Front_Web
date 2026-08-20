@@ -2,6 +2,7 @@ import { useMemo, useState, useCallback, useEffect } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Volume2, Sparkles, Check } from "lucide-react";
 import { LetterTraceCell } from "./LetterTraceCell";
+import gridBg from "@/assets/background-MC.jpeg";
 import { AmaniMascot } from "./AmaniMascot";
 import { ExerciseCompletePopup } from "./ExerciseCompletePopup";
 import { getLetterFormation } from "@/data/letter-style-resolver";
@@ -186,18 +187,33 @@ export function CrosswordPlay({
 
       {/* Grille */}
       <div
-        className="w-full max-w-full rounded-[28px] p-3 shadow-sm overflow-x-auto"
-        style={{ background: "linear-gradient(160deg, #FBF6EC 0%, #F0E4CC 100%)", border: "1px solid #4A3B2A15" }}
+        className="relative w-full max-w-full rounded-[28px] p-3 shadow-sm overflow-hidden"
+        style={{ border: "2px solid #4A3B2A35" }}
       >
         <div
-          className="grid gap-1.5 mx-auto w-fit"
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${gridBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="absolute inset-0 bg-[#FBF6EC]/93" />
+        <div
+          className="relative grid gap-0 mx-auto w-fit overflow-x-auto"
           style={{ gridTemplateColumns: `repeat(${crossword.cols}, ${cellSize}px)` }}
         >
           {Array.from({ length: crossword.rows }).map((_, row) =>
             Array.from({ length: crossword.cols }).map((_, col) => {
               const cell = cellByPos.get(`${row},${col}`);
               if (!cell) {
-                return <div key={`${row}-${col}`} style={{ width: cellSize, height: cellSize }} />;
+                return (
+                  <div
+                    key={`${row}-${col}`}
+                    className="rounded-[10px] border-2 border-[#4A3B2A]/10"
+                    style={{ width: cellSize, height: cellSize, background: "#4A3B2A14" }}
+                  />
+                );
               }
               const key = `${row},${col}`;
               const letter = getLetterFormation(cell.char, writingStyle);
@@ -227,6 +243,8 @@ export function CrosswordPlay({
                     size={cellSize}
                     isActive={activeCell?.row === row && activeCell?.col === col}
                     onSolved={() => handleCellSolved(key)}
+                    transparent
+                    bold
                   />
                 </div>
               );

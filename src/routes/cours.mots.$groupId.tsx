@@ -110,14 +110,13 @@ function WordCourseScreen() {
         </div>
 
         {/* CTA vers les exercices */}
-        <div className="pt-2 flex items-end gap-2">
-          <AmaniMascot pose="invitation" size="small" />
+        <div className="pt-2">
           <button
             type="button"
             onClick={() => navigate({ to: "/exercice/mots/$groupId", params: { groupId: group.id } })}
-            className="flex-1 py-4 rounded-2xl bg-[#4A90E2] hover:bg-[#3A7BC8] text-white font-extrabold text-lg shadow-lg flex items-center justify-center gap-3 transition-all active:scale-[0.99]"
+            className="w-full py-4 rounded-2xl bg-[#4A90E2] hover:bg-[#3A7BC8] text-white font-extrabold text-lg shadow-lg flex items-center justify-center gap-3 transition-all active:scale-[0.99]"
           >
-            <span>{format(t.coursMots.practiceGroup, { titre: groupTitle })}</span>
+            <span>{t.coursMots.practiceGroup}</span>
             <Play className="h-5 w-5 fill-current" />
           </button>
         </div>
