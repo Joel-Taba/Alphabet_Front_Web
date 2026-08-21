@@ -195,12 +195,17 @@ function MyProfileContent({ onLock }: { onLock: () => void }) {
     setPhoto(null);
   };
 
+  const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
-  const [passwordFeedback, setPasswordFeedback] = useState<"error-mismatch" | "error-short" | "success" | null>(null);
+  const [passwordFeedback, setPasswordFeedback] = useState<"error-wrong-old" | "error-mismatch" | "error-short" | "success" | null>(null);
 
   const handleSavePassword = () => {
+    if (oldPassword !== getStoredPassword()) {
+      setPasswordFeedback("error-wrong-old");
+      return;
+    }
     if (newPassword.length < MIN_PASSWORD_LENGTH) {
       setPasswordFeedback("error-short");
       return;
@@ -211,6 +216,7 @@ function MyProfileContent({ onLock }: { onLock: () => void }) {
     }
     setStoredPassword(newPassword);
     markProfileUnlocked();
+    setOldPassword("");
     setNewPassword("");
     setConfirmPassword("");
     setPasswordFeedback("success");
@@ -622,6 +628,21 @@ function MyProfileContent({ onLock }: { onLock: () => void }) {
           <div className="flex flex-col gap-3">
             <div
               className="flex items-center gap-3 rounded-full border-2 px-4 h-[50px] transition-all"
+              style={{ borderColor: oldPassword ? "#8FBF6F" : "#D8CFC0", background: "#FFFFFF" }}
+            >
+              <Lock className="w-4 h-4 shrink-0 text-[#A9784F]" strokeWidth={2.2} />
+              <input
+                type="password"
+                value={oldPassword}
+                onChange={(e) => { setOldPassword(e.target.value); setPasswordFeedback(null); }}
+                placeholder={t.profileHub.oldPasswordPlaceholder}
+                className="flex-1 bg-transparent text-[14px] font-medium outline-none placeholder:text-[#B8A88A]"
+                style={{ color: "#4A3B2A" }}
+                autoComplete="current-password"
+              />
+            </div>
+            <div
+              className="flex items-center gap-3 rounded-full border-2 px-4 h-[50px] transition-all"
               style={{ borderColor: newPassword ? "#8FBF6F" : "#D8CFC0", background: "#FFFFFF" }}
             >
               <Lock className="w-4 h-4 shrink-0 text-[#A9784F]" strokeWidth={2.2} />
@@ -659,6 +680,9 @@ function MyProfileContent({ onLock }: { onLock: () => void }) {
               />
             </div>
 
+            {passwordFeedback === "error-wrong-old" && (
+              <p className="text-[13px] text-[#E05252] font-semibold px-1">{t.profileHub.passwordWrongOld}</p>
+            )}
             {passwordFeedback === "error-mismatch" && (
               <p className="text-[13px] text-[#E05252] font-semibold px-1">{t.profileHub.passwordMismatch}</p>
             )}
@@ -674,11 +698,11 @@ function MyProfileContent({ onLock }: { onLock: () => void }) {
             <button
               type="button"
               onClick={handleSavePassword}
-              disabled={!newPassword || !confirmPassword}
+              disabled={!oldPassword || !newPassword || !confirmPassword}
               className="h-11 rounded-2xl font-bold text-[14px] transition-all active:scale-95"
               style={{
-                background: newPassword && confirmPassword ? "#4A3B2A" : "#D8CFC0",
-                color: newPassword && confirmPassword ? "#FBF6EC" : "#A89880",
+                background: oldPassword && newPassword && confirmPassword ? "#4A3B2A" : "#D8CFC0",
+                color: oldPassword && newPassword && confirmPassword ? "#FBF6EC" : "#A89880",
               }}
             >
               {t.profileHub.savePassword}

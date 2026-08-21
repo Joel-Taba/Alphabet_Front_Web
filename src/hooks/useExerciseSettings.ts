@@ -19,7 +19,7 @@ const MAX_REPETITIONS = 6;
 const MIN_TOLERANCE = 1;
 const MAX_TOLERANCE = 25;
 const MIN_EVALUATION_DURATION = 2;
-const MAX_EVALUATION_DURATION = 15;
+const MAX_EVALUATION_DURATION = 30;
 
 function readNumber(key: string, fallback: number, min: number, max: number): number {
   if (typeof localStorage === "undefined") return fallback;

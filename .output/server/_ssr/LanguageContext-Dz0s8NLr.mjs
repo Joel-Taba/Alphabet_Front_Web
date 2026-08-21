@@ -147,7 +147,7 @@ var fr = {
 		you: "moi",
 		amaniQuote: "Chacun grandit à son rythme, l'important est d'y aller.",
 		amaniLine: "Bravo à toutes les pousses de la clairière !",
-		footnote: "Ce classement ne concerne que cette tablette.",
+		footnote: "",
 		starsSuffix: "⭐",
 		stumpAria: "Souche rang {rank}"
 	},

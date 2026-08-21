@@ -47,6 +47,14 @@ function CoursFamilyScreen() {
     entries.length > 0 ? entries[0] : null
   );
 
+  // Revenir au premier signe de la famille à chaque changement de famille
+  // (bouton "Suivant"/"Retour") : sans ça, le signe précédemment sélectionné
+  // reste affiché dans l'espace d'écriture après la navigation.
+  useEffect(() => {
+    setSelectedSign(entries.length > 0 ? entries[0] : null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [family]);
+
   // Un signe qui se referme sur lui-même (point, courbe fermée) a un même
   // point de départ et d'arrivée : une seule pastille, qui alterne entre les
   // deux couleurs plutôt que d'en afficher deux superposées.

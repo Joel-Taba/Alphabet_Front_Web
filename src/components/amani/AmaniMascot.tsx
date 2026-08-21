@@ -6,7 +6,7 @@ import reconfort from "@/assets/amani-reconfort.png";
 import reflexion from "@/assets/amani-reflexion.png";
 import veille from "@/assets/amani-veille.png";
 import miniReussite from "@/assets/amani-mini-reussite.png";
-import miniReessai from "@/assets/amani-mini-reessai.png";
+import miniReessai from "@/assets/amani-reessai.png";
 import invitation from "@/assets/amani-invitation.png";
 import curiosite from "@/assets/amani-curiosite.png";
 import emerveillement from "@/assets/amani-emerveillement.png";

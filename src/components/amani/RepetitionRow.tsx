@@ -2,7 +2,7 @@ import {
   useRef, useState, useEffect, useCallback, type ReactNode,
   type PointerEvent as ReactPointerEvent,
 } from "react";
-import { Volume2, RotateCcw, Lock } from "lucide-react";
+import { Volume2, Lock } from "lucide-react";
 import { AmaniMascot } from "./AmaniMascot";
 import { cn } from "@/lib/utils";
 import { sampleSVGPath, validateTrace, type Point } from "@/lib/traceValidation";
@@ -165,14 +165,6 @@ export function OccurrenceCanvas({
     }
   };
 
-  const handleClear = () => {
-    if (localStatus === "success") return;
-    const ctx = canvasRef.current?.getContext("2d");
-    ctx?.clearRect(0, 0, w, h);
-    userPointsRef.current = [];
-    setLocalStatus("idle");
-  };
-
   // Pastilles départ/arrivée (dans l'espace CSS px)
   const startPx = svgToCanvas({ x: entry.startXY[0], y: entry.startXY[1] });
   const endPx = entry.endXY ? svgToCanvas({ x: entry.endXY[0], y: entry.endXY[1] }) : null;
@@ -266,17 +258,6 @@ export function OccurrenceCanvas({
         </div>
       )}
 
-      {/* ── Bouton effacer ── */}
-      {isActive && localStatus !== "success" && (
-        <button
-          type="button"
-          onClick={handleClear}
-          aria-label="Effacer le tracé"
-          className="absolute bottom-1 right-1 z-30 w-6 h-6 rounded-full bg-[#E05252]/20 text-[#E05252] flex items-center justify-center hover:bg-[#E05252] hover:text-white transition-colors"
-        >
-          <RotateCcw className="w-3 h-3" />
-        </button>
-      )}
     </div>
   );
 }
